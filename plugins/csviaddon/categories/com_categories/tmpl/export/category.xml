@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="utf-8"?>
+<form>
+	<fields name="jform">
+		<fieldset name="general">
+			<field name="extension"
+			       type="CsviCategories.Extensions"
+			       class="advancedSelect"
+			       multiple="true"
+			       default="all">
+				<option value="all">COM_CSVI_DONT_USE</option>
+			</field>
+
+			<field name="parentcategories"
+			       size="7"
+			       type="CsviCategories.Categories"
+			       multiple="true"
+			       class="input-xxlarge advancedSelect">
+			</field>
+		</fieldset>
+	</fields>
+</form>

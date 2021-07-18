@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="utf-8"?>
+<extension version="3.5" type="plugin" group="rsseo" method="upgrade">
+	<name>plg_rsseo_hikashop</name>
+	<author>RSJoomla!</author>
+	<creationDate>April 2017</creationDate>
+	<license>GNU General Public License</license>
+	<authorEmail>supporttickets@rsjoomla.com</authorEmail>
+	<authorUrl>www.rsjoomla.com</authorUrl>
+	<version>1.1</version>
+	<description>PLG_RSSEO_HIKASHOP_DESC</description>
+	<files>
+		<filename plugin="hikashop">hikashop.php</filename>
+		<filename>rsseohikashop.xml</filename>
+		<filename>index.html</filename>
+	</files>
+	<languages>
+		<language tag="en-GB">language/en-GB/en-GB.plg_rsseo_hikashop.ini</language>
+		<language tag="en-GB">language/en-GB/en-GB.plg_rsseo_hikashop.sys.ini</language>
+	</languages>
+</extension>

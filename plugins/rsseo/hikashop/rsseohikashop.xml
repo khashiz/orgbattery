@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="utf-8"?>
+<form>
+	<fieldset name="hikashop">
+		<fields name="hikashop">
+			<field name="enable" type="radio" class="btn-group btn-group-yesno" default="0" label="COM_RSSEO_SD_ENABLE">
+				<option value="1">JYES</option>
+				<option value="0">JNO</option>
+			</field>
+		</fields>
+	</fieldset>
+</form>

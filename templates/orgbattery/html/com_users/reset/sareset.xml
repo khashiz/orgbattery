@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="utf-8"?>
+<metadata>
+	<layout title="COM_USER_RESET_VIEW_SARESET_TITLE" option="COM_USER_RESET_VIEW_SARESET_OPTION">
+		<help
+			key="JHELP_MENUS_MENU_ITEM_USER_PASSWORD_RESET"
+		/>
+		<message>
+			<![CDATA[COM_USER_RESET_VIEW_DEFAULT_DESC]]>
+		</message>
+	</layout>
+	<fields name="params">
+		<fieldset name="pageparams">
+			<field name="gridsize" type="list" label="SA_GRID_SIZE" class="" default="1">
+				<option value="uk-container uk-container-xsmall">SA_XSMALL</option>
+				<option value="uk-container uk-container-small">SA_SMALL</option>
+				<option value="uk-container">SA_NORMAL</option>
+				<option value="uk-container uk-container-arge">SA_LARGE</option>
+				<option value="uk-container uk-container-xpand">SA_EXPAND</option>
+			</field>
+		</fieldset>
+	</fields>
+</metadata>

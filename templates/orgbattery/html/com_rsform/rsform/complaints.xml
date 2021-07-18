@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="utf-8"?>
+<metadata>
+	<layout title="COM_RSFORM_MENU_COMPLAINTS_FORM" >
+		<message>
+			<![CDATA[COM_RSFORM_MENU_FORM_DESC]]>
+		</message>
+	</layout>
+	<fields name="request">
+		<fieldset name="request" addfieldpath="/administrator/components/com_rsform/models/fields">
+			<field name="formId" type="forms" default="" label="COM_RSFORM_SELECT_FORM" description="COM_RSFORM_SELECT_FORM_DESC" onchange="generateFormLink();" />
+		</fieldset>
+	</fields>
+	<fields name="params">
+		<fieldset name="pageparams">
+			<field name="gridsize" type="list" label="OB_GRID_SIZE" class="" default="1">
+				<option value="uk-container uk-container-xsmall">OB_XSMALL</option>
+				<option value="uk-container uk-container-small">OB_SMALL</option>
+				<option value="uk-container">OB_NORMAL</option>
+				<option value="uk-container uk-container-arge">OB_LARGE</option>
+				<option value="uk-container uk-container-xpand">OB_EXPAND</option>
+			</field>
+		</fieldset>
+	</fields>
+</metadata>

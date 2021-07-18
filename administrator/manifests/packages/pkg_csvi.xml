@@ -1,0 +1,47 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<extension type="package" version="3.5" method="upgrade">
+    <name>PKG_ROCSVI</name>
+    <packagename>csvi</packagename>
+    <creationDate>2 February 2021</creationDate>
+    <author>RolandD Cyber Produksi</author>
+    <authorEmail>contact@rolandd.com</authorEmail>
+    <authorUrl>https://rolandd.com/</authorUrl>
+    <copyright>Copyright (C) 2006 - 2021 RolandD Cyber Produksi. All rights reserved.</copyright>
+    <license>GNU/GPLv3 http://www.gnu.org/licenses/gpl-3.0.html</license>
+    <version>7.20.0</version>
+    <description>PKG_ROCSVI_DESCRIPTION</description>
+
+    <blockChildUninstall>true</blockChildUninstall>
+
+    <scriptfile>script.php</scriptfile>
+
+    <files folder="packages">
+        <file type="component" id="com_csvi">com_ro_csvi_7.20.0.zip</file>
+        <file type="plugin" group="csviaddon" id="categories">plg_csviaddon_categories_ro_csvi_7.20.0.zip</file>
+        <file type="plugin" group="csviaddon" id="contact">plg_csviaddon_contact_ro_csvi_7.20.0.zip</file>
+        <file type="plugin" group="csviaddon" id="content">plg_csviaddon_content_ro_csvi_7.20.0.zip</file>
+        <file type="plugin" group="csviaddon" id="csvi">plg_csviaddon_csvi_ro_csvi_7.20.0.zip</file>
+        <file type="plugin" group="csviaddon" id="fields">plg_csviaddon_fields_ro_csvi_7.20.0.zip</file>
+        <file type="plugin" group="csviaddon" id="menus">plg_csviaddon_menus_ro_csvi_7.20.0.zip</file>
+        <file type="plugin" group="csviaddon" id="modules">plg_csviaddon_modules_ro_csvi_7.20.0.zip</file>
+        <file type="plugin" group="csviaddon" id="tags">plg_csviaddon_tags_ro_csvi_7.20.0.zip</file>
+        <file type="plugin" group="csviaddon" id="users">plg_csviaddon_users_ro_csvi_7.20.0.zip</file>
+        <file type="plugin" group="csvirules" id="conditional">plg_csvirules_conditional_ro_csvi_7.20.0.zip</file>
+        <file type="plugin" group="csvirules" id="fieldcombine">plg_csvirules_fieldcombine_ro_csvi_7.20.0.zip</file>
+        <file type="plugin" group="csvirules" id="fieldcopy">plg_csvirules_fieldcopy_ro_csvi_7.20.0.zip</file>
+        <file type="plugin" group="csvirules" id="margin">plg_csvirules_margin_ro_csvi_7.20.0.zip</file>
+        <file type="plugin" group="csvirules" id="multireplace">plg_csvirules_multireplace_ro_csvi_7.20.0.zip</file>
+        <file type="plugin" group="csvirules" id="skip">plg_csvirules_skip_ro_csvi_7.20.0.zip</file>
+        <file type="plugin" group="csviext" id="joomlacustomfields">plg_csviext_joomlacustomfields_ro_csvi_7.20.0.zip</file>
+        <file type="plugin" group="system" id="rolandd">plg_system_rolandd_7.20.0.zip</file>
+    </files>
+
+    <languages>
+        <language tag="en-GB">language/en-GB/en-GB.pkg_csvi.ini</language>
+        <language tag="en-GB">language/en-GB/en-GB.pkg_csvi.sys.ini</language>
+    </languages>
+
+    <updateservers>
+        <server type="extension" priority="1" name="RO CSVI">https://rolandd.com/updates/rocsvi</server>
+    </updateservers>
+</extension>

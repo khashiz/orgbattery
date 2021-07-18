@@ -1,0 +1,45 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!DOCTYPE install PUBLIC "-//Joomla! 2.5//DTD template 1.0//EN" "https://www.joomla.org/xml/dtd/1.6/template-install.dtd">
+<extension version="3.1" type="template" client="site">
+	<name>orgbattery</name>
+	<creationDate>Esfand 99</creationDate>
+	<author>Khashayar Pouradabi</author>
+	<authorEmail>pouradaby@gmail.com</authorEmail>
+	<authorUrl>www.netparsi.com</authorUrl>
+	<copyright>Copyright (C) 2005 - 2019 Open Source Matters, Inc. All rights reserved.</copyright>
+	<license>GNU General Public License version 2 or later; see LICENSE.txt</license>
+	<version>1.0</version>
+	<files>
+		<folder>css</folder>
+		<folder>img</folder>
+		<folder>js</folder>
+		<folder>font</folder>
+		<filename>index.php</filename>
+		<filename>templateDetails.xml</filename>
+	</files>
+	<config>
+		<fields name="params">
+			<fieldset name="basic">
+				<field name="presetcolor" type="color" label="TPL_ORGB_PRESETCOLOR" />
+				<field name="logo" type="media" label="TPL_ORGB_LOGO" />
+				<field name="mlogo" type="media" label="TPL_ORGB_MLOGO" />
+			</fieldset>
+			<fieldset name="contact" label="TPL_ORGB_CONTACT">
+				<field name="email" type="text" label="TPL_ORGB_EMAIL" />
+				<field name="cellphone" type="text" label="TPL_ORGB_CELLPHONE" />
+				<field name="phone" type="textarea" label="TPL_ORGB_PHONE" />
+				<field name="fax" type="textarea" label="TPL_ORGB_FAX" />
+				<field name="address" type="textarea" label="TPL_ORGB_ADDRESS" />
+				<field name="lat" type="text" label="TPL_ORGB_LAT" />
+				<field name="lng" type="text" label="TPL_ORGB_LNG" />
+				<field name="socials" type="repeatable" icon="list" label="TPL_ORGB_SOCIALS">
+					<fieldset hidden="true" name="slides" repeat="true">
+						<field name="icon" class="width-100" type="text" label="TPL_ORGB_ICON" />
+						<field name="link" type="text" label="TPL_ORGB_URL" />
+						<field name="title" type="text" label="TPL_ORGB_TITLE" />
+					</fieldset>
+				</field>
+			</fieldset>
+		</fields>
+	</config>
+</extension>

@@ -1,0 +1,53 @@
+<?xml version="1.0" encoding="utf-8"?>
+<form>
+    <fields name="jform">
+        <fieldset name="general">
+            <field name="keepid"
+                   type="list"
+                   size="1"
+                   default="0"
+                   class="input-small advancedSelect">
+                <option value="1">JYES</option>
+                <option value="0">JNO</option>
+            </field>
+
+            <field name="category_separator"
+                   type="text"
+                   class="input-mini"
+                   label="COM_CSVI_CATEGORY_SEPARATOR_LABEL"
+                   description="COM_CSVI_CATEGORY_SEPARATOR_DESC"
+                   default="/"/>
+
+            <field name="locale"
+                   type="language"
+                   label="COM_CSVI_CATEGORY_LOCALE_LABEL"
+                   description="COM_CSVI_CATEGORY_LOCALE_DESC"
+                   client="site"
+                   default="en-GB"
+                   class="advancedSelect"/>
+
+            <field name="unpublish_before_import"
+                   type="list"
+                   size="1"
+                   label="COM_CSVI_CATEGORY_UNPUBLISH_BEFORE_IMPORT_LABEL"
+                   description="COM_CSVI_CATEGORY_UNPUBLISH_BEFORE_IMPORT_DESC"
+                   class="input-small advancedSelect"
+                   onchange="Csvi.showFields(this.value, '.unpublish');"
+                   default="0">
+                <option value="1">JYES</option>
+                <option value="0">JNO</option>
+            </field>
+
+            <field name="categories"
+                   type="category"
+                   extension="com_content"
+                   label="COM_CSVI_CATEGORY_LABEL"
+                   description="COM_CSVI_CATEGORY_DESC"
+                   multiple="true"
+                   default="all"
+                   class="unpublish hidden advancedSelect">
+                <option value="all">COM_CSVI_DONT_USE</option>
+            </field>
+        </fieldset>
+    </fields>
+</form>
