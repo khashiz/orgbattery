@@ -47,7 +47,7 @@ defined('_JEXEC') or die('Restricted access');
                         <div>
                             <div>
                                 <div class="uk-grid-divider uk-grid-small" data-uk-grid>
-                                    <div class="uk-visible@m">
+                                    <div class="uk-visible@m uk-hidden">
                                         <div class="uk-text-muted uk-text-tiny font uk-text-center"><?php echo JText::sprintf('VOTE'); ?></div>
                                         <div id="hikashop_product_vote_mini" class="uk-text-tiny">
                                             <?php if($this->params->get('show_vote_product')) {

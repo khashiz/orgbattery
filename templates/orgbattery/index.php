@@ -36,7 +36,6 @@ if (JFactory::getLanguage()->isRtl()) {
 // Add js
 JHtml::_('script', 'uikit.min.js', array('version' => 'auto', 'relative' => true));
 JHtml::_('script', 'uikit-icons.min.js', array('version' => 'auto', 'relative' => true));
-if (JFactory::getLanguage()->isRtl()) {JHtml::_('script', 'persianumber.min.js', array('version' => 'auto', 'relative' => true));}
 
 $socialsicons = json_decode( $params->get('socials'),true);
 $total = count($socialsicons['icon']);

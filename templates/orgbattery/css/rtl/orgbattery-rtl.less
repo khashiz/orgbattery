@@ -648,9 +648,6 @@ div{
       }
     }
   }
-  &.commentText{
-    font-variation-settings: "wght" 500, "wdth" 100, "slnt" 0, "DOTR" 1, "DOTS" 0, "KASH" 0;
-  }
   &[itemprop="articleBody"]{
     p{
       &:last-child{
@@ -716,6 +713,9 @@ div{
         }
       }
     }
+  }
+  &.productStickyTabs{
+    z-index: 981;
   }
   //TGJU Table
   &#tgju{
@@ -1219,7 +1219,7 @@ span{
   .border-radius(3px);
   > *{
     padding: 2px 8px;
-    font-size: 12px;
+    font-size: .875rem;
     font-weight: 500;
     .font;
   }

@@ -47,8 +47,8 @@ $total = count($socialsicons['icon']);
                                                                 <div class="uk-width-1-1">
                                                                     <div>
                                                                         <div class="uk-grid-small contactFields" data-uk-grid>
-                                                                            <div class="uk-width-auto uk-text-accent"><img src="<?php echo JURI::base().'images/sprite.svg#map' ?>" width="20" height="20" alt="" data-uk-svg></div>
-                                                                            <div class="uk-width-expand"><span class="uk-text-tiny uk-text-primary uk-text-bold value font"><?php echo $params->get('address'); ?></span></div>
+                                                                            <div class="uk-width-auto uk-text-secondary"><img src="<?php echo JURI::base().'images/sprite.svg#map' ?>" width="20" height="20" alt="" data-uk-svg></div>
+                                                                            <div class="uk-width-expand"><span class="uk-text-small f500 value font"><?php echo $params->get('address'); ?></span></div>
                                                                         </div>
                                                                     </div>
                                                                 </div>
@@ -57,8 +57,8 @@ $total = count($socialsicons['icon']);
                                                                 <div class="uk-width-1-1 uk-width-auto@m">
                                                                     <div>
                                                                         <div class="uk-grid-small contactFields" data-uk-grid>
-                                                                            <div class="uk-width-auto uk-text-accent"><img src="<?php echo JURI::base().'images/sprite.svg#phone' ?>" width="20" height="20" alt="" data-uk-svg></div>
-                                                                            <div class="uk-width-expand"><span class="uk-text-small uk-text-primary uk-text-bold value font"><?php $array = preg_split('/\n|\r\n/', $params->get('phone')); echo $array[0]; ?></span></div>
+                                                                            <div class="uk-width-auto uk-text-secondary"><img src="<?php echo JURI::base().'images/sprite.svg#phone' ?>" width="20" height="20" alt="" data-uk-svg></div>
+                                                                            <div class="uk-width-expand"><span class="uk-text-small f500 value font"><?php $array = preg_split('/\n|\r\n/', $params->get('phone')); echo $array[0]; ?></span></div>
                                                                         </div>
                                                                     </div>
                                                                 </div>
@@ -66,16 +66,16 @@ $total = count($socialsicons['icon']);
                                                             <?php if (!empty($params->get('fax'))) { ?>
                                                                 <div class="uk-width-1-1 uk-width-auto@m">
                                                                     <div class="uk-grid-small contactFields" data-uk-grid>
-                                                                        <div class="uk-width-auto uk-text-accent"><img src="<?php echo JURI::base().'images/sprite.svg#fax' ?>" width="20" height="20" alt="" data-uk-svg></div>
-                                                                        <div class="uk-width-expand uk-flex uk-flex-middle"><span class="uk-text-small uk-text-primary uk-text-bold value font"><?php echo $params->get('fax'); ?></span></div>
+                                                                        <div class="uk-width-auto uk-text-secondary"><img src="<?php echo JURI::base().'images/sprite.svg#fax' ?>" width="20" height="20" alt="" data-uk-svg></div>
+                                                                        <div class="uk-width-expand uk-flex uk-flex-middle"><span class="uk-text-small f500 value font"><?php echo $params->get('fax'); ?></span></div>
                                                                     </div>
                                                                 </div>
                                                             <?php } ?>
                                                             <?php if (!empty($params->get('cellphone'))) { ?>
                                                                 <div class="uk-width-1-1 uk-width-auto@m">
                                                                     <div class="uk-grid-small contactFields" data-uk-grid>
-                                                                        <div class="uk-width-auto uk-text-accent"><img src="<?php echo JURI::base().'images/sprite.svg#mobile' ?>" width="20" height="20" alt="" data-uk-svg></div>
-                                                                        <div class="uk-width-expand uk-flex uk-flex-middle"><span class="uk-text-small uk-text-primary uk-text-bold value font"><?php echo $params->get('cellphone'); ?></span></div>
+                                                                        <div class="uk-width-auto uk-text-secondary"><img src="<?php echo JURI::base().'images/sprite.svg#mobile' ?>" width="20" height="20" alt="" data-uk-svg></div>
+                                                                        <div class="uk-width-expand uk-flex uk-flex-middle"><span class="uk-text-small f500 value font"><?php echo $params->get('cellphone'); ?></span></div>
                                                                     </div>
                                                                 </div>
                                                             <?php } ?>

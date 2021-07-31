@@ -90,7 +90,7 @@ if($this->productlayout != 'show_tabular') {
 ?>
 
         <div class="uk-margin-medium-bottom">
-            <div data-uk-sticky="offset: 68" class="uk-background-muted uk-visible@m">
+            <div data-uk-sticky="offset: 68" class="uk-background-muted uk-visible@m productStickyTabs">
                 <div class="uk-padding uk-padding-remove-horizontal uk-padding-remove-bottom uk-position-relative productTabsWrapper">
                     <ul class="uk-tab uk-margin-remove-bottom uk-child-width-1-4 uk-child-width-auto@m" data-uk-scrollspy-nav="offset:180; closest: li; scroll: true">
                         <li><a href="#productComments" class="f500"><?php echo JText::sprintf('PRODUCT_COMMENTS'); ?></a></li>

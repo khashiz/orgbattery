@@ -85,15 +85,15 @@ hikaVote.vote = function(val, from){
 		response = window.Oby.evalJSON(xhr.response);
 		if(response.error) {
 			UIkit.notification({message: response.error.message, status: 'danger', pos: 'bottom-left'});
-			el.innerHTML = response.error.message;
+			// el.innerHTML = response.error.message;
 			return;
 		}
 
 		if(!response.success)
 			return;
 
+		// el.innerHTML = response.success.message;
 		UIkit.notification({message: response.success.message, status: 'success', pos: 'bottom-left'});
-		el.innerHTML = response.success.message;
 		setTimeout(function(){ el.innerHTML = ''; }, 3500);
 		if(comment_task) {
 			// Clear the comment textarea

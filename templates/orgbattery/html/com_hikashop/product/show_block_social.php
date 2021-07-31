@@ -29,7 +29,7 @@ if (@ $plugin->published || @ $plugin->enabled) {
     <div>
         <div class="uk-card uk-card-default uk-border-rounded uk-box-shadow-small">
             <div class="uk-padding-small">
-                <span class="uk-display-block uk-text-center uk-margin-small-bottom uk-text-secondary uk-text-tiny uk-text-nowrap font"><?php echo JText::sprintf('SOCIALSHARE'); ?></span>
+                <span class="uk-display-block uk-text-center uk-margin-small-bottom uk-text-muted uk-text-tiny uk-text-nowrap font f500"><?php echo JText::sprintf('SOCIALSHARE'); ?></span>
                 <ul class="uk-grid-small" data-uk-grid>
                     <li><a href="https://www.facebook.com/sharer.php?u=<?php echo JURI::current(); ?>" target="_blank" class="uk-width-1-1 uk-padding-small uk-button uk-border-rounded uk-text-zero uk-lineheight-zero uk-button-facebook"><img src="<?php echo JURI::base().'images/sprite.svg#facebook'; ?>" width="16" height="16" data-uk-svg></a></li>
                     <li><a href="https://twitter.com/share?url=<?php echo JURI::current(); ?>&text=<?php echo $this->element->product_name; ?>" target="_blank" class="uk-width-1-1 uk-padding-small uk-button uk-border-rounded uk-text-zero uk-lineheight-zero uk-button-twitter"><img src="<?php echo JURI::base().'images/sprite.svg#twitter'; ?>" width="16" height="16" data-uk-svg></a></li>

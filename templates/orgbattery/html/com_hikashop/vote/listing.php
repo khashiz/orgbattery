@@ -51,16 +51,17 @@ defined('_JEXEC') or die('Restricted access');
                             </div>
                             <div class="uk-width-expand">
                                 <div class="uk-margin-small-bottom">
-                                    <div class="uk-grid-small uk-text-tiny font" data-uk-grid>
+                                    <div class="uk-grid-small uk-text-small font f500" data-uk-grid>
                                         <div class="uk-width-expand">
                                             <div>
                                                 <div class="uk-child-width-auto uk-grid-divider uk-grid-small" data-uk-grid>
                                                     <div <?php echo $td_elements; ?> class="hika_comment_listing_name">
-                                                        <?php if ($elt->vote_pseudo == '0') { ?>
+                                                        <span <?php echo $span_elements; ?> class="hika_vote_listing_username uk-text-muted commentMeta"><?php echo $elt->vote_pseudo; ?> </span>
+                                                        <?php /* if ($elt->vote_pseudo == '0') { ?>
                                                             <span <?php echo $span_elements; ?> class="hika_vote_listing_username uk-text-muted commentMeta"><?php echo $elt->vote_pseudo; ?> </span>
                                                         <?php } else { ?>
                                                             <span <?php echo $span_elements; ?> class="hika_vote_listing_username uk-text-muted commentMeta" ><?php echo $elt->name; ?></span>
-                                                        <?php } ?>
+                                                        <?php } */ ?>
                                                     </div>
                                                     <?php if($row->show_comment_date) { ?>
                                                         <div>
@@ -85,7 +86,7 @@ defined('_JEXEC') or die('Restricted access');
                                     </div>
                                 </div>
                                 <div>
-                                    <div id="<?php echo $i++; ?>"<?php echo $div_elements; ?> class="hika_comment_listing_content uk-text-small uk-text-secondary font commentText"><?php echo nl2br($this->escape($elt->vote_comment)); ?></div>
+                                    <div id="<?php echo $i++; ?>"<?php echo $div_elements; ?> class="hika_comment_listing_content f500 uk-text-dark font commentText"><?php echo nl2br($this->escape($elt->vote_comment)); ?></div>
                                 </div>
                             </div>
                         </div>
