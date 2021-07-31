@@ -15,7 +15,7 @@ defined('_JEXEC') or die('Restricted access');
         <div class="uk-padding">
             <div class="uk-text-center">
                 <div class="uk-margin-bottom"><img src="<?php echo JURI::base().'images/sprite.svg#user-lock'; ?>" width="128" height="128" alt="<?php echo $sitename; ?>" data-uk-svg></div>
-                <p class="uk-text-danger uk-text-small uk-text-bold font"><?php echo JTEXT::_('ONLY_REGISTERED_CAN_COMMENT'); ?></p>
+                <p class="uk-text-danger font f500"><?php echo JTEXT::_('ONLY_REGISTERED_CAN_COMMENT'); ?></p>
                 <div><a href="<?php echo JRoute::_("index.php?Itemid=166"); ?>" class="uk-width-1-1 uk-border-rounded uk-box-shadow-small font uk-button uk-button-success uk-height-1-1"><?php echo JText::sprintf('JLOGIN'); ?></a></div>
             </div>
         </div>
@@ -27,7 +27,7 @@ defined('_JEXEC') or die('Restricted access');
         <div class="uk-padding">
             <div class="uk-text-center">
                 <div class="uk-margin-bottom"><img src="<?php echo JURI::base().'images/sprite.svg#user-lock'; ?>" width="128" height="128" alt="<?php echo $sitename; ?>" data-uk-svg></div>
-                <p class="uk-margin-remove uk-text-danger uk-text-small uk-text-bold font"><?php echo JTEXT::_('MUST_HAVE_BUY_TO_VOTE'); ?></p>
+                <p class="uk-margin-remove uk-text-danger font f500"><?php echo JTEXT::_('MUST_HAVE_BUY_TO_VOTE'); ?></p>
             </div>
         </div>
     </div>

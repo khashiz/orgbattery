@@ -19,7 +19,7 @@ $print_invoice = false;
 <?php if(empty($this->cpanel_data->cpanel_orders)) { ?>
     <div class="uk-text-center hika_no_orders">
         <div class="uk-margin-medium-bottom"><img src="<?php echo JURI::base().'images/sprite.svg#box-open'; ?>" width="128" height="128" alt="<?php echo $sitename; ?>" data-uk-svg></div>
-        <p class="uk-margin-remove uk-text-danger uk-text-small uk-text-bold font"><?php echo JTEXT::_('HIKA_CPANEL_NO_ORDERS'); ?></p>
+        <p class="uk-margin-remove uk-text-danger font f500"><?php echo JTEXT::_('HIKA_CPANEL_NO_ORDERS'); ?></p>
     </div>
 <?php } ?>
 <?php $cancel_url = '&cancel_url='.base64_encode(hikashop_currentURL()); ?>

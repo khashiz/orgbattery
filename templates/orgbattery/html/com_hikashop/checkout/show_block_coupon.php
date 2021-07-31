@@ -18,7 +18,7 @@ defined('_JEXEC') or die('Restricted access');
         $cart = $this->checkoutHelper->getCart();
         if(empty($cart->coupon)) {
             ?>
-            <h3 class="uk-margin-bottom uk-text-accent uk-text-bold uk-margin-remove-top uk-margin-bottom uk-text-small font"><?php echo JText::_('HIKASHOP_HAVE_COUPON'); ?></h3>
+            <h3 class="jjjj uk-margin-bottom uk-text-accent uk-text-bold uk-margin-remove-top uk-margin-bottom uk-text-small font"><?php echo JText::_('HIKASHOP_HAVE_COUPON'); ?></h3>
             <div>
                 <div class="uk-grid-small" data-uk-grid>
                     <div class="uk-width-expand"><input class="hikashop_checkout_coupon_field uk-width-1-1 uk-border-rounded font uk-input" id="hikashop_checkout_coupon_input_<?php echo $this->step; ?>_<?php echo $this->module_position; ?>" type="text" name="checkout[coupon]" value=""/></div>

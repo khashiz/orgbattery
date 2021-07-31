@@ -41,6 +41,6 @@ ob_start();
 <?php } else { ?>
     <div class="uk-text-center">
         <div class="uk-margin-bottom"><img src="<?php echo JURI::base().'images/sprite.svg#video'; ?>" width="128" height="128" alt="<?php echo $sitename; ?>" data-uk-svg></div>
-        <p class="uk-margin-remove uk-text-danger uk-text-small uk-text-bold font"><?php echo JTEXT::_('HIKASHOP_NO_VIDEO_YET'); ?></p>
+        <p class="uk-margin-remove uk-text-danger font f500"><?php echo JTEXT::_('HIKASHOP_NO_VIDEO_YET'); ?></p>
     </div>
 <?php } ?>

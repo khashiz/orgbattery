@@ -11,7 +11,7 @@ defined('_JEXEC') or die('Restricted access');
 <div>
     <div data-uk-grid>
         <div class="uk-width-1-1 uk-width-2-5@m">
-            <div id="hikashop_product_left_part">
+            <div id="hikashop_product_left_part" data-uk-sticky="offset: 108; bottom: true;">
                 <?php if(!empty($this->element->extraData->leftBegin)) { echo implode("\r\n",$this->element->extraData->leftBegin); } ?>
                 <?php $this->row =& $this->element; $this->setLayout('show_block_img'); echo $this->loadTemplate(); ?>
                 <?php if(!empty($this->element->extraData->leftEnd)) { echo implode("\r\n",$this->element->extraData->leftEnd); } ?>
@@ -21,10 +21,12 @@ defined('_JEXEC') or die('Restricted access');
             <div id="hikashop_product_top_part" class="uk-margin-medium-bottom">
                 <?php if(!empty($this->element->extraData->topBegin)) { echo implode("\r\n",$this->element->extraData->topBegin); } ?>
                 <div data-uk-grid>
-                    <div class="uk-width-expand">
-                        <span class="uk-text-tiny uk-text-muted uk-text-uppercase uk-display-block uk-margin-small-bottom font"><?php echo JText::sprintf('PRODUCT_CODE', $this->element->product_code); ?></span>
-                        <h1 class="uk-margin-remove-top uk-h4">
-                            <span id="hikashop_product_name_main" class="hikashop_product_name_main uk-display-block uk-text-secondary font" itemprop="name">
+                    <div class="uk-width-expand uk-flex uk-flex-middle">
+                        <?php /* ?>
+                        <span class="uk-text-tiny f500 uk-text-muted uk-text-uppercase uk-display-block uk-margin-small-bottom font"><?php echo JText::sprintf('PRODUCT_CODE', $this->element->product_code); ?></span>
+                        <?php */ ?>
+                        <h1 class="uk-margin-remove-top uk-h4 uk-text-bold">
+                            <span id="hikashop_product_name_main" class="hikashop_product_name_main uk-display-block uk-text-dark font" itemprop="name">
                                 <?php
                                 if(hikashop_getCID('product_id') != $this->element->product_id && isset($this->element->main->product_name))
                                     echo $this->element->main->product_name;
@@ -67,7 +69,23 @@ defined('_JEXEC') or die('Restricted access');
                 </div>
                 <?php if(!empty($this->element->extraData->topEnd)) { echo implode("\r\n", $this->element->extraData->topEnd); } ?>
             </div>
-            <?php $this->setLayout('show_block_short'); echo $this->loadTemplate(); ?>
+            <div id="productDescription">
+                <div id="hikashop_product_bottom_part" class="uk-margin-medium-top">
+                    <?php if(!empty($this->element->extraData->bottomBegin)) { echo implode("\r\n",$this->element->extraData->bottomBegin); } ?>
+                    <div id="hikashop_product_description_main" class="uk-text-justify font" itemprop="description">
+                        <?php echo JHTML::_('content.prepare',preg_replace('#<hr *id="system-readmore" */>#i','',$this->element->product_description)); ?>
+                    </div>
+                    <span id="hikashop_product_url_main" class="hikashop_product_url_main">
+                        <?php
+                        if(!empty($this->element->product_url)) {
+                            echo JText::sprintf('MANUFACTURER_URL', '<a href="' . $this->element->product_url . '" target="_blank">' . $this->element->product_url . '</a>');
+                        }
+                        ?>
+                    </span>
+                    <?php if(!empty($this->element->extraData->bottomMiddle)) { echo implode("\r\n",$this->element->extraData->bottomMiddle); } ?>
+                    <?php if(!empty($this->element->extraData->bottomEnd)) { echo implode("\r\n",$this->element->extraData->bottomEnd); } ?>
+                </div>
+            </div>
             <?php if(!empty($this->fields)) { $this->setLayout('show_block_custom_main'); echo $this->loadTemplate(); } ?>
             <div id="hikashop_product_right_part">
                 <?php if(!empty($this->element->extraData->rightBegin)) { echo implode("\r\n",$this->element->extraData->rightBegin); } ?>

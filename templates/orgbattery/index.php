@@ -144,12 +144,12 @@ $total = count($socialsicons['icon']);
     </header>
 <?php } ?>
 <?php if ($pageparams->get('show_page_heading')) : ?>
-    <section class="bgPrimary uk-padding uk-padding-remove-horizontal uk-text-zero pageHeading">
+    <section class="bgSecondary uk-padding uk-padding-remove-horizontal uk-text-zero pageHeading">
         <div class="uk-container">
             <div>
                 <div class="uk-grid-small" data-uk-grid>
                     <div class="uk-width-1-1">
-                        <h1 class="uk-margin-remove uk-text-white uk-text-center font"><?php echo $pageparams->get('page_heading'); ?></h1>
+                        <h2 class="uk-margin-remove uk-text-white uk-text-center font"><?php echo $pageparams->get('page_heading'); ?></h2>
                     </div>
                 </div>
             </div>
@@ -347,10 +347,10 @@ $total = count($socialsicons['icon']);
             <div class="uk-padding-small uk-padding-remove-horizontal">
                 <div class="uk-grid-small uk-text-white uk-text-center uk-text-<?php echo JFactory::getLanguage()->isRtl() ? 'right' : 'left' ?>@m font" data-uk-grid>
                     <div class="uk-width-1-1 uk-width-expand@m">
-                        <p class="uk-text-tiny"><?php echo JTEXT::sprintf('COPYRIGHT', $sitename); ?></p>
+                        <p class="uk-text-small f500"><?php echo JTEXT::sprintf('COPYRIGHT', $sitename); ?></p>
                     </div>
                     <div class="uk-width-1-1 uk-width-auto@m">
-                        <p class="uk-text-tiny"><?php echo JTEXT::sprintf('DESIGNER', '<a href="https://netparsi.com" class="uk-text-white hoverAccent" target="_blank" title="'.$netparsi.'">'.$netparsi.'</a>'); ?></p>
+                        <p class="uk-text-small f500"><?php echo JTEXT::sprintf('DESIGNER', '<a href="https://netparsi.com" class="uk-text-white hoverAccent" target="_blank" title="'.$netparsi.'">'.$netparsi.'</a>'); ?></p>
                     </div>
                 </div>
             </div>
@@ -372,7 +372,7 @@ $total = count($socialsicons['icon']);
                                             <div>
                                                 <div class="uk-grid-small contactFields" data-uk-grid>
                                                     <div class="uk-width-auto uk-text-accent"><img src="<?php echo JURI::base().'images/sprite.svg#phone' ?>" width="20" height="20" alt="" data-uk-svg></div>
-                                                    <div class="uk-width-expand"><span class="uk-text-small uk-text-gray value font"><?php echo $params->get('phone'); ?></span></div>
+                                                    <div class="uk-width-expand"><span class="uk-text-small uk-text-gray value font"><?php $phones = explode("\n", $params->get('phone')); echo $phones[0]; ?></span></div>
                                                 </div>
                                             </div>
                                         </div>
@@ -399,10 +399,10 @@ $total = count($socialsicons['icon']);
                             </div>
                         </div>
                         <div class="uk-width-1-1">
-                            <p class="uk-text-tiny uk-text-gray"><?php echo JTEXT::sprintf('COPYRIGHT', $sitename); ?></p>
+                            <p class="uk-text-small uk-text-gray f500"><?php echo JTEXT::sprintf('COPYRIGHT', $sitename); ?></p>
                         </div>
                         <div class="uk-width-1-1">
-                            <p class="uk-text-tiny uk-text-gray uk-margin-bottom"><?php echo JTEXT::sprintf('DESIGNER', '<a href="https://netparsi.com" class="uk-text-gray hoverAccent" target="_blank" title="'.$netparsi.'">'.$netparsi.'</a>'); ?></p>
+                            <p class="uk-text-small uk-text-gray f500 uk-margin-bottom"><?php echo JTEXT::sprintf('DESIGNER', '<a href="https://netparsi.com" class="uk-text-gray hoverAccent" target="_blank" title="'.$netparsi.'">'.$netparsi.'</a>'); ?></p>
                         </div>
                     </div>
                 </div>

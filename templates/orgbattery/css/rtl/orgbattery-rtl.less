@@ -1,6 +1,6 @@
-@primary: #2D3E50;
-@secondary: rgb(30, 120, 190);
-@accent: #16A086;
+@primary: #006978;
+@secondary: #0097a7;
+@accent: #ffa000;
 @dark: rgb(40, 40, 40);
 @gray: rgb(153, 153, 153);
 @success: #388e3c;
@@ -25,22 +25,62 @@
   font-weight: bold;
   font-display: fallback;
 }
-.f500{
-  font-variation-settings: "wght" 500,"wdth" 100,"slnt" 0,"DOTR" 1,"DOTS" 0,"KASH" 0;
+
+@font-face {
+  font-family: 'YekanBakh';
+  font-style: normal;
+  font-weight: 100;
+  src: url("../../font/yekanBakh/YekanBakh01Hairline.woff") format("woff");
 }
-.f600{
-  font-variation-settings: "wght" 600,"wdth" 100,"slnt" 0,"DOTR" 1,"DOTS" 0,"KASH" 0;
+@font-face {
+  font-family: 'YekanBakh';
+  font-style: normal;
+  font-weight: 200;
+  src: url("../../font/yekanBakh/YekanBakh02Thin.woff") format("woff");
 }
-.f700{
-  font-variation-settings: "wght" 700,"wdth" 100,"slnt" 0,"DOTR" 1,"DOTS" 0,"KASH" 0;
+@font-face {
+  font-family: 'YekanBakh';
+  font-style: normal;
+  font-weight: 300;
+  src: url("../../font/yekanBakh/YekanBakh03Light.woff") format("woff");
 }
-.font {
-  font-family: arvin_v, arvin, -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Oxygen-Sans, Ubuntu, Cantarell, "Helvetica Neue", sans-serif;
-  //font-variation-settings: "wght" 400, "wdth" 100, "slnt" 0, "DOTR" 1, "DOTS" 0, "KASH" 0;
+@font-face {
+  font-family: 'YekanBakh';
+  font-style: normal;
+  font-weight: 400;
+  src: url("../../font/yekanBakh/YekanBakh04Regular.woff") format("woff");
 }
-.ltr{
-  direction: ltr;
+@font-face {
+  font-family: 'YekanBakh';
+  font-style: normal;
+  font-weight: 500;
+  src: url("../../font/yekanBakh/YekanBakh05Medium.woff") format("woff");
 }
+@font-face {
+  font-family: 'YekanBakh';
+  font-style: normal;
+  font-weight: 600;
+  src: url("../../font/yekanBakh/YekanBakh06Bold.woff") format("woff");
+}
+@font-face {
+  font-family: 'YekanBakh';
+  font-style: normal;
+  font-weight: 700;
+  src: url("../../font/yekanBakh/YekanBakh07Heavy.woff") format("woff");
+}
+@font-face {
+  font-family: 'YekanBakh';
+  font-style: normal;
+  font-weight: 800;
+  src: url("../../font/yekanBakh/YekanBakh08Fat.woff") format("woff");
+}
+
+.f500{font-weight: 500;}
+.f600{font-weight: 600;}
+.f700{font-weight: 700;}
+.font{font-family: 'YekanBakh', -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Oxygen-Sans, Ubuntu, Cantarell, "Helvetica Neue", sans-serif;}
+.ltr{direction: ltr;}
+
 //Mixins
 .border-radius (@radius: 5px) {
   border-radius: @radius;
@@ -79,8 +119,8 @@ header{
     > ul{
       >li{
         >a{
-          font-size: 14px;
-          font-variation-settings: "wght" 500, "wdth" 100, "slnt" 0, "DOTR" 1, "DOTS" 0, "KASH" 0;
+          font-size: 16px;
+          font-weight: 500;
           margin: 0 25px 0 0;
           color: @dark;
           position: relative;
@@ -103,7 +143,7 @@ header{
                   li{
                     a{
                       font-size: 14px;
-                      font-variation-settings: "wght" 500, "wdth" 100, "slnt" 0, "DOTR" 1, "DOTS" 0, "KASH" 0;
+                      font-weight: 500;
                       display: block;
                       padding: 10px;
                       .transition;
@@ -146,8 +186,8 @@ header{
           padding: 10px 0;
           >li{
             >a{
-              font-size: 12px;
-              font-variation-settings: "wght" 400, "wdth" 100, "slnt" 0, "DOTR" 1, "DOTS" 0, "KASH" 0;
+              font-size: 13px;
+              font-weight: 500;
               .font;
             }
             &.current{
@@ -196,17 +236,17 @@ header{
 }
 section{
   &.pageHeading{
-    h1{
+    h1,h2{
       font-size: 32px;
-      font-variation-settings: "wght" 700, "wdth" 100, "slnt" 0, "DOTR" 1, "DOTS" 0, "KASH" 0;
+      font-weight: 700;
       padding-top: 10px;
     }
   }
   &.homeTitle{
     h1{
-      font-variation-settings: "wght" 800, "wdth" 100, "slnt" 0, "DOTR" 1, "DOTS" 0, "KASH" 10;
+      font-weight: 800;
+      text-shadow: -1px -1px 0 rgba(255, 255, 255, 1), 1px 1px 0 rgba(255, 255, 255, 1);
       @media (max-width:959px){
-        font-variation-settings: "wght" 800, "wdth" 100, "slnt" 0, "DOTR" 1, "DOTS" 0, "KASH" 0;
         font-size: 24px;
         + p{
           font-size: 14px;
@@ -216,8 +256,8 @@ section{
   }
   &.homeCards{
     h3{
-      font-variation-settings: "wght" 800,"wdth" 100,"slnt" 0,"DOTR" 1,"DOTS" 0,"KASH" 0;
       color: @primary;
+      font-weight: 700;
     }
   }
 }
@@ -284,7 +324,7 @@ footer{
     }
     &.contactFields{
       .value{
-        font-variation-settings: "wght" 600, "wdth" 100, "slnt" 0, "DOTR" 1, "DOTS" 0, "KASH" 0;
+        font-weight: 600;
       }
     }
   }
@@ -394,7 +434,7 @@ div{
         border-top: 0;
         border-right: 0;
         > div{
-          &.hikashop_container{
+          &.gridItemWrapper{
             .transition;
             &:hover{
               box-shadow: 0 0 15px 0 rgba(0, 0, 0, .15);
@@ -622,9 +662,8 @@ div{
     background: linear-gradient(0deg, rgba(255,255,255,1) 0%, rgba(255,255,255,0) 100%);
     h2{
       padding: 200px 40px 0;
-      font-variation-settings: "wght" 700,"wdth" 100,"slnt" 0,"DOTR" 1,"DOTS" 0,"KASH" 20;
+      font-weight: 800;
       @media (max-width:959px){
-        font-variation-settings: "wght" 700,"wdth" 100,"slnt" 0,"DOTR" 1,"DOTS" 0,"KASH" 0;
         font-size: 24px;
       }
     }
@@ -663,6 +702,19 @@ div{
       background: #f8f8f8;
       height: 100%;
       top: 0;
+    }
+  }
+  &.tagsWrapper{
+    ul{
+      li{
+        a{
+          font-weight: 600;
+          padding: 4px 10px 2px;
+          font-size: 13px;
+          line-height: normal;
+          margin: 4px;
+        }
+      }
     }
   }
   //TGJU Table
@@ -747,7 +799,7 @@ input{
       + label{
         border-color: @primary;
         box-shadow: inset 0 0 10px 0 rgba(0, 0, 0, .15), 0 0 0 1px @primary;
-        background-color: #f7f8ff;
+        background-color: #f6feff;
         span{
           color: @accent;
           &.boxInputTitle{
@@ -776,12 +828,8 @@ span{
         font-size: 12px;
         color: @danger;
         .font;
-        font-variation-settings: "wght" 500, "wdth" 100, "slnt" 0, "DOTR" 1, "DOTS" 0, "KASH" 0;
       }
     }
-  }
-  &.hikashop_product_price{
-    font-variation-settings: "wght" 600,"wdth" 100,"slnt" 0,"DOTR" 1,"DOTS" 0,"KASH" 25;
   }
   &.hikashop_product_discount{
     padding: 4px 10px;
@@ -866,7 +914,7 @@ span{
   li{
     a{
       font-size: 14px;
-      font-variation-settings: "wght" 500, "wdth" 100, "slnt" 0, "DOTR" 1, "DOTS" 0, "KASH" 0;
+      font-weight: 600;
       display: block;
       padding: 15px;
       .transition;
@@ -1055,6 +1103,7 @@ span{
   }
 }
 .uk-button{
+  font-weight: 500;
   &.uk-button-default{
     background-color: #fff;
   }
@@ -1133,8 +1182,8 @@ span{
 }
 .uk-form-label{
   color: @dark;
-  font-variation-settings: "wght" 500, "wdth" 100, "slnt" 0, "DOTR" 1, "DOTS" 0, "KASH" 0;
   font-size: 14px;
+  font-weight: 500;
   .font;
 }
 .uk-input,
@@ -1169,8 +1218,9 @@ span{
   font-size: 0;
   .border-radius(3px);
   > *{
-    font-size: 11px;
-    font-variation-settings: "wght" 500, "wdth" 100, "slnt" 0, "DOTR" 1, "DOTS" 0, "KASH" 0;
+    padding: 2px 8px;
+    font-size: 12px;
+    font-weight: 500;
     .font;
   }
 }
@@ -1190,9 +1240,10 @@ span{
 .uk-text-primary{color: @primary !important;}
 .uk-text-success{color: @success !important;}
 .uk-text-danger{color: @danger !important;;}
-.uk-text-secondary{color: @secondary;}
+.uk-text-secondary{color: @secondary !important;}
 .uk-text-accent{color: @accent;}
 .uk-text-gray{color: @gray;}
+.uk-text-dark{color: #222;}
 .uk-text-lightgray{color: #e0e0e0;}
 *{
   &.hoverPrimary{

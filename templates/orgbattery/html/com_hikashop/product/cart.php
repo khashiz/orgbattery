@@ -216,7 +216,7 @@ if(!empty($small_cart)) {
 	$v = (int)$this->params->get('dropdown_right', 0);
 	if($v != 0) $alignment .= 'right:'.(-$v).'px;';
 ?>
-	<div class="hikashop_cart_dropdown_container cartDrop" data-uk-drop="offset: 26; animation: uk-animation-slide-bottom-small; pos: bottom-left">
+	<div class="hikashop_cart_dropdown_container cartDrop" data-uk-drop="offset: 25; animation: uk-animation-slide-bottom-small; pos: bottom-left">
 	<div class="hikashop_cart_dropdown_content uk-card uk-card-default uk-box-shadow-small uk-border-rounde" id="hikashop_cart_dropdown_<?php echo $module_id; ?>">
 <?php
 }

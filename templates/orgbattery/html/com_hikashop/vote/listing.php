@@ -185,7 +185,7 @@ defined('_JEXEC') or die('Restricted access');
         <?php if(!count($this->elts)) { ?>
             <div class="uk-text-center">
                 <div class="uk-margin-bottom"><img src="<?php echo JURI::base().'images/sprite.svg#comments-alt'; ?>" width="128" height="128" alt="<?php echo $sitename; ?>" data-uk-svg></div>
-                <p class="uk-margin-remove uk-text-danger uk-text-small uk-text-bold font"><?php echo JTEXT::_('HIKASHOP_NO_COMMENT_YET'); ?></p>
+                <p class="uk-margin-remove uk-text-danger font f500"><?php echo JTEXT::_('HIKASHOP_NO_COMMENT_YET'); ?></p>
             </div>
         <?php } else { $this->pagination->form = '_hikashop_comment_form'; ?>
             <div class="pagination uk-hidden">

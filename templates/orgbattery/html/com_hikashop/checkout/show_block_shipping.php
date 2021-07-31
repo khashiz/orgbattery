@@ -159,8 +159,8 @@ if(!empty($cart->usable_methods->shipping)) {
                 <?php } ?>
                 <label for="<?php echo $input_id; ?>" class="uk-flex uk-flex-column uk-flex-center uk-flex-middle uk-border-rounded">
                     <span><img src="<?php echo JURI::base().'images/sprite.svg#shipping-'.$shipping->shipping_id; ?>" width="32" height="32" data-uk-svg></span>
-                    <span class="hikashop_checkout_shipping_name uk-text-small uk-display-block font boxInputTitle"><?php echo $shipping->shipping_name;?></span>
-                    <span class="hikashop_checkout_shipping_cost uk-text-tiny uk-display-block font boxInputDesc">
+                    <span class="hikashop_checkout_shipping_name uk-display-block font f600 boxInputTitle"><?php echo $shipping->shipping_name;?></span>
+                    <span class="hikashop_checkout_shipping_cost uk-text-tiny uk-display-block font f500 boxInputDesc">
                         <?php if ($shipping->shipping_id == 1 || $shipping->shipping_id == 4) { echo JText::sprintf('PAYONDELIVERY'); } else { echo strip_tags($this->checkoutHelper->getDisplayPrice($shipping, 'shipping', $this->options)); } ?>
                     </span>
                     <?php if(!empty($shipping->shipping_description)) { ?>

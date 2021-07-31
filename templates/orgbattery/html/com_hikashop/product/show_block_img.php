@@ -21,7 +21,7 @@ if(!empty($this->variant_name)) {
 }
 ?>
 <div id="hikashop_product_image<?php echo $variant_main;?>" class="uk-text-zero hikashop_global_image_div" style="<?php echo $display_mode;?>">
-	<div id="hikashop_main_image_div<?php echo $variant_name;?>" class="uk-margin-small-bottom uk-border-rounded uk-overflow-hidden uk-box-shadow-small">
+	<div id="hikashop_main_image_div<?php echo $variant_name;?>" class="uk-border-rounded uk-overflow-hidden uk-box-shadow-small">
         <?php
         if(!empty ($this->element->images)) {
             $image = reset($this->element->images);

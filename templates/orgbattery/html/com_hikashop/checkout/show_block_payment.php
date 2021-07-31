@@ -89,7 +89,7 @@ if(!empty($cart->usable_methods->payment)) {
         <span class="hikashop_checkout_payment_images">
             <img src="<?php echo JURI::base().'images/sprite.svg#shippingmethod'.$payment->payment_type; ?>" width="32" height="32" data-uk-svg>
         </span>
-		<span class="hikashop_checkout_payment_name uk-text-small uk-display-block font boxInputTitle"><?php echo $payment->payment_name;?></span>
+		<span class="hikashop_checkout_payment_name f600 uk-display-block font boxInputTitle"><?php echo $payment->payment_name;?></span>
 
 	<span class="hikashop_checkout_payment_cost uk-text-tiny font uk-hidden">
         <?php echo $this->checkoutHelper->getDisplayPrice($payment, 'payment', $this->options); ?>
@@ -102,7 +102,7 @@ if(!empty($cart->usable_methods->payment)) {
 <?php
 			if(!empty($payment->payment_description)) {
 ?>
-	<span class="hikashop_checkout_payment_description uk-text-tiny uk-display-block font boxInputDesc">
+	<span class="hikashop_checkout_payment_description uk-text-tiny uk-display-block font f500 boxInputDesc">
         <?php echo strip_tags($this->getDescription($payment)); ?>
     </span>
 <?php

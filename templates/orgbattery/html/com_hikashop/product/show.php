@@ -93,36 +93,20 @@ if($this->productlayout != 'show_tabular') {
             <div data-uk-sticky="offset: 68" class="uk-background-muted uk-visible@m">
                 <div class="uk-padding uk-padding-remove-horizontal uk-padding-remove-bottom uk-position-relative productTabsWrapper">
                     <ul class="uk-tab uk-margin-remove-bottom uk-child-width-1-4 uk-child-width-auto@m" data-uk-scrollspy-nav="offset:180; closest: li; scroll: true">
-                        <li><a href="#productDescription"><?php echo JText::sprintf('PRODUCT_DESCRIPTION'); ?></a></li>
-                        <li><a href="#productComments"><?php echo JText::sprintf('PRODUCT_COMMENTS'); ?></a></li>
-                        <li><a href="#hikashop_product_files_main"><?php echo JText::sprintf('PRODUCT_DOWNLOADS'); ?></a></li>
-                        <?php if(!empty($this->fields['aparat_id'])) { ?>
-                            <li><a href="#productVideo"><?php echo JText::sprintf('PRODUCT_VIDEO'); ?></a></li>
+                        <li><a href="#productComments" class="f500"><?php echo JText::sprintf('PRODUCT_COMMENTS'); ?></a></li>
+                        <?php if (!empty($this->element->files)) { ?>
+                            <li><a href="#hikashop_product_files_main" class="f500"><?php echo JText::sprintf('PRODUCT_DOWNLOADS'); ?></a></li>
+                        <?php } ?>
+                        <?php if(!empty($this->element->aparat_id)) { ?>
+                            <li><a href="#productVideo" class="f500"><?php echo JText::sprintf('PRODUCT_VIDEO'); ?></a></li>
                         <?php } ?>
                     </ul>
                 </div>
             </div>
         <div class="productsTabs">
-            <div id="productDescription">
-                <div id="hikashop_product_bottom_part" class="uk-margin-medium-top">
-                    <?php if(!empty($this->element->extraData->bottomBegin)) { echo implode("\r\n",$this->element->extraData->bottomBegin); } ?>
-                    <div id="hikashop_product_description_main" class="uk-text-justify uk-text-small uk-text-secondary font" itemprop="description">
-                        <?php echo JHTML::_('content.prepare',preg_replace('#<hr *id="system-readmore" */>#i','',$this->element->product_description)); ?>
-                    </div>
-                    <span id="hikashop_product_url_main" class="hikashop_product_url_main">
-                        <?php
-                        if(!empty($this->element->product_url)) {
-                            echo JText::sprintf('MANUFACTURER_URL', '<a href="' . $this->element->product_url . '" target="_blank">' . $this->element->product_url . '</a>');
-                        }
-                        ?>
-                    </span>
-                    <?php if(!empty($this->element->extraData->bottomMiddle)) { echo implode("\r\n",$this->element->extraData->bottomMiddle); } ?>
-                    <?php if(!empty($this->element->extraData->bottomEnd)) { echo implode("\r\n",$this->element->extraData->bottomEnd); } ?>
-                </div>
-                <hr class="uk-divider-icon uk-margin-medium-top uk-margin-medium-bottom">
-            </div>
+
             <div id="productComments">
-                <form action="<?php echo hikashop_currentURL() ?>" method="post" name="adminForm_hikashop_comment_form" id="hikashop_comment_form">
+                <form action="<?php echo hikashop_currentURL() ?>" method="post" name="adminForm_hikashop_comment_form" id="hikashop_comment_form" class="uk-margin-medium-top">
                     <div>
                         <div data-uk-grid>
                             <div id="hikashop_vote_listing" data-votetype="product" class="uk-width-1-1 uk-width-expand@m">
@@ -160,8 +144,10 @@ if($this->productlayout != 'show_tabular') {
                 </form>
                 <hr class="uk-divider-icon uk-margin-medium-top uk-margin-medium-bottom">
             </div>
-            <?php $this->setLayout('show_block_product_files'); echo $this->loadTemplate(); ?>
-            <?php if(!empty($this->fields['aparat_id'])) { ?>
+            <?php if (!empty($this->element->files)) { ?>
+                <?php $this->setLayout('show_block_product_files'); echo $this->loadTemplate(); ?>
+            <?php } ?>
+            <?php if(!empty($this->element->aparat_id)) { ?>
                 <div id="productVideo"><?php $this->setLayout('show_block_video'); echo $this->loadTemplate(); ?></div>
             <?php } ?>
         </div>

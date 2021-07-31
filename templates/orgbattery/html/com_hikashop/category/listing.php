@@ -36,9 +36,6 @@ if(!empty($title) && hikaInput::get()->getVar('hikashop_front_end_main', 0)){
 		}
 	}
 	?>
-	<<?php echo $titleType; ?>>
-	<?php echo $heading; ?>
-	</<?php echo $titleType; ?>>
 	<?php
 }
 if(!$this->module){

@@ -59,7 +59,7 @@ if(!empty($this->row->extraData->top)) { echo implode("\r\n",$this->row->extraDa
     <!-- PRODUCT NAME -->
     <span class="hikashop_product_name uk-display-block uk-margin-small-bottom">
 <?php if($haveLink) { ?>
-		<a class=" uk-display-block uk-text-small uk-text-bold uk-text-ddark hoverAccent font" href="<?php echo $link;?>">
+		<a class="uk-display-block uk-text-small uk-text-bold uk-text-dark uk-text-center hoverAccent font" href="<?php echo $link;?>">
 <?php } ?>
 <?php echo $this->row->product_name; ?>
 <?php if($haveLink) { ?>

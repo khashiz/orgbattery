@@ -120,7 +120,7 @@ if(!empty($this->rows)) {
 
 	$attributes = '';
 	if($columns>1 && $this->params->get('consistencyheight',1)){
-		$attributes .= 'data-consistencyheight=".hikashop_subcontainer"';
+		$attributes .= 'data-consistencyheight=".hikashop_subcontainer hhhh"';
 	}
 	?>
 	<div class="hikashop_subcategories" <?php echo $attributes; ?>>
@@ -170,9 +170,9 @@ if(!empty($this->rows)) {
 		}
 
 		if($row_fluid == 12)
-			echo '<div class="hk-row-fluid">';
+			echo '<div class="vvvvv uk-child-width-1-1 uk-child-width-1-4@m" data-uk-grid data-uk-scrollspy="cls: uk-animation-slide-bottom-small; target: >div; delay: 250;">';
 		else
-			echo '<div class="hk-row-fluid hk-row-'.$row_fluid.'">';
+			echo '<div class="row-'.$row_fluid.'">';
 
 		$found = 0;
 		if($in_hikashop_context) {
@@ -197,9 +197,9 @@ if(!empty($this->rows)) {
 			$class = ($found == $row->category_id) ? ' hikashop_current_category' : '';
 			$class = ($current_parent_category == $row->category_id) ? ' hikashop_current_parent_category' : '';
 ?>
-			<div class="hkc-md-<?php echo (int)$span; ?> hikashop_category hikashop_category_column_<?php echo $current_column; ?> hikashop_category_row_<?php echo $current_row.$class; ?>">
-				<div class="hikashop_container">
-					<div class="hikashop_subcontainer <?php echo $borderClass; ?>">
+			<div class="hikashop_category hikashop_category_column_<?php echo $current_column; ?> hikashop_category_row_<?php echo $current_row.$class; ?>">
+				<div class="hikashop_container uk-margin-remove">
+					<div class="uk-border-rounded uk-overflow-hidden uk-box-shadow-small uk-position-relative hikashop_subcontainer <?php echo $borderClass; ?>">
 <?php
 			$this->row =& $row;
 			echo $this->loadTemplate($this->params->get('div_item_layout_type'));

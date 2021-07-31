@@ -52,7 +52,7 @@ if(!empty($show_msrp)) {
 <?php
 }
 ?>
-	<span class="grggrtgrgrgrg hikashop_product_price_full uk-text-small uk-text-muted uk-display-block font <?php echo $class; ?>">
+	<span class="uk-text-center hikashop_product_price_full uk-text-secondary uk-display-block font f600 <?php echo $class; ?>">
         <?php
 
 	if(empty($this->row->prices)) {

@@ -344,8 +344,8 @@ defined('_JEXEC') or die('Restricted access');
 	if(!empty($this->options['show_price']) && (!empty($cart->coupon) || !empty($cart->shipping) || !empty($cart->additional) || $taxes > 0)) {
 ?>
         <div class="uk-grid-small" data-uk-grid>
-            <div class="uk-width-expand uk-text-tiny font hikashop_cart_subtotal_title" id="hikashop_checkout_cart_total2_title" data-uk-leader><?php echo JText::_('SUBTOTAL'); ?></div>
-            <div class="uk-text-small uk-text-bold uk-text-secondary font">
+            <div class="uk-width-expand uk-text-small font f500 hikashop_cart_subtotal_title" id="hikashop_checkout_cart_total2_title" data-uk-leader><?php echo JText::_('SUBTOTAL'); ?></div>
+            <div class="uk-text-small uk-text-bold uk-text-dark font">
                 <span class="hikashop_checkout_cart_subtotal">
                     <?php
                     if(!empty($this->options['price_with_tax']))
@@ -360,8 +360,8 @@ defined('_JEXEC') or die('Restricted access');
 
 <?php if(!empty($this->options['show_price']) && !empty($cart->coupon) && !empty($this->options['show_coupon'])) { ?>
     <div class="uk-grid-small" data-uk-grid>
-        <div class="uk-width-expand uk-text-tiny font hikashop_cart_coupon_title" id="hikashop_checkout_cart_coupon_title" data-uk-leader><?php echo JText::_('HIKASHOP_CART_COUPON'); ?></div>
-        <div class="uk-text-small uk-text-bold uk-text-secondary font hikashop_cart_coupon_value">
+        <div class="uk-width-expand uk-text-small font f500 hikashop_cart_coupon_title" id="hikashop_checkout_cart_coupon_title" data-uk-leader><?php echo JText::_('HIKASHOP_CART_COUPON'); ?></div>
+        <div class="uk-text-small uk-text-bold uk-text-dark font hikashop_cart_coupon_value">
             <span class="hikashop_checkout_cart_coupon uk-text-success"><?php
                 if(empty($this->options['price_with_tax']))
                     echo str_replace('-', '', $this->currencyClass->format(@$cart->coupon->discount_value_without_tax * -1, @$cart->coupon->discount_currency_id));
@@ -374,8 +374,8 @@ defined('_JEXEC') or die('Restricted access');
 
 <?php if(!empty($this->options['show_price']) && !empty($cart->shipping) && !empty($this->options['show_shipping'])) { ?>
     <div class="uk-grid-small" data-uk-grid>
-        <div class="uk-width-expand uk-text-tiny font hikashop_cart_shipping_title" id="hikashop_checkout_cart_shipping_title" data-uk-leader><?php echo JText::_('HIKASHOP_SHIPPING_COST'); ?></div>
-        <div class="uk-text-small uk-text-bold uk-text-secondary font">
+        <div class="uk-width-expand uk-text-small font f500 hikashop_cart_shipping_title" id="hikashop_checkout_cart_shipping_title" data-uk-leader><?php echo JText::_('HIKASHOP_SHIPPING_COST'); ?></div>
+        <div class="uk-text-small uk-text-bold uk-text-dark font">
 				<span class="hikashop_checkout_cart_shipping">
 <?php
 if(isset($this->value)) {
@@ -471,8 +471,8 @@ if(isset($this->value)) {
 		<?php } ?>
 		<?php if(!empty($this->options['show_price']) && !empty($cart->payment) && $cart->payment->payment_price != 0 && !empty($this->options['show_payment'])) { ?>
             <div class="uk-grid-small" data-uk-grid>
-                <div class="uk-width-expand uk-text-tiny font hikashop_cart_payment_title" id="hikashop_checkout_cart_payment_title" data-uk-leader><?php echo JText::_('HIKASHOP_PAYMENT_COST'); ?></div>
-                <div class="uk-text-small uk-text-bold uk-text-secondary font hikashop_cart_payment_value">
+                <div class="uk-width-expand uk-text-small font f500 hikashop_cart_payment_title" id="hikashop_checkout_cart_payment_title" data-uk-leader><?php echo JText::_('HIKASHOP_PAYMENT_COST'); ?></div>
+                <div class="uk-text-small uk-text-bold uk-text-dark font hikashop_cart_payment_value">
                     <span class="hikashop_checkout_cart_payment">
                     <?php
                     if(!isset($cart->payment->payment_price) && isset($cart->payment->payment_price_with_tax) ) {
@@ -497,9 +497,9 @@ if(isset($this->value)) {
 
 		<?php if(!empty($this->options['show_price'])) { ?>
             <div class="uk-grid-small" data-uk-grid>
-                <div class="uk-width-expand uk-text-tiny font hikashop_cart_total_title" id="hikashop_checkout_cart_final_total_title" data-uk-leader><?php echo JText::_('HIKASHOP_TOTAL'); ?></div>
+                <div class="uk-width-expand uk-text-small font f500 hikashop_cart_total_title" id="hikashop_checkout_cart_final_total_title" data-uk-leader><?php echo JText::_('HIKASHOP_TOTAL'); ?></div>
                 <div class="uk-text-small uk-text-bold uk-text-secondary font hikashop_cart_total_value">
-                    <span class="hikashop_checkout_cart_final_total uk-text-accent"><?php echo $this->currencyClass->format($displayingPrices->total->price_value_with_tax, $displayingPrices->price_currency_id); ?></span>
+                    <span class="hikashop_checkout_cart_final_total uk-text-secondary"><?php echo $this->currencyClass->format($displayingPrices->total->price_value_with_tax, $displayingPrices->price_currency_id); ?></span>
                 </div>
             </div>
         <?php } ?>

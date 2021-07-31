@@ -19,7 +19,7 @@ defined('_JEXEC') or die('Restricted access');
                             <?php if ((int)@$this->cart->package['total_items'] == 0) { ?>
                             <div class="uk-text-center">
                                 <div class="uk-margin-medium-bottom"><img src="<?php echo JURI::base().'images/sprite.svg#shopping-cart-duotone'; ?>" width="128" height="128" alt="<?php echo $sitename; ?>" data-uk-svg></div>
-                                <p class="uk-margin-remove uk-text-danger uk-text-small uk-text-bold font"><?php echo JTEXT::_('CARTISEMPTY'); ?></p>
+                                <p class="uk-margin-remove uk-text-danger font f500"><?php echo JTEXT::_('CARTISEMPTY'); ?></p>
                             </div>
                             <?php } ?>
                             <form class="<?php if ((int)@$this->cart->package['total_items'] == 0) {echo 'uk-hidden';} ?>" method="POST" id="hikashop_show_cart_form" name="hikashop_show_cart_form" action="<?php echo hikashop_completeLink('cart&task=show&cid='.(int)$this->cart->cart_id); ?>">

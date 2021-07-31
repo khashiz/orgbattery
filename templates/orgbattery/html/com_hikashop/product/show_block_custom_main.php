@@ -24,7 +24,7 @@ foreach ($this->fields as $fieldName => $oneExtraField) {
         <div>
             <div class="hikashop_product_custom_<?php echo $oneExtraField->field_namekey;?>_line uk-grid-small" data-uk-grid>
                 <div class="uk-width-expand uk-text-small font" data-uk-leader>
-                    <span id="hikashop_product_custom_name_<?php echo $oneExtraField->field_id;?>"><?php echo $this->fieldsClass->getFieldName($oneExtraField);?></span>
+                    <span class="f500" id="hikashop_product_custom_name_<?php echo $oneExtraField->field_id;?>"><?php echo $this->fieldsClass->getFieldName($oneExtraField);?></span>
                 </div>
                 <div class="uk-text-small uk-text-bold uk-text-secondary font hikashop_cart_total_value">
                     <span class="uk-text-accent" id="hikashop_product_custom_value_<?php echo $oneExtraField->field_id;?>"><?php echo $this->fieldsClass->show($oneExtraField,$value); ?></span>

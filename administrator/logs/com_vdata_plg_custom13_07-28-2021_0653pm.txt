@@ -1,0 +1,8 @@
+#Date: 2021-07-28 18:53:56 UTC
+#Software: Joomla Platform 13.1.0 Stable [ Curiosity ] 24-Apr-2013 00:00 GMT
+
+#Fields: datetime	priority clientip	category	message
+2021-07-28T18:53:56+00:00	INFO 127.0.0.1	com_vdata	Import Profile title - Import Hika Image Files
+2021-07-28T18:53:56+00:00	INFO 127.0.0.1	com_vdata	Import Table - #__hikashop_file
+2021-07-28T18:53:56+00:00	INFO 127.0.0.1	com_vdata	Import Format - CSV
+2021-07-28T18:53:58+00:00	INFO 127.0.0.1	com_vdata	Imported Record count - 351

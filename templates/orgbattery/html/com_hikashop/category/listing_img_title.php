@@ -30,9 +30,8 @@ defined('_JEXEC') or die('Restricted access');
 	</a>
 </div>
 <?php } ?>
-<br/>
-<span class="hikashop_category_name">
-	<a href="<?php echo $this->row->link;?>">
+<span class="hikashop_category_name uk-display-block uk-text-center">
+	<a href="<?php echo $this->row->link;?>" class="uk-display-block uk-margin-bottom hoverAccent font f600">
 		<?php
 		echo $this->row->category_name;
 		if($this->params->get('number_of_products',0)){
@@ -45,11 +44,4 @@ defined('_JEXEC') or die('Restricted access');
 if($this->rows[0]->category_id == $this->row->category_id){
 	$mainDivName = $this->params->get('main_div_name');
 ?>
-<style>
-	#<?php echo $mainDivName; ?> .hikashop_category_image{
-		height:<?php echo $this->image->main_thumbnail_y;?>px;
-		text-align:center;
-		clear:both;
-	}
-</style>
 <?php } ?>

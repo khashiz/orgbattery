@@ -17,7 +17,7 @@ $authorised = JFactory::getUser()->getAuthorisedViewLevels();
 
 ?>
 <?php if (!empty($displayData)) : ?>
-	<ul class="tags inline uk-grid-small" data-uk-grid>
+	<ul class="uk-grid-collapse tags inline uk-grid-small" data-uk-grid>
 		<?php foreach ($displayData as $i => $tag) : ?>
 			<?php if (in_array($tag->access, $authorised)) : ?>
 				<?php $tagParams = new Registry($tag->params); ?>

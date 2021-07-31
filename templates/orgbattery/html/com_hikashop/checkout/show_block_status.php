@@ -13,7 +13,7 @@ defined('_JEXEC') or die('Restricted access');
 	<div class="hikashop_checkout_loading_elem"></div>
 	<div class="hikashop_checkout_loading_spinner small_spinner"></div>
     <div>
-        <div class="uk-text-center uk-text-tiny uk-text-bold uk-text-secondary uk-background-muted uk-padding-small uk-border-rounded font">
+        <div class="uk-text-center uk-text-small uk-text-dark uk-background-muted uk-padding-small uk-border-rounded font f500">
 <?php
 	$cart = $this->checkoutHelper->getCart();
 

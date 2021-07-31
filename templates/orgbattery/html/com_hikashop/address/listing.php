@@ -90,7 +90,7 @@ if(!empty($this->two_columns)) {
     <?php if (count($this->addresses) == 0) { ?>
         <div class="uk-text-center">
             <div class="uk-margin-medium-bottom"><img src="<?php echo JURI::base().'images/sprite.svg#map-marked-alt'; ?>" width="128" height="128" alt="<?php echo $sitename; ?>" data-uk-svg></div>
-            <p class="uk-margin-remove uk-text-danger uk-text-small uk-text-bold font"><?php echo JTEXT::_('HIKA_CPANEL_NO_ADDRESSES'); ?></p>
+            <p class="uk-margin-remove uk-text-danger font f500"><?php echo JTEXT::_('HIKA_CPANEL_NO_ADDRESSES'); ?></p>
         </div>
     <?php } ?>
 <?php

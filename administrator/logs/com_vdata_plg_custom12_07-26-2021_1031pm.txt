@@ -1,0 +1,8 @@
+#Date: 2021-07-26 22:31:24 UTC
+#Software: Joomla Platform 13.1.0 Stable [ Curiosity ] 24-Apr-2013 00:00 GMT
+
+#Fields: datetime	priority clientip	category	message
+2021-07-26T22:31:24+00:00	INFO 127.0.0.1	com_vdata	Import Profile title - Import Tags Map
+2021-07-26T22:31:24+00:00	INFO 127.0.0.1	com_vdata	Import Table - #__contentitem_tag_map
+2021-07-26T22:31:24+00:00	INFO 127.0.0.1	com_vdata	Import Format - CSV
+2021-07-26T22:32:59+00:00	INFO 127.0.0.1	com_vdata	Imported Record count - 22863
