@@ -39,8 +39,8 @@ $pageclass = $pageparams->get( 'pageclass_sfx' );
 ?>
 <div class="pageWrapper">
     <div itemscope itemtype="https://schema.org/Blog">
-        <div class="uk-card uk-card-default uk-box-shadow-small uk-border-rounded">
-            <div class="uk-padding">
+        <div>
+            <div>
                 <?php if ($this->params->get('show_category_title', 1) or $this->params->get('page_subheading')) : ?>
                     <h2> <?php echo $this->escape($this->params->get('page_subheading')); ?>
                         <?php if ($this->params->get('show_category_title')) : ?>
@@ -75,10 +75,10 @@ $pageclass = $pageparams->get( 'pageclass_sfx' );
                 <?php endif; ?>
 
                 <?php if (!empty($this->lead_items)) : ?>
-                    <div class="uk-child-width-1-1 uk-grid-divider" data-uk-grid>
+                    <div class="uk-child-width-1-1 uk-grid-small uk-child-width-1-3@m" data-uk-grid data-uk-scrollspy="cls: uk-animation-slide-bottom-small; target: > div; delay: 200;">
                         <?php foreach ($this->lead_items as &$item) : ?>
                             <div class="blogItem uk-text-zero" itemprop="blogPost" itemscope itemtype="https://schema.org/BlogPosting">
-                                <?php $this->item = &$item; echo $this->loadTemplate('item'); ?>
+                                <div class="uk-height-1-1"><?php $this->item = &$item; echo $this->loadTemplate('item'); ?></div>
                             </div>
                         <?php endforeach; ?>
                     </div>
@@ -95,7 +95,7 @@ $pageclass = $pageparams->get( 'pageclass_sfx' );
                 <?php endif; ?>
 
                 <?php if (($this->params->def('show_pagination', 1) == 1 || ($this->params->get('show_pagination') == 2)) && ($this->pagination->get('pages.total') > 1)) : ?>
-                    <div class="pagination uk-margin-medium-top">
+                    <div class="pagination">
                         <?php if ($this->params->def('show_pagination_results', 1)) : ?>
                             <p class="counter pull-right"> <?php echo $this->pagination->getPagesCounter(); ?></p>
                         <?php endif; ?>

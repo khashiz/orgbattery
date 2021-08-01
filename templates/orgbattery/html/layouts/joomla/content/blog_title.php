@@ -18,7 +18,7 @@ JHtml::addIncludePath(JPATH_COMPONENT.'/helpers/html');
 <?php if ($displayData->state == 0 || $params->get('show_title') || ($params->get('show_author') && !empty($displayData->author ))) : ?>
 	<div class="title">
 		<?php if ($params->get('show_title')) : ?>
-			<h2 itemprop="name" class="uk-text-zero uk-margin-remove">
+			<h2 itemprop="name" class="uk-text-small uk-margin-remove font f600 blogListTitle">
 				<?php if ($params->get('link_titles') && ($params->get('access-view') || $params->get('show_noauth', '0') == '1')) : ?>
 					<a class="uk-text-dark hoverAccent font f500 uk-text-small" href="<?php echo JRoute::_(
 						ContentHelperRoute::getArticleRoute($displayData->slug, $displayData->catid, $displayData->language)

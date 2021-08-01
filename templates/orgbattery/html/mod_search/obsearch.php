@@ -27,7 +27,7 @@ else
 ?>
 <div class="uk-flex uk-flex-middle uk-height-1-1 search<?php echo $moduleclass_sfx; ?>">
     <a href="#" class="searchToggler uk-text-gray hoverAccent transition"><img src="<?php echo JURI::base().'images/sprite.svg#search' ?>" width="18" height="18" data-uk-svg></a>
-    <div class="searchDrop" data-uk-drop="mode:click;offset:25;delay-hide:200;animation:uk-animation-slide-bottom-small;duration:200;pos:bottom-left;">
+    <div class="searchDrop headerDrop" data-uk-drop="mode:click;offset:25;delay-hide:200;animation:uk-animation-slide-bottom-small;duration:200;pos:bottom-left;">
         <div class="uk-card uk-card-body uk-card-default uk-padding-remove uk-box-shadow-small">
             <div class="uk-padding-small searchModContainer">
                 <form action="<?php echo JRoute::_('index.php'); ?>" method="post" class="uk-search uk-search-default uk-display-block uk-width-1-1 form-inline" role="search">

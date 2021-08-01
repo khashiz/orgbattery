@@ -37,7 +37,7 @@ if(empty($this->row->prices)) {
 			$price->price_currency_id = hikashop_getCurrency();
 		}
 
-		echo '<span class="hikashop_product_price uk-text-small uk-text-secondary uk-display-block font">';
+		echo '<span class="hikashop_product_price uk-text-small uk-text-dark uk-display-block font f600">';
 
 		if($price_with_tax) {
 			echo $this->currencyHelper->format(@$price->price_value_with_tax,$price->price_currency_id);

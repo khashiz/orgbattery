@@ -49,7 +49,7 @@ $total = count($socialsicons['icon']);
 </head>
 <body class="uk-background-muted <?php echo $view.' '.$layout.' '.$task; ?>">
 <?php if ($pageclass != 'checkout') { ?>
-<header class="uk-position-relative<?php if ($pageclass == 'home') echo ' uk-position-z-index'; ?>" id="header">
+<header class="uk-position-relative<?php // if ($pageclass == 'home') echo ' uk-position-z-index'; ?>" id="header">
     <div class="uk-text-zero uk-visible@m topBar bgPrimary">
         <div class="uk-container">
             <div>
@@ -246,7 +246,7 @@ $total = count($socialsicons['icon']);
                                                             <div>
                                                                 <div class="uk-grid-small contactFields" data-uk-grid>
                                                                     <div class="uk-width-auto uk-text-accent"><img src="<?php echo JURI::base().'images/sprite.svg#map' ?>" width="20" height="20" alt="" data-uk-svg></div>
-                                                                    <div class="uk-width-expand"><span class="uk-text-tiny uk-text-primary value font"><?php echo $params->get('address'); ?></span></div>
+                                                                    <div class="uk-width-expand"><span class="uk-text-small uk-text-dark value font"><?php echo $params->get('address'); ?></span></div>
                                                                 </div>
                                                             </div>
                                                         </div>
@@ -260,7 +260,7 @@ $total = count($socialsicons['icon']);
                                                                             <div>
                                                                                 <div class="uk-grid-small contactFields" data-uk-grid>
                                                                                     <div class="uk-width-auto uk-text-accent"><img src="<?php echo JURI::base().'images/sprite.svg#phone' ?>" width="20" height="20" alt="" data-uk-svg></div>
-                                                                                    <div class="uk-width-expand"><span class="uk-text-small uk-text-primary value font"><?php echo nl2br($params->get('phone')); ?></span></div>
+                                                                                    <div class="uk-width-expand"><span class="uk-text-small uk-text-dark value font"><?php echo nl2br($params->get('phone')); ?></span></div>
                                                                                 </div>
                                                                             </div>
                                                                         </div>
@@ -273,7 +273,7 @@ $total = count($socialsicons['icon']);
                                                                                         <div>
                                                                                             <div class="uk-grid-small contactFields" data-uk-grid>
                                                                                                 <div class="uk-width-auto uk-text-accent"><img src="<?php echo JURI::base().'images/sprite.svg#fax' ?>" width="20" height="20" alt="" data-uk-svg></div>
-                                                                                                <div class="uk-width-expand uk-flex uk-flex-middle"><span class="uk-text-small uk-text-primary value font"><?php echo $params->get('fax'); ?></span></div>
+                                                                                                <div class="uk-width-expand uk-flex uk-flex-middle"><span class="uk-text-small uk-text-dark value font"><?php echo $params->get('fax'); ?></span></div>
                                                                                             </div>
                                                                                         </div>
                                                                                     <?php } ?>
@@ -281,7 +281,7 @@ $total = count($socialsicons['icon']);
                                                                                         <div>
                                                                                             <div class="uk-grid-small contactFields" data-uk-grid>
                                                                                                 <div class="uk-width-auto uk-text-accent"><img src="<?php echo JURI::base().'images/sprite.svg#mobile' ?>" width="20" height="20" alt="" data-uk-svg></div>
-                                                                                                <div class="uk-width-expand uk-flex uk-flex-middle"><span class="uk-text-small uk-text-primary value font"><?php echo $params->get('cellphone'); ?></span></div>
+                                                                                                <div class="uk-width-expand uk-flex uk-flex-middle"><span class="uk-text-small uk-text-dark value font"><?php echo $params->get('cellphone'); ?></span></div>
                                                                                             </div>
                                                                                         </div>
                                                                                     <?php } ?>
@@ -298,7 +298,7 @@ $total = count($socialsicons['icon']);
                                                             <div>
                                                                 <div class="uk-grid-small contactFields" data-uk-grid>
                                                                     <div class="uk-width-auto uk-text-accent"><img src="<?php echo JURI::base().'images/sprite.svg#envelope' ?>" width="20" height="20" alt="" data-uk-svg></div>
-                                                                    <div class="uk-width-expand uk-flex uk-flex-middle"><span class="uk-text-small uk-text-primary value font"><?php echo $params->get('email'); ?></span></div>
+                                                                    <div class="uk-width-expand uk-flex uk-flex-middle"><span class="uk-text-small uk-text-dark value font"><?php echo $params->get('email'); ?></span></div>
                                                                 </div>
                                                             </div>
                                                         </div>
@@ -426,5 +426,17 @@ $total = count($socialsicons['icon']);
         </div>
     </div>
 </div>
+<div class="uk-position-fixed uk-position-top-left uk-width-1-1 uk-height-1-1 pageCover" id="pageCover" data-uk-toggle="animation: uk-animation-fade" hidden></div>
+
+<script type="text/javascript">
+    jQuery(document).ready(function () {
+        UIkit.util.on('.headerDrop', 'show', function () {
+            UIkit.toggle('#pageCover').toggle();
+        });
+        UIkit.util.on('.headerDrop', 'hidden', function () {
+            UIkit.toggle('#pageCover').toggle();
+        });
+    });
+</script>
 </body>
 </html>

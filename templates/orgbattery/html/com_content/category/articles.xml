@@ -37,15 +37,6 @@
 
 	<!-- Add fields to the parameters object for the layout. -->
 	<fields name="params">
-		<fieldset name="pageparams" label="TPL_HOSTIRAN_PAGEPARAMS">
-			<field name="gridwidth" type="list" label="TPL_HOSTIRAN_GRIDWIDTH" default="normal">
-				<option value="uk-container uk-container-xsmall">TPL_HOSTIRAN_XSMALL</option>
-				<option value="uk-container uk-container-small">TPL_HOSTIRAN_SMALL</option>
-				<option value="uk-container">TPL_HOSTIRAN_NORMAL</option>
-				<option value="uk-container uk-container-large">TPL_HOSTIRAN_LARGE</option>
-				<option value="uk-container uk-container-expand">TPL_HOSTIRAN_EXPAND</option>
-			</field>
-		</fieldset>
 		<fieldset name="basic" label="JGLOBAL_CATEGORY_OPTIONS">
 				<field
 					name="layout_type"

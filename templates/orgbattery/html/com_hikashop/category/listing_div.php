@@ -199,7 +199,7 @@ if(!empty($this->rows)) {
 ?>
 			<div class="hikashop_category hikashop_category_column_<?php echo $current_column; ?> hikashop_category_row_<?php echo $current_row.$class; ?>">
 				<div class="hikashop_container uk-margin-remove">
-					<div class="uk-border-rounded uk-overflow-hidden uk-box-shadow-small uk-position-relative hikashop_subcontainer <?php echo $borderClass; ?>">
+					<div class="uk-border-rounded uk-overflow-hidden uk-box-shadow-small uk-box-shadow-hover-medium uk-position-relative hikashop_subcontainer <?php echo $borderClass; ?>">
 <?php
 			$this->row =& $row;
 			echo $this->loadTemplate($this->params->get('div_item_layout_type'));

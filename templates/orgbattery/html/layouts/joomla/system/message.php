@@ -16,7 +16,7 @@ $msgList = $displayData['msgList'];
 	<?php if (is_array($msgList) && !empty($msgList)) : ?>
 		<div id="system-message">
 			<?php foreach ($msgList as $type => $msgs) : ?>
-				<div class="uk-alert uk-alert-<?php echo $type; ?> uk-text-center uk-margin-remove uk-text-tiny font alert alert-<?php echo $type; ?>">
+				<div class="uk-alert uk-alert-<?php echo $type; ?> uk-text-center uk-margin-remove font alert alert-<?php echo $type; ?>">
 					<?php // This requires JS so we should add it through JS. Progressive enhancement and stuff. ?>
 					<?php if (!empty($msgs)) : ?>
 						<div>

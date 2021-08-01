@@ -173,7 +173,7 @@ class CartController extends hikashopController {
 			} else {
 				$app->setUserState('com_hikashop.cart_empty_redirect', time());
 			}
-			$this->setRedirect($checkoutHelper->getRedirectUrl($override), JText::_('CART_EMPTY').JText::_('SEETHISDISCOUNTS'));
+			$this->setRedirect($checkoutHelper->getRedirectUrl($override), JText::_('CART_EMPTY'));
 			return true;
 		}
 

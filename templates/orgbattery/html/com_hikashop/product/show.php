@@ -142,7 +142,6 @@ if($this->productlayout != 'show_tabular') {
                     <input type="hidden" name="task" value="show"/>
                     <input type="hidden" name="return_url" value="<?php echo urlencode(base64_encode(urldecode($this->redirect_url))); ?>"/>
                 </form>
-                <hr class="uk-divider-icon uk-margin-medium-top uk-margin-medium-bottom">
             </div>
             <?php if (!empty($this->element->files)) { ?>
                 <?php $this->setLayout('show_block_product_files'); echo $this->loadTemplate(); ?>

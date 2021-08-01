@@ -12,7 +12,7 @@ defined('_JEXEC') or die;
 <ul class="uk-list uk-list-divider uk-margin-remove uk-padding-small uk-text-zero">
 <?php foreach ($list as $item) : ?>
 	<li itemscope itemtype="https://schema.org/Article">
-		<a href="<?php echo $item->link; ?>" itemprop="url" class="uk-display-block font f500 uk-text-tiny uk-text-dark hoverAccent">
+		<a href="<?php echo $item->link; ?>" itemprop="url" class="uk-display-block font f500 uk-text-small uk-text-dark hoverAccent">
 			<span itemprop="name">
 				<?php echo $item->title; ?>
 			</span>

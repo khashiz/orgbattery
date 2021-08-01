@@ -115,6 +115,7 @@ a{
   }
 }
 header{
+  z-index: 9998;
   nav{
     > ul{
       >li{
@@ -639,9 +640,6 @@ div{
   }
   &.shareDrop{
     width: 267px;
-    span{
-      font-variation-settings: "wght" 600, "wdth" 100, "slnt" 0, "DOTR" 1, "DOTS" 0, "KASH" 0;
-    }
     ul{
       li{
         a{}
@@ -660,6 +658,7 @@ div{
     h2{
       padding: 200px 40px 0;
       font-weight: 800;
+      text-shadow: 1px 1px 0 rgba(255, 255, 255, 1);
       @media (max-width:959px){
         font-size: 24px;
       }
@@ -716,6 +715,43 @@ div{
   }
   &.productStickyTabs{
     z-index: 981;
+  }
+  &.pageCover{
+    background-color: rgba(0, 0, 0, .3);
+    z-index: 9997;
+  }
+  &.pagination{
+    ul{
+      li{
+        a,span{
+          width: 40px;
+          height: 40px;
+          line-height: 41px;
+          font-weight: 600;
+          border: 0;
+        }
+        span{
+          background-color: @accent !important;
+          color: #fff;
+          font-weight: 700;
+        }
+        a{}
+      }
+    }
+  }
+  &.miniCartModule{
+    &.hikashop_checkout_loading{
+      position: relative;
+      div{
+        &.hikashop_checkout_loading_spinner{
+          background-size: 100%;
+          background-color: #fff;
+        }
+      }
+      .cartIndicator{
+        display: none;
+      }
+    }
   }
   //TGJU Table
   &#tgju{
@@ -876,8 +912,7 @@ span{
   }
   div{
     text-align: center;
-    font-variation-settings: "wght" 500, "wdth" 100, "slnt" 0, "DOTR" 1, "DOTS" 0, "KASH" 0;
-    font-size: 12px;
+    font-weight: 500;
     .font;
   }
   &.alert-danger{
@@ -1215,6 +1250,7 @@ span{
   }
 }
 .uk-tooltip{
+  z-index: 9999;
   font-size: 0;
   .border-radius(3px);
   > *{
@@ -1235,6 +1271,10 @@ span{
 }
 .uk-text-tiny{
   font-size: 12px;
+}
+.blogListTitle{
+  color: inherit !important;
+  .transition(.2s);
 }
 .uk-text-white{color: white;}
 .uk-text-primary{color: @primary !important;}
@@ -1280,6 +1320,7 @@ span{
 
 div{
   &.uk-offcanvas{
+    z-index: 9999;
     &:before{
       background-color: rgba(0, 0, 0, .5);
     }
@@ -1307,8 +1348,8 @@ div{
           &.uk-nav{
             >li{
               > a{
-                font-variation-settings: "wght" 500, "wdth" 100, "slnt" 0, "DOTR" 1, "DOTS" 0, "KASH" 0;
                 font-size: 16px;
+                font-weight: 700;
                 padding: 15px 0;
                 color: @primary;
                 .font;
@@ -1316,8 +1357,8 @@ div{
               ul{
                 >li{
                   >a{
-                    font-variation-settings: "wght" 500, "wdth" 100, "slnt" 0, "DOTR" 1, "DOTS" 0, "KASH" 0;
                     font-size: 14px;
+                    font-weight: 500;
                     display: block;
                     padding: 0 15px 20px 0;
                     color: @secondary;

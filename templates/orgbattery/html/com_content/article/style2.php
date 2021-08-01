@@ -108,7 +108,7 @@ endforeach;
 
     <div class="uk-padding">
         <section>
-            <div itemprop="articleBody" class="uk-text-justify uk-text-secondary uk-text-small font f500"><?php echo $this->item->text; ?></div>
+            <div itemprop="articleBody" class="uk-text-justify uk-text-dark font f500"><?php echo $this->item->text; ?></div>
         </section>
     </div>
 

@@ -25,8 +25,8 @@ defined('_JEXEC') or die('Restricted access');
                         <?php /* ?>
                         <span class="uk-text-tiny f500 uk-text-muted uk-text-uppercase uk-display-block uk-margin-small-bottom font"><?php echo JText::sprintf('PRODUCT_CODE', $this->element->product_code); ?></span>
                         <?php */ ?>
-                        <h1 class="uk-margin-remove-top uk-h4 uk-text-bold">
-                            <span id="hikashop_product_name_main" class="hikashop_product_name_main uk-display-block uk-text-dark font" itemprop="name">
+                        <h1 class="uk-margin-remove-top uk-h4">
+                            <span id="hikashop_product_name_main" class="hikashop_product_name_main uk-display-block uk-text-primary font f700" itemprop="name">
                                 <?php
                                 if(hikashop_getCID('product_id') != $this->element->product_id && isset($this->element->main->product_name))
                                     echo $this->element->main->product_name;
@@ -72,7 +72,7 @@ defined('_JEXEC') or die('Restricted access');
             <div id="productDescription">
                 <div id="hikashop_product_bottom_part" class="uk-margin-medium-top">
                     <?php if(!empty($this->element->extraData->bottomBegin)) { echo implode("\r\n",$this->element->extraData->bottomBegin); } ?>
-                    <div id="hikashop_product_description_main" class="uk-text-justify font" itemprop="description">
+                    <div id="hikashop_product_description_main" class="uk-text-justify uk-text-dark font" itemprop="description">
                         <?php echo JHTML::_('content.prepare',preg_replace('#<hr *id="system-readmore" */>#i','',$this->element->product_description)); ?>
                     </div>
                     <span id="hikashop_product_url_main" class="hikashop_product_url_main">

@@ -157,7 +157,7 @@ endforeach;
                                                     <div class="uk-height-1-1 uk-flex uk-flex-middle">
                                                         <div>
                                                             <h3 class="uk-text-accent uk-h4 f600 font"><?php echo $section[1]; ?></h3>
-                                                            <div class="uk-text-justify uk-text-secondary uk-text-small font f500"><?php echo $section[2]; ?></div>
+                                                            <div class="uk-text-justify uk-text-dark font f500"><?php echo $section[2]; ?></div>
                                                         </div>
                                                     </div>
                                                 </div>
@@ -166,7 +166,7 @@ endforeach;
                                                     <div class="uk-height-1-1 uk-flex uk-flex-middle">
                                                         <div>
                                                             <h3 class="uk-text-accent uk-h4 f600 font"><?php echo $section[1]; ?></h3>
-                                                            <div class="uk-text-justify uk-text-secondary uk-text-small font f500"><?php echo $section[2]; ?></div>
+                                                            <div class="uk-text-justify uk-text-dark font f500"><?php echo $section[2]; ?></div>
                                                         </div>
                                                     </div>
                                                 </div>
