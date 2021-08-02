@@ -410,17 +410,16 @@ div{
     p{
       .font;
       &:nth-child(1){
-        font-size: 32px;
-        font-variation-settings: "wght" 600, "wdth" 100, "slnt" 0, "DOTR" 1, "DOTS" 0, "KASH" 30;
+        font-size: 64px;
+        font-weight: 800;
         color: @success;
         margin-bottom: 10px;
       }
       &:nth-child(2),
       &:nth-child(3){
-        font-size: 14px;
-        font-variation-settings: "wght" 500, "wdth" 100, "slnt" 0, "DOTR" 1, "DOTS" 0, "KASH" 0;
         color: @dark;
         margin: 0;
+        font-weight: 500;
         @media (max-width:959px){
           font-size: 14px;
         }

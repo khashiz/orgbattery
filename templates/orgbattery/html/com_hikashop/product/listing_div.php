@@ -185,7 +185,7 @@ window.localPage.setCookie = function (name,value,delay) {
 ?>
 		<div class="gridItem hikashop_product_column_<?php echo $current_column; ?> hikashop_product_row_<?php echo $current_row; ?>" itemprop="itemList" itemscope="" itemtype="http://schema.org/ItemList">
 			<div class="gridItemWrapper uk-height-1-1">
-				<div class="uk-padding-small hikashop_subcontainer <?php echo $this->borderClass; ?>">
+				<div class="uk-padding-small uk-position-relative hikashop_subcontainer <?php echo $this->borderClass; ?>">
 <?php
 			$this->quantityLayout = $this->getProductQuantityLayout($row);
 			$this->row =& $row;

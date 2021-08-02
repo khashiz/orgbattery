@@ -38,20 +38,22 @@ foreach ($this->fields as $fieldName => $oneExtraField) {
 $specifFields = ob_get_clean();
 if($displayTitle){
 ?>
-<hr>
-<div id="hikashop_product_custom_info_main" class="hikashop_product_custom_info_main uk-margin-medium-bottom">
-    <div class="uk-child-width-1-2 uk-grid-small uk-grid-divide" data-uk-grid>
-        <div>
-            <div class="hikashop_product_custom_<?php echo $oneExtraField->field_namekey;?>_line uk-grid-collapse" data-uk-grid>
-                <div class="uk-width-auto uk-text-muted font f500">
-                    <span><?php echo JText::sprintf('BRAND'); ?> :</span>
-                </div>
-                <div class="uk-width-expand uk-text-dark font f600 hikashop_cart_total_value">
-                    <span>&ensp;<?php echo $this->categories[$this->element->category_id]->category_name; ?></span>
+<div id="hikashop_product_custom_info_main" class="hikashop_product_custom_info_main uk-margin-top">
+    <div class="uk-card uk-card-default uk-border-rounded uk-box-shadow-small uk-padding-small">
+        <h3 class="uk-text-accent uk-margin-small-bottom uk-text-small f600 font"><?php echo JText::sprintf('TECHNICALNFO'); ?> :</h3>
+        <div class="uk-child-width-1-2 uk-grid-small uk-grid-divide" data-uk-grid>
+            <div>
+                <div class="hikashop_product_custom_<?php echo $oneExtraField->field_namekey;?>_line uk-grid-collapse" data-uk-grid>
+                    <div class="uk-width-auto uk-text-small uk-text-muted font f500">
+                        <span><?php echo JText::sprintf('BRAND'); ?> :</span>
+                    </div>
+                    <div class="uk-width-expand uk-text-small uk-text-dark font f600 hikashop_cart_total_value">
+                        <span>&ensp;<?php echo $this->categories[$this->element->category_id]->category_name; ?></span>
+                    </div>
                 </div>
             </div>
+            <?php echo $specifFields; ?>
         </div>
-        <?php echo $specifFields; ?>
     </div>
 </div>
 <?php } ?>

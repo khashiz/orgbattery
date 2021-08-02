@@ -16,13 +16,12 @@ defined('_JEXEC') or die('Restricted access');
                     <div class="uk-text-center uk-margin-medium-bottom">
                         <img src="<?php echo JURI::base().'images/sprite.svg#box-check'; ?>" width="128" height="128" data-uk-svg>
                     </div>
-                    <div class="uk-text-center uk-text-zero thankYou">
+                    <div class="uk-text-center thankYou">
                         <p><?php echo JText::sprintf('THANK_YOU_FOR_PURCHASE');?></p>
-                        <p><?php echo JText::sprintf('ORDER_IS_COMPLETE'); ?></p>
+                        <p><?php echo JText::sprintf('ORDER_IS_COMPLETE', $this->order_number); ?></p>
                         <p><?php echo JText::sprintf('PLEASE_TRANSFERT_MONEY',$this->amount); ?></p>
                     </div>
                     <?php echo $this->information; ?>
-                    <?php echo JText::sprintf('INCLUDE_ORDER_NUMBER_TO_TRANSFER',$this->order_number); ?>
                 </span>
             </div>
         </div>
@@ -33,3 +32,5 @@ if(!empty($this->return_url)) {
 	$doc = JFactory::getDocument();
 	$doc->addScriptDeclaration("window.hikashop.ready(function(){window.location='".$this->return_url."'});");
 }
+
+

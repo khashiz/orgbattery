@@ -14,7 +14,7 @@ $total = count($slides['media']);
 ?>
 <?php if ($total > 0) { ?>
     <section class="<?php echo $moduleclass_sfx; ?>">
-        <div class="uk-position-relative uk-visible-toggle uk-light" data-uk-slideshow="ratio: 1950:350;">
+        <div class="uk-position-relative uk-visible-toggle uk-light" data-uk-slideshow="ratio: 4:1;">
             <ul class="uk-slideshow-items">
                 <?php for ($i=0;$i<$total;$i++) { ?>
                     <?php if (!empty($slides['media'][$i]) || !empty($slides['video'][$i])) { ?>

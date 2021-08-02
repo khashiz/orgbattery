@@ -90,7 +90,7 @@ if(!empty($show_msrp)) {
 
 			$classes = array('uk-display-block hikashop_product_price hikashop_product_price_'.$i);
 			if(!empty($this->row->discount)) {
-				$classes[]='hikashop_product_price_with_discount uk-text-success uk-text-bold';
+				$classes[]='hikashop_product_price_with_discount uk-text-secondary uk-text-bold';
 			}
 
 			if(!empty($this->row->discount)) {
@@ -104,7 +104,7 @@ if(!empty($show_msrp)) {
 					echo JText::_('PRICE_DISCOUNT_END').'</span></div>';
 				}
 				if(in_array($this->params->get('show_discount'), array(2, 4))) {
-					echo '<span class="hikashop_product_price_before_discount uk-text-small uk-text-linethrough">'.JText::_('PRICE_DISCOUNT_START');
+					echo '<span class="hikashop_product_price_before_discount uk-text-small uk-text-linethrough uk-text-muted">'.JText::_('PRICE_DISCOUNT_START');
 					if($this->params->get('price_with_tax')){
 						echo $this->currencyHelper->format($price->price_value_without_discount_with_tax, $price->price_currency_id);
 					}
