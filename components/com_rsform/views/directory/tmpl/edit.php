@@ -10,6 +10,8 @@ defined('_JEXEC') or die('Restricted access');
 $showDescriptions = $this->params->get('show_descriptions', 0);
 
 JHtml::_('behavior.keepalive');
+JHtml::_('script', 'com_rsform/script.js', array('relative' => true, 'version' => 'auto'));
+JHtml::_('stylesheet', 'com_rsform/front.css', array('relative' => true, 'version' => 'auto'));
 ?>
 
 <script type="text/javascript">
@@ -62,7 +64,7 @@ function directorySave(task) {
 	<div class="form-actions">
 		<button type="button" onclick="directorySave('apply');" class="btn btn-primary button"><?php echo JText::_('RSFP_SUBM_DIR_APPLY'); ?></button> 
 		<button type="button" onclick="directorySave('save');" class="btn btn-primary button"><?php echo JText::_('RSFP_SUBM_DIR_SAVE'); ?></button> 
-		<button type="button" onclick="directorySave('back')" class="btn button"><?php echo JText::_('RSFP_SUBM_DIR_BACK'); ?></button>
+		<button type="button" onclick="directorySave('back')" class="btn btn-secondary"><?php echo JText::_('RSFP_SUBM_DIR_BACK'); ?></button>
 	</div>
 	
 	<input type="hidden" name="option" value="com_rsform">

@@ -22,7 +22,7 @@ class TableRSForm_Directory extends JTable
 		parent::__construct('#__rsform_directory', 'formId', $db);
 	}
 
-	public function store($updateNulls = false)
+	public function hasPrimaryKey()
 	{
 		$db 	= JFactory::getDbo();
 		$key 	= $this->getKeyName();
@@ -33,15 +33,6 @@ class TableRSForm_Directory extends JTable
 			->from($db->qn($table))
 			->where($db->qn($key) . ' = ' . $db->q($this->{$key}));
 
-		if (!$db->setQuery($query)->loadResult())
-		{
-			$object = (object) array(
-				$key => $this->{$key}
-			);
-
-			$db->insertObject($table, $object);
-		}
-
-		return parent::store($updateNulls);
+		return $db->setQuery($query)->loadResult() !== null;
 	}
 }

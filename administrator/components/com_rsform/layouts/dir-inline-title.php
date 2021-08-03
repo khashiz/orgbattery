@@ -28,7 +28,7 @@ foreach ($fields as $field) {
 			}
 		}
 
-		$mainframe->triggerEvent('rsfp_b_onManageDirectoriesAfterCreatedPlaceholders', array($field, & $placeholders));
+		$mainframe->triggerEvent('onRsformBackendManageDirectoriesAfterCreatedPlaceholders', array($field, & $placeholders));
 		
 		if ($i == 0) {
 			if ($hideEmptyValues)

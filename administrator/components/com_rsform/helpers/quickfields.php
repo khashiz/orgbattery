@@ -94,7 +94,7 @@ class RSFormProQuickFields
 								}
 							}
 
-							$mainframe->triggerEvent('rsfp_onAfterCreateQuickAddPlaceholders', array(&$componentPlaceholders, $component->ComponentTypeId));
+							$mainframe->triggerEvent('onRsformAfterCreateQuickAddPlaceholders', array(&$componentPlaceholders, $component->ComponentTypeId));
 
 							$all[] = $componentPlaceholders;
 

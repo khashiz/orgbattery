@@ -72,7 +72,6 @@ class RSFormProCaptcha
 
     public function getFonts()
 	{
-		jimport('joomla.filesystem.folder');
 		return JFolder::files($this->fontpath, '\.ttf');
 	}
 	
@@ -121,7 +120,7 @@ class RSFormProCaptcha
 						$imageheight/100*80,
 						$stringcolor,
 						$this->getRandomFont(),
-						$this->CaptchaString{$i});
+						$this->CaptchaString[$i]);
 			}
 		
 		if ($this->data['IMAGETYPE'] == 'NOFREETYPE')

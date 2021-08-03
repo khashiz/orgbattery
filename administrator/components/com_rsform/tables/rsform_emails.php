@@ -7,7 +7,7 @@
 
 defined('_JEXEC') or die('Restricted access');
 
-class TableRSForm_Emails extends JTable
+class TableRsform_Emails extends JTable
 {
 	/**
 	 * Primary Key
@@ -15,18 +15,18 @@ class TableRSForm_Emails extends JTable
 	 * @var int
 	 */
 	
-	public $id = null;
-	public $formId = null;
-	public $from = null;
-	public $fromname = null;
-	public $replyto = null;
-	public $replytoname = null;
-	public $to = null;
-	public $cc = null;
-	public $bcc = null;
-	public $subject = null;
+	public $id;
+	public $formId;
+	public $from = '';
+	public $fromname = '';
+	public $replyto = '';
+	public $replytoname = '';
+	public $to = '';
+	public $cc = '';
+	public $bcc = '';
+	public $subject = '';
 	public $mode = 1;
-	public $message = null;
+	public $message = '';
 		
 	/**
 	 * Constructor

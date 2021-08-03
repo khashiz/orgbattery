@@ -26,7 +26,7 @@ class RsformController extends JControllerLegacy
 
 	public function plugin()
 	{
-		JFactory::getApplication()->triggerEvent('rsfp_f_onSwitchTasks');
+		JFactory::getApplication()->triggerEvent('onRsformFrontendSwitchTasks');
 	}
 	
 	/* deprecated */
@@ -68,7 +68,7 @@ class RsformController extends JControllerLegacy
 			$db->setQuery($query);
 			$type = $db->loadResult();
 
-			$app->triggerEvent('rsfp_onSubmissionsViewFile', array(&$allowedTypes, &$result));
+			$app->triggerEvent('onRsformSubmissionsViewFile', array(&$allowedTypes, &$result));
 
 			if (!in_array($type, $allowedTypes))
 			{
@@ -172,7 +172,7 @@ class RsformController extends JControllerLegacy
 		$invalid = RSFormProHelper::validateForm($formId);
 		
 		//Trigger Event - onBeforeFormValidation
-		$app->triggerEvent('rsfp_f_onBeforeFormValidation', array(array('invalid'=>&$invalid, 'formId' => $formId, 'post' => &$post)));
+		$app->triggerEvent('onRsformFrontendBeforeFormValidation', array(array('invalid'=>&$invalid, 'formId' => $formId, 'post' => &$post)));
 
 		$_POST['form'] = $post;
 
@@ -364,7 +364,7 @@ class RsformController extends JControllerLegacy
 				$db->setQuery($query);
 				$db->execute();
 				
-				$app->triggerEvent('rsfp_f_onSubmissionConfirmation', array(array('SubmissionId' => $SubmissionId, 'hash' => $hash)));
+				$app->triggerEvent('onRsformFrontendSubmissionConfirmation', array(array('SubmissionId' => $SubmissionId, 'hash' => $hash)));
 				$app->enqueueMessage(JText::_('RSFP_SUBMISSION_CONFIRMED'), 'notice');
 
 				$form = RSFormProHelper::getForm($formId);
@@ -403,7 +403,7 @@ class RsformController extends JControllerLegacy
 
                 RSFormProSubmissionsHelper::deleteSubmissions($submission->SubmissionId, true);
 
-                $app->triggerEvent('rsfp_f_onSubmissionDeletion', array(array('SubmissionId' => $submission->SubmissionId, 'hash' => $hash)));
+                $app->triggerEvent('onRsformFrontendSubmissionDeletion', array(array('SubmissionId' => $submission->SubmissionId, 'hash' => $hash)));
                 $app->enqueueMessage(JText::_('COM_RSFORM_SUBMISSION_DELETED'));
             }
             else
@@ -421,8 +421,6 @@ class RsformController extends JControllerLegacy
 	{
 		$app	= JFactory::getApplication();
 		$vName	= $app->input->getCmd('view', '');
-		
-		jimport('joomla.filesystem.folder');
 		
 		$allowed = JFolder::folders(JPATH_COMPONENT.'/views');
 		

@@ -5,29 +5,26 @@
 * @license GPL, http://www.gnu.org/copyleft/gpl.html
 */
 
-defined('_JEXEC') or die('Restricted access'); ?>
-
+defined('_JEXEC') or die('Restricted access');
+?>
 <fieldset>
 	<?php foreach (array('dir-inline', 'dir-2lines', 'dir-inline-title', 'dir-2lines-title', 'dir-2cols') as $layout) { ?>
 	<div class="rsform_layout_box">
 		<label for="formLayout<?php echo ucfirst($layout); ?>" class="radio">
-			<input type="radio" id="formLayout<?php echo ucfirst($layout); ?>" name="jform[ViewLayoutName]" value="<?php echo $layout; ?>" onclick="saveDirectoryLayoutName('<?php echo $this->formId; ?>', this.value);" <?php if ($this->directory->ViewLayoutName == $layout) { ?>checked="checked"<?php } ?> /> <?php echo JText::_('RSFP_LAYOUT_'.str_replace('-', '_', $layout));?><br/>
+			<input type="radio" id="formLayout<?php echo ucfirst($layout); ?>" name="jform[ViewLayoutName]" value="<?php echo $layout; ?>" onclick="saveDirectoryLayoutName(this.value);" <?php if ($this->directory->ViewLayoutName == $layout) { ?>checked="checked"<?php } ?> /> <?php echo JText::_('RSFP_LAYOUT_'.str_replace('-', '_', $layout));?>
 		</label>
-		<?php echo JHtml::image('com_rsform/admin/layouts/' . $layout . '.gif', JText::_('RSFP_LAYOUT_'.str_replace('-', '_', $layout)), 'width="175"', true); ?>
+		<?php echo JHtml::_('image', 'com_rsform/admin/layouts/' . $layout . '.gif', JText::_('RSFP_LAYOUT_'.str_replace('-', '_', $layout)), array(), true); ?>
 	</div>
 	<?php } ?>
-	<span class="rsform_clear_both"></span>
 </fieldset>
 
-<fieldset>
-	<h3 class="rsfp-legend"><?php echo JText::_('RSFP_SUBM_DIR_DETAILS_LAYOUT'); ?></h3>
-	<table border="0">
-		<tr>
-			<td><button class="pull-left btn btn-warning" type="button" onclick="generateDirectoryLayout('<?php echo $this->formId; ?>');"><?php echo JText::_('RSFP_GENERATE_LAYOUT'); ?></button></td>
-			<td><?php echo JText::_('RSFP_AUTOGENERATE_LAYOUT');?></td>
-			<td><?php echo $this->lists['ViewLayoutAutogenerate']; ?></td>
-		</tr>
-	</table>
+<fieldset class="form-horizontal">
+	<legend class="rsfp-legend"><?php echo JText::_('RSFP_SUBM_DIR_DETAILS_LAYOUT'); ?></legend>
+	<?php echo $this->form->renderFieldset('layout'); ?>
+
+	<p>
+		<button class="btn btn-warning" type="button" onclick="generateDirectoryLayout(true);"><?php echo JText::_('RSFP_GENERATE_LAYOUT'); ?></button>
+	</p>
 	<table width="100%">
 		<tr>
 			<td valign="top">
@@ -40,15 +37,17 @@ defined('_JEXEC') or die('Restricted access'); ?>
 				</table>
 			</td>
 			<td valign="top" width="1%" nowrap="nowrap">
-				<button class="btn" type="button" onclick="toggleQuickAddDirectory();"><?php echo JText::_('RSFP_TOGGLE_QUICKADD'); ?></button>
-				<span class="rsform_clear_both"></span>
-				<div id="QuickAdd1">
+				<button class="btn btn-secondary" type="button" onclick="toggleQuickAdd();"><?php echo JText::_('RSFP_TOGGLE_QUICKADD'); ?></button>
+				<div class="QuickAdd">
 					<h3><?php echo JText::_('RSFP_QUICK_ADD');?></h3>
-
-					<?php echo RSFormProHelper::generateQuickAddGlobal(); ?>
-					<?php foreach($this->quickfields as $field) {
+					<?php
+					echo RSFormProHelper::generateQuickAddGlobal();
+					
+					foreach ($this->quickfields as $field)
+					{
 						echo RSFormProHelper::generateQuickAdd($field, 'display');
-					}?>
+					}
+					?>
 				</div>
 			</td>
 		</tr>

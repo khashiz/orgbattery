@@ -79,12 +79,12 @@ class RSFormProRangeSlider
 			return;
 		}
 
-		JHtml::_('jquery.framework', true);
+		RSFormProAssets::addJquery();
 
-		RSFormProAssets::addScript(JHtml::script('com_rsform/rangeslider/ion.rangeSlider.js', array('pathOnly' => true, 'relative' => true)));
-		RSFormProAssets::addScript(JHtml::script('com_rsform/rangeslider/script.js', array('pathOnly' => true, 'relative' => true)));
-		RSFormProAssets::addStyleSheet(JHtml::stylesheet('com_rsform/rangeslider/ion.rangeSlider.css', array('pathOnly' => true, 'relative' => true)));
-		RSFormProAssets::addStyleSheet(JHtml::stylesheet('com_rsform/rangeslider/ion.rangeSlider.skin.css', array('pathOnly' => true, 'relative' => true)));
+		RSFormProAssets::addScript(JHtml::_('script', 'com_rsform/rangeslider/ion.rangeSlider.js', array('pathOnly' => true, 'relative' => true)));
+		RSFormProAssets::addScript(JHtml::_('script', 'com_rsform/rangeslider/script.js', array('pathOnly' => true, 'relative' => true)));
+		RSFormProAssets::addStyleSheet(JHtml::_('stylesheet', 'com_rsform/rangeslider/ion.rangeSlider.css', array('pathOnly' => true, 'relative' => true)));
+		RSFormProAssets::addStyleSheet(JHtml::_('stylesheet', 'com_rsform/rangeslider/ion.rangeSlider.skin.css', array('pathOnly' => true, 'relative' => true)));
 
 		$done = true;
 	}

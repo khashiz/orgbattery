@@ -8,46 +8,56 @@
 // no direct access
 defined('_JEXEC') or die('Restricted access');
 
-class plgSystemRSFPRegistrationInstallerScript
+class plgSystemRsfpregistrationInstallerScript
 {
-	public function preflight($type, $parent) {
-		if ($type == 'uninstall') {
+	protected static $minJoomla = '3.7.0';
+	protected static $minComponent = '3.0.0';
+
+	public function preflight($type, $parent)
+	{
+		if ($type == 'uninstall')
+		{
 			return true;
 		}
-		
-		$app = JFactory::getApplication();
-		
-		$jversion = new JVersion();
-		if (!$jversion->isCompatible('3.7.0')) {
-			$app->enqueueMessage('Please upgrade to at least Joomla! 3.7.0 before continuing!', 'error');
-			return false;
-		}
-		
-		if (!file_exists(JPATH_ADMINISTRATOR.'/components/com_rsform/helpers/rsform.php')) {
-			$app->enqueueMessage('Please install the RSForm! Pro component before continuing.', 'error');
-			return false;
-		}
-		
-		if (!file_exists(JPATH_ADMINISTRATOR.'/components/com_rsform/helpers/assets.php')) {
-			$app->enqueueMessage('Please upgrade RSForm! Pro to at least version 1.51.0 before continuing!', 'error');
-			return false;
-		}
-		
-		require_once JPATH_ADMINISTRATOR.'/components/com_rsform/helpers/version.php';
-		$version = new RSFormProVersion();
-		
-		if (!isset($version->version)) {
-			$app->enqueueMessage('Please upgrade RSForm! Pro to the latest version before continuing!', 'error');
-			return false;
-		}
-		
-		if (version_compare((string) $version->version, '1.50.12', '<')) {
-			$app->enqueueMessage('You are using version '.(string) $version.'. Please upgrade RSForm! Pro to a newer version than 1.50.11 before continuing!', 'error');
-			return false;
-		}
 
-		$db			= JFactory::getDbo();
-		try {
+		try
+		{
+			$source = $parent->getParent()->getPath('source');
+
+			$jversion = new JVersion();
+			if (!$jversion->isCompatible(static::$minJoomla))
+			{
+				throw new Exception(sprintf('Please upgrade to at least Joomla! %s before continuing!', static::$minJoomla));
+			}
+
+			if (!file_exists(JPATH_ADMINISTRATOR.'/components/com_rsform/helpers/rsform.php'))
+			{
+				throw new Exception('Please install the RSForm! Pro component before continuing.');
+			}
+
+			if (!file_exists(JPATH_ADMINISTRATOR.'/components/com_rsform/helpers/assets.php') || !file_exists(JPATH_ADMINISTRATOR.'/components/com_rsform/helpers/version.php'))
+			{
+				throw new Exception(sprintf('Please upgrade RSForm! Pro to at least version %s before continuing!', static::$minComponent));
+			}
+
+			// Check version matches
+			require_once JPATH_ADMINISTRATOR.'/components/com_rsform/helpers/version.php';
+
+			if (!class_exists('RSFormProVersion') || version_compare((string) new RSFormProVersion, static::$minComponent, '<'))
+			{
+				throw new Exception(sprintf('Please upgrade RSForm! Pro to at least version %s before continuing!', static::$minComponent));
+			}
+		}
+		catch (Exception $e)
+		{
+			JFactory::getApplication()->enqueueMessage($e->getMessage(), 'error');
+
+			return false;
+		}
+		
+		$db	= JFactory::getDbo();
+		try
+		{
 			$columns = $db->getTableColumns('#__rsform_registration');
 			
 			if (!empty($columns)) {
@@ -91,7 +101,7 @@ class plgSystemRSFPRegistrationInstallerScript
 		} catch (Exception $e) {
 			// Table does not exist, it will get created afterwards
 		}
-		
+
 		return true;
 	}
 	
@@ -146,15 +156,12 @@ class plgSystemRSFPRegistrationInstallerScript
 		}
 	}
 	
-	public function postflight($type, $parent)
-	{
-		if ($type == 'uninstall')
-		{
+	public function postflight($type, $parent) {
+		if ($type == 'uninstall') {
 			return true;
 		}
 		
-		if ($type == 'install')
-		{
+		if ($type == 'install') {
 			// Enable plugin
 			$db  = JFactory::getDbo();
 			$query = $db->getQuery(true);
@@ -206,13 +213,13 @@ class plgSystemRSFPRegistrationInstallerScript
 		}
 		</style>
 
-		<h3>RSForm! Pro Joomla! User Registration Plugin v2.0.6 Changelog</h3>
+		<h3>RSForm! Pro Joomla! User Registration Plugin v3.0.0 Changelog</h3>
 		<ul class="version-history">
-			<li><span class="version-fixed">Fix</span> 'File Upload' fields were not mapped to Joomla! User Fields.</li>
+			<li><span class="version-upgraded">Upg</span> Joomla! 4.0 and RSForm! Pro 3.0 compatibility.</li>
 		</ul>
 		<a class="btn btn-primary btn-large" href="<?php echo JRoute::_('index.php?option=com_rsform&view=forms'); ?>">Manage Forms</a>
-		<a class="btn" href="https://www.rsjoomla.com/support/documentation/rsform-pro/plugins-and-modules/rsformpro-joomla-user-registration-plugin.html" target="_blank">Read the documentation</a>
-		<a class="btn" href="https://www.rsjoomla.com/support.html" target="_blank">Get Support!</a>
+		<a class="btn btn-secondary" href="https://www.rsjoomla.com/support/documentation/rsform-pro/plugins-and-modules/rsformpro-joomla-user-registration-plugin.html" target="_blank">Read the documentation</a>
+		<a class="btn btn-secondary" href="https://www.rsjoomla.com/support.html" target="_blank">Get Support!</a>
 		<div style="clear: both;"></div>
 		<?php
 	}

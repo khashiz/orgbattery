@@ -33,7 +33,7 @@ foreach ($fields as $field) {
 			}
 		}
 
-		$mainframe->triggerEvent('rsfp_b_onManageDirectoriesAfterCreatedPlaceholders', array($field, & $placeholders));
+		$mainframe->triggerEvent('onRsformBackendManageDirectoriesAfterCreatedPlaceholders', array($field, & $placeholders));
 
 		// Add to titles
 		if (count($titles) < 3) {
@@ -106,10 +106,10 @@ if (!empty($imagefields))
 	{
 		if ($hideEmptyValues)
 		{
-			$out .= "\t\t" . '{if ' . $image . ':path}' . "\n";
+			$out .= "\t\t" . '{if {' . $image . ':path}}' . "\n";
 		}
 
-		$out .= "\t\t".'{if {'.$image.':value}}<div class="rsform-gallery"><a href="javascript:void(0)" class="modal" rel="{handler: \'clone\'}"><img src="{'.$image.':path}" alt="" /></a></div>{/if}'."\n";
+		$out .= "\t\t".'{if {'.$image.':value}}<div class="rsform-gallery"><a href="javascript:void(0)" class="rsform-simple-image-modal"><img src="{'.$image.':path}" alt="" /></a></div>{/if}'."\n";
 
 		if ($hideEmptyValues)
 		{

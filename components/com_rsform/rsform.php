@@ -7,10 +7,6 @@
 
 defined('_JEXEC') or die('Restricted access');
 
-if (!defined('DS')) {
-	define('DS', DIRECTORY_SEPARATOR);
-}
-
 $cache = JFactory::getCache('com_rsform');
 $cache->clean();
 
@@ -29,12 +25,14 @@ if ($controller == 'functions' || $controller == 'adapter') {
 	
 if (!empty($controller) && file_exists(JPATH_COMPONENT.'/controllers/'.$controller.'.php'))
 {
-	require_once(JPATH_COMPONENT.'/controllers/'.$controller.'.php');
+	require_once JPATH_COMPONENT . '/controllers/' . $controller . '.php';
 	$controller = 'RsformController'.$controller;
 	$RsformController = new $controller();
 }
 else
+{
 	$RsformController = new RsformController();
+}
 
 $RsformController->execute($app->input->getWord('task'));
 

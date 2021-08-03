@@ -58,7 +58,7 @@ class RSFormProFieldPageBreak extends RSFormProField
 			
 			// Start building the HTML input
 			if ($buttonType == 'button') {
-				$html .= '<div><button';
+				$html .= '<button';
 			} else {
 				$html .= '<input';
 			}
@@ -70,7 +70,7 @@ class RSFormProFieldPageBreak extends RSFormProField
 			$html .= $additional;
 			// Add the label & close the tag
 			if ($buttonType == 'button') {
-				$html .= ' >'.$this->escape($label).'</button></div>';
+				$html .= ' >'.$this->escape($label).'</button>';
 			} else {
 				$html .= ' value="'.$this->escape($label).'" />';
 			}
@@ -104,7 +104,7 @@ class RSFormProFieldPageBreak extends RSFormProField
 			
 			// Start building the HTML input
 			if ($buttonType == 'button') {
-				$html .= '<div><button';
+				$html .= '<button';
 			} else {
 				$html .= '<input';
 			}
@@ -116,7 +116,7 @@ class RSFormProFieldPageBreak extends RSFormProField
 			$html .= $additional;
 			// Add the label & close the tag
 			if ($buttonType == 'button') {
-				$html .= ' >'.$this->escape($label).'</button></div>';
+				$html .= ' >'.$this->escape($label).'</button>';
 			} else {
 				$html .= ' value="'.$this->escape($label).'" />';
 			}

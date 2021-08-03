@@ -45,12 +45,12 @@ class RSFormProJQueryCalendar
 		}
 
 		// load the jQuery framework 
-		JHtml::_('jquery.framework', true);
+		RSFormProAssets::addJquery();
 		
-		RSFormProAssets::addScript(JHtml::script('com_rsform/jquerycalendar/jquery.datetimepicker.js', array('pathOnly' => true, 'relative' => true)));
-		RSFormProAssets::addScript(JHtml::script('com_rsform/jquerycalendar/moment.js', array('pathOnly' => true, 'relative' => true)));
-		RSFormProAssets::addScript(JHtml::script('com_rsform/jquerycalendar/script.js', array('pathOnly' => true, 'relative' => true)));
-		RSFormProAssets::addStyleSheet(JHtml::stylesheet('com_rsform/jquerycalendar/jquery.datetimepicker.css', array('pathOnly' => true, 'relative' => true)));
+		RSFormProAssets::addScript(JHtml::_('script', 'com_rsform/jquerycalendar/jquery.datetimepicker.js', array('pathOnly' => true, 'relative' => true)));
+		RSFormProAssets::addScript(JHtml::_('script', 'com_rsform/jquerycalendar/moment.js', array('pathOnly' => true, 'relative' => true)));
+		RSFormProAssets::addScript(JHtml::_('script', 'com_rsform/jquerycalendar/script.js', array('pathOnly' => true, 'relative' => true)));
+		RSFormProAssets::addStyleSheet(JHtml::_('stylesheet', 'com_rsform/jquerycalendar/jquery.datetimepicker.css', array('pathOnly' => true, 'relative' => true)));
 		
 		$out = "\n";
 		

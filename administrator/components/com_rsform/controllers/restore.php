@@ -16,7 +16,7 @@ class RsformControllerRestore extends RsformController
 		$model	= $this->getModel('restore');
 		
 		// Redirect back to the backup restore screen.
-		$this->setRedirect('index.php?option=com_rsform&view=backuprestore');
+		$this->setRedirect('index.php?option=com_rsform&view=restorescreen');
 		
 		try {
 			// Attempt at restoring the file.

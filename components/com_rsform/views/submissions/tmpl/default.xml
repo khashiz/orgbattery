@@ -8,12 +8,12 @@
 		<fieldset name="basic" addfieldpath="/administrator/components/com_rsform/models/fields">
 			<field name="formId" type="forms" default="" label="COM_RSFORM_SELECT_FORM" onchange="generateFormLink();" />
 			<field name="lang" type="lang" default="" label="RSFP_SHOW_SUBMISSIONS_LANGUAGE" description="RSFP_SHOW_SUBMISSIONS_LANGUAGE_DESC" />
-			<field name="enable_submissions" type="radio" class="btn-group" default="0" label="RSFP_ENABLE_SUBMISSIONS" description="RSFP_ENABLE_SUBMISSIONS_DESC">
+			<field name="enable_submissions" type="radio" class="btn-group btn-group-yesno" default="0" label="RSFP_ENABLE_SUBMISSIONS" description="RSFP_ENABLE_SUBMISSIONS_DESC">
 				<option value="0">JNO</option>
 				<option value="1">JYES</option>
 			</field>
 			<field name="export_filename" type="text" default="export.pdf" label="COM_RSFORM_SUBMISSIONS_EXPORT_FILENAME" description="COM_RSFORM_SUBMISSIONS_EXPORT_FILENAME_DESC" />
-			<field name="show_search" type="radio" class="btn-group" default="0" label="RSFP_ENABLE_SUBMISSIONS_SEARCH" description="RSFP_ENABLE_SUBMISSIONS_SEARCH_DESC">
+			<field name="show_search" type="radio" class="btn-group btn-group-yesno" default="0" label="RSFP_ENABLE_SUBMISSIONS_SEARCH" description="RSFP_ENABLE_SUBMISSIONS_SEARCH_DESC">
 				<option value="0">JNO</option>
 				<option value="1">JYES</option>
 			</field>
@@ -27,16 +27,16 @@
 				<option value="0">JGLOBAL_ORDER_DESCENDING</option>
 				<option value="1">JGLOBAL_ORDER_ASCENDING</option>
 			</field>
-			<field name="show_all_submissions" type="radio" class="btn-group" default="1" label="COM_RSFORM_SHOW_ALL_SUBMISSIONS" description="COM_RSFORM_SHOW_ALL_SUBMISSIONS_DESC" showon="show_logged_in_submissions:0">
+			<field name="show_all_submissions" type="radio" class="btn-group btn-group-yesno" default="1" label="COM_RSFORM_SHOW_ALL_SUBMISSIONS" description="COM_RSFORM_SHOW_ALL_SUBMISSIONS_DESC" showon="show_logged_in_submissions:0">
 				<option value="0">JNO</option>
 				<option value="1">JYES</option>
 			</field>
-			<field name="show_logged_in_submissions" type="radio" class="btn-group" default="0" label="COM_RSFORM_SHOW_LOGGED_IN_SUBMISSIONS" description="COM_RSFORM_SHOW_LOGGED_IN_SUBMISSIONS_DESC" showon="show_all_submissions:0">
+			<field name="show_logged_in_submissions" type="radio" class="btn-group btn-group-yesno" default="0" label="COM_RSFORM_SHOW_LOGGED_IN_SUBMISSIONS" description="COM_RSFORM_SHOW_LOGGED_IN_SUBMISSIONS_DESC" showon="show_all_submissions:0">
 				<option value="0">JNO</option>
 				<option value="1">JYES</option>
 			</field>
 			<field name="userId" type="text" default="" label="RSFP_SHOW_SUBMISSIONS_FOR_USERID" description="RSFP_SHOW_SUBMISSIONS_FOR_USERID_DESC" showon="show_all_submissions:0[AND]show_logged_in_submissions:0" />
-			<field name="show_confirmed" type="radio" class="btn-group" default="0" label="RSFP_SHOW_CONFIRMED_SUBMISSIONS" description="RSFP_SHOW_CONFIRMED_SUBMISSIONS_DESC">
+			<field name="show_confirmed" type="radio" class="btn-group btn-group-yesno" default="0" label="RSFP_SHOW_CONFIRMED_SUBMISSIONS" description="RSFP_SHOW_CONFIRMED_SUBMISSIONS_DESC">
 				<option value="0">JNO</option>
 				<option value="1">JYES</option>
 			</field>

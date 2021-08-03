@@ -162,7 +162,7 @@ class RsformControllerBackup extends RsformController
 			$backup  = new RSFormProBackup($options);
 			$backup->download();
 		} catch (Exception $e) {
-		    $this->setRedirect('index.php?option=com_rsform&view=backuprestore', $e->getMessage(), 'error');
+		    $this->setRedirect('index.php?option=com_rsform&view=backupscreen', $e->getMessage(), 'error');
 		}
 	}
 	

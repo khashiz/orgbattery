@@ -207,4 +207,16 @@ class RSFormProAssets
 
 		return $html;
 	}
+
+	public static function addJquery()
+	{
+		try
+		{
+			JHtml::_('jquery.framework');
+		}
+		catch (Exception $e)
+		{
+			// Nothing for now
+		}
+	}
 }

@@ -105,7 +105,7 @@ class RSFormProHelper
 		}
 		
 		$use_editor = RSFormProHelper::getConfig('global.codemirror');
-		$editor = 'codemirror';
+		$editor 	= 'codemirror';
 
 		if ($use_editor)
 		{
@@ -128,12 +128,6 @@ class RSFormProHelper
 			$instance = new \Joomla\CMS\Editor\Editor($editor);
 			
 			$html = $instance->display($name, static::htmlEscape($html), '100%', 300, 75, 20, $buttons = false, $options['id'], $asset = null, $author = null, array('syntax' => $options['syntax'], 'readonly' => $options['readonly']));
-			
-			if ($options['syntax'] == 'php')
-			{
-				$name = preg_replace('/jform\[(.*?)\]/', '$1', $name);
-				JFactory::getDocument()->addScriptDeclaration("jQuery(function(){Joomla.editors.instances['$name'].setOption('mode', 'text/x-php');});");
-			}
 		}
 		else
 		{
@@ -223,7 +217,7 @@ class RSFormProHelper
 			}
 			else
 			{
-				return JError::raiseError(404, JText::sprintf('RSFP_FORM_DOES_NOT_EXIST', $formId));
+				throw new Exception(JText::sprintf('RSFP_FORM_DOES_NOT_EXIST', $formId), 404);
 			}
 		}
 
@@ -579,7 +573,7 @@ class RSFormProHelper
 				}
 			}
 
-			if (RSFormProHelper::getConfig('global.disable_multilanguage') && RSFormProHelper::getConfig('global.default_language') != 'en-GB')
+			if (RSFormProHelper::getConfig('global.disable_multilanguage'))
 			{
 				return RSFormProHelper::getConfig('global.default_language');
 			}
@@ -604,32 +598,57 @@ class RSFormProHelper
 				}
 			}
 
+			if (RSFormProHelper::getConfig('global.disable_multilanguage'))
+			{
+				return RSFormProHelper::getConfig('global.default_language');
+			}
+
 			return $lang->getTag();
 		}
 	}
 
-	public static function &getComponentProperties($components, $translate = true) {
+	public static function &getComponentProperties($components, $translate = true)
+	{
 		static $cache = array();
 
-		if (is_numeric($components)) {
+		if (is_numeric($components))
+		{
 			$componentIds = array($components);
 			$single		  = $components;
-		} else {
+		}
+		else
+		{
 			$componentIds = array();
 			$single		  = false;
-			foreach ($components as $componentId) {
-				if (is_object($componentId) && !empty($componentId->ComponentId)) {
+
+			if (!is_array($components))
+			{
+				$components = array($components);
+			}
+
+			foreach ($components as $componentId)
+			{
+				if (is_object($componentId) && !empty($componentId->ComponentId))
+				{
 					$componentIds[] = (int) $componentId->ComponentId;
-				} elseif (is_array($componentId) && !empty($componentId['ComponentId'])) {
+				}
+				elseif (is_array($componentId) && !empty($componentId['ComponentId']))
+				{
 					$componentIds[] = (int) $componentId['ComponentId'];
-				} else {
+				}
+				else
+				{
 					$componentIds[] = (int) $componentId;
 				}
 			}
 		}
 
-		if ($componentIds) {
-			if ($newComponentIds = array_diff($componentIds, array_keys($cache))) {
+		$componentIds = array_filter($componentIds);
+
+		if ($componentIds)
+		{
+			if ($newComponentIds = array_diff($componentIds, array_keys($cache)))
+			{
 				$all_data		= &$cache;
 				$db 			= JFactory::getDbo();
 				$query 			= $db->getQuery(true);
@@ -742,9 +761,8 @@ class RSFormProHelper
 		return $value;
 	}
 
-	public static function readFile($file, $download_name=null)
+	public static function readFile($file, $download_name = null, $die = true)
 	{
-		jimport('joomla.filesystem.file');
 		$ext = strtolower(JFile::getExt($file));
 
 		if ($ext == 'tgz' || $ext == 'gz') {
@@ -761,7 +779,9 @@ class RSFormProHelper
 		}
 
 		if (empty($download_name))
+		{
 			$download_name = basename($file);
+		}
 
 		$fsize = filesize($file);
 
@@ -781,7 +801,11 @@ class RSFormProHelper
 		header("Content-Transfer-Encoding: binary\n");
 		ob_end_flush();
 		RSFormProHelper::readFileChunked($file);
-		exit();
+
+		if ($die)
+		{
+			exit();
+		}
 	}
 
 	public static function readFileChunked($filename, $retbytes=true)
@@ -814,8 +838,6 @@ class RSFormProHelper
 
 	public static function sendSubmissionEmails($SubmissionId, $only_return_replacements=false, $skip_globals=false)
 	{
-		jimport('joomla.filesystem.file');
-
 		$db             = JFactory::getDbo();
         $mainframe      = JFactory::getApplication();
         $config         = JFactory::getConfig();
@@ -977,7 +999,7 @@ class RSFormProHelper
 							// If we have a value, create a link, otherwise no point in doing that
 							if (strlen($actualValue))
 							{
-								$actualValues[] = '<a href="'. $root . JRoute::_('index.php?option=com_rsform&task=submissions.view.file&hash=' . md5($submission->SubmissionId . $secret . $property['NAME']) . '&file=' . md5($actualValue) . $Itemid) . '">'.RSFormProHelper::htmlEscape(basename($actualValue)).'</a>';
+								$actualValues[] = '<a href="'. $root . JRoute::_('index.php?option=com_rsform&task=submissions.viewfile&hash=' . md5($submission->SubmissionId . $secret . $property['NAME']) . '&file=' . md5($actualValue) . $Itemid) . '">'.RSFormProHelper::htmlEscape(basename($actualValue)).'</a>';
 							}
 							else
 							{
@@ -1185,29 +1207,31 @@ class RSFormProHelper
 		if (!$skip_globals)
 		{
 		    $global_placeholders = array(
-                '{global:username}'     => $user->username,
-                '{global:userid}'       => $user->id,
-                '{global:useremail}'    => $user->email,
-                '{global:fullname}'     => $user->name,
-                '{global:userip}'       => $submission->UserIp,
-                '{global:date_added}'   => RSFormProHelper::getDate($submission->DateSubmitted),
-                '{global:sitename}'     => $config->get('sitename'),
-                '{global:siteurl}'      => JUri::root(),
-                '{global:confirmation}' => $confirmation,
-                '{global:deletion}'     => $deletion,
-                '{global:submissionid}' => $submission->SubmissionId,
-                '{global:submission_id}' => $submission->SubmissionId,
-                '{global:mailfrom}'     => $config->get('mailfrom'),
-                '{global:fromname}'     => $config->get('fromname'),
-                '{global:formid}'       => $formId,
-                '{global:language}'     => $submission->Lang,
+                '{global:username}'     	 => $user->username,
+                '{global:userid}'       	 => $user->id,
+                '{global:useremail}'    	 => $user->email,
+                '{global:fullname}'     	 => $user->name,
+                '{global:userip}'       	 => $submission->UserIp,
+                '{global:date_added}'   	 => RSFormProHelper::getDate($submission->DateSubmitted),
+                '{global:sitename}'     	 => $config->get('sitename'),
+                '{global:siteurl}'      	 => JUri::root(),
+                '{global:confirmation}' 	 => $confirmation,
+                '{global:confirmation_hash}' => $confirmation_hash,
+                '{global:deletion}'     	 => $deletion,
+                '{global:deletion_hash}'     => $submission->SubmissionHash,
+                '{global:submissionid}' 	 => $submission->SubmissionId,
+                '{global:submission_id}' 	 => $submission->SubmissionId,
+                '{global:mailfrom}'     	 => $config->get('mailfrom'),
+                '{global:fromname}'     	 => $config->get('fromname'),
+                '{global:formid}'       	 => $formId,
+                '{global:language}'     	 => $submission->Lang,
             );
 
 		    $placeholders = array_merge($placeholders, array_keys($global_placeholders));
 		    $values = array_merge($values, array_values($global_placeholders));
 		}
 
-		$mainframe->triggerEvent('rsfp_onAfterCreatePlaceholders', array(array('form' => &$form, 'placeholders' => &$placeholders, 'values' => &$values, 'submission' => $submission)));
+		$mainframe->triggerEvent('onRsformAfterCreatePlaceholders', array(array('form' => &$form, 'placeholders' => &$placeholders, 'values' => &$values, 'submission' => $submission)));
 
 		if ($only_return_replacements)
         {
@@ -1233,7 +1257,8 @@ class RSFormProHelper
 			'text'      	=> str_replace($placeholders, $values, $form->UserEmailText),
 			'subject'   	=> str_replace($placeholders, $values, $form->UserEmailSubject),
 			'mode'      	=> $form->UserEmailMode,
-			'files'     	=> array()
+			'files'     	=> array(),
+			'recipientName' => ''
 		);
 
 		// user cc
@@ -1286,7 +1311,8 @@ class RSFormProHelper
 			'text'      	=> str_replace($placeholders, $values, $form->AdminEmailText),
 			'subject'   	=> str_replace($placeholders, $values, $form->AdminEmailSubject),
 			'mode'      	=> $form->AdminEmailMode,
-			'files'     	=> array()
+			'files'     	=> array(),
+			'recipientName' => ''
 		);
 
 		// admin cc
@@ -1313,7 +1339,7 @@ class RSFormProHelper
             }
         }
 
-		$mainframe->triggerEvent('rsfp_beforeUserEmail', array(array('form' => &$form, 'placeholders' => &$placeholders, 'values' => &$values, 'submissionId' => $SubmissionId, 'userEmail'=>&$userEmail)));
+		$mainframe->triggerEvent('onRsformBeforeUserEmail', array(array('form' => &$form, 'placeholders' => &$placeholders, 'values' => &$values, 'submissionId' => $SubmissionId, 'userEmail'=>&$userEmail)));
 
 		// Script called before the User Email is sent.
 		eval($form->UserEmailScript);
@@ -1323,10 +1349,10 @@ class RSFormProHelper
 		{
 			$recipients = !is_array($userEmail['to']) ? explode(',', $userEmail['to']) : $userEmail['to'];
 
-			RSFormProHelper::sendMail($userEmail['from'], $userEmail['fromName'], $recipients, $userEmail['subject'], $userEmail['text'], $userEmail['mode'], !empty($userEmail['cc']) ? $userEmail['cc'] : null, !empty($userEmail['bcc']) ? $userEmail['bcc'] : null, $userEmail['files'], !empty($userEmail['replyto']) ? $userEmail['replyto'] : '', !empty($userEmail['replytoName']) ? $userEmail['replytoName'] : null);
+			RSFormProHelper::sendMail($userEmail['from'], $userEmail['fromName'], $recipients, $userEmail['subject'], $userEmail['text'], $userEmail['mode'], !empty($userEmail['cc']) ? $userEmail['cc'] : null, !empty($userEmail['bcc']) ? $userEmail['bcc'] : null, $userEmail['files'], !empty($userEmail['replyto']) ? $userEmail['replyto'] : '', !empty($userEmail['replytoName']) ? $userEmail['replytoName'] : null, $userEmail['recipientName']);
 		}
 
-		$mainframe->triggerEvent('rsfp_beforeAdminEmail', array(array('form' => &$form, 'placeholders' => &$placeholders, 'values' => &$values, 'submissionId' => $SubmissionId, 'adminEmail'=>&$adminEmail)));
+		$mainframe->triggerEvent('onRsformBeforeAdminEmail', array(array('form' => &$form, 'placeholders' => &$placeholders, 'values' => &$values, 'submissionId' => $SubmissionId, 'adminEmail'=>&$adminEmail)));
 
 		// Script called before the Admin Email is sent.
 		eval($form->AdminEmailScript);
@@ -1336,7 +1362,7 @@ class RSFormProHelper
 		{
 			$recipients = !is_array($adminEmail['to']) ? explode(',', $adminEmail['to']) : $adminEmail['to'];
 
-			RSFormProHelper::sendMail($adminEmail['from'], $adminEmail['fromName'], $recipients, $adminEmail['subject'], $adminEmail['text'], $adminEmail['mode'], !empty($adminEmail['cc']) ? $adminEmail['cc'] : null, !empty($adminEmail['bcc']) ? $adminEmail['bcc'] : null, $adminEmail['files'], !empty($adminEmail['replyto']) ? $adminEmail['replyto'] : '', !empty($adminEmail['replytoName']) ? $adminEmail['replytoName'] : null);
+			RSFormProHelper::sendMail($adminEmail['from'], $adminEmail['fromName'], $recipients, $adminEmail['subject'], $adminEmail['text'], $adminEmail['mode'], !empty($adminEmail['cc']) ? $adminEmail['cc'] : null, !empty($adminEmail['bcc']) ? $adminEmail['bcc'] : null, $adminEmail['files'], !empty($adminEmail['replyto']) ? $adminEmail['replyto'] : '', !empty($adminEmail['replytoName']) ? $adminEmail['replytoName'] : null, $adminEmail['recipientName']);
 		}
 
 		// Additional emails
@@ -1384,7 +1410,8 @@ class RSFormProHelper
 					'text'      	=> str_replace($placeholders, $values, $email->message),
 					'subject'   	=> str_replace($placeholders, $values, $email->subject),
 					'mode'      	=> $email->mode,
-					'files'     	=> array()
+					'files'     	=> array(),
+					'recipientName' => ''
 				);
 
 				if (isset($additionalEmailUploads, $additionalEmailUploads[$email->id]))
@@ -1410,7 +1437,7 @@ class RSFormProHelper
                     $additionalEmail['bcc'] = explode(',', $additionalEmail['bcc']);
                 }
 
-				$mainframe->triggerEvent('rsfp_beforeAdditionalEmail', array(array('form' => &$form, 'placeholders' => &$placeholders, 'values' => &$values, 'submissionId' => $SubmissionId, 'additionalEmail'=>&$additionalEmail)));
+				$mainframe->triggerEvent('onRsformBeforeAdditionalEmail', array(array('form' => &$form, 'placeholders' => &$placeholders, 'values' => &$values, 'submissionId' => $SubmissionId, 'additionalEmail'=>&$additionalEmail)));
 				eval($form->AdditionalEmailsScript);
 
 				// mail users
@@ -1418,7 +1445,7 @@ class RSFormProHelper
 				{
 					$recipients = !is_array($additionalEmail['to']) ? explode(',', $additionalEmail['to']) : $additionalEmail['to'];
 
-					RSFormProHelper::sendMail($additionalEmail['from'], $additionalEmail['fromName'], $recipients, $additionalEmail['subject'], $additionalEmail['text'], $additionalEmail['mode'], !empty($additionalEmail['cc']) ? $additionalEmail['cc'] : null, !empty($additionalEmail['bcc']) ? $additionalEmail['bcc'] : null, $additionalEmail['files'], !empty($additionalEmail['replyto']) ? $additionalEmail['replyto'] : '', !empty($additionalEmail['replytoName']) ? $additionalEmail['replytoName'] : null);
+					RSFormProHelper::sendMail($additionalEmail['from'], $additionalEmail['fromName'], $recipients, $additionalEmail['subject'], $additionalEmail['text'], $additionalEmail['mode'], !empty($additionalEmail['cc']) ? $additionalEmail['cc'] : null, !empty($additionalEmail['bcc']) ? $additionalEmail['bcc'] : null, $additionalEmail['files'], !empty($additionalEmail['replyto']) ? $additionalEmail['replyto'] : '', !empty($additionalEmail['replytoName']) ? $additionalEmail['replytoName'] : null, $additionalEmail['recipientName']);
 				}
 			}
 		}
@@ -1514,7 +1541,7 @@ class RSFormProHelper
 			}
 		}
 
-		$mainframe->triggerEvent('rsfp_f_onBeforeShowForm', array($formId, &$form));
+		$mainframe->triggerEvent('onRsformFrontendBeforeShowForm', array($formId, &$form));
 
 		if ($form->JS)
 			RSFormProAssets::addCustomTag($form->JS);
@@ -1525,8 +1552,8 @@ class RSFormProHelper
 			RSFormProAssets::addScriptDeclaration('RSFormPro.scrollToError = true;');
 		}
 
-		RSFormProAssets::addStyleSheet(JHtml::stylesheet('com_rsform/front.css', array('pathOnly' => true, 'relative' => true)));
-		RSFormProAssets::addScript(JHtml::script('com_rsform/script.js', array('pathOnly' => true, 'relative' => true)));
+		RSFormProAssets::addStyleSheet(JHtml::_('stylesheet', 'com_rsform/front.css', array('pathOnly' => true, 'relative' => true)));
+		RSFormProAssets::addScript(JHtml::_('script', 'com_rsform/script.js', array('pathOnly' => true, 'relative' => true)));
 
 		// calendars
 		$YUICalendars = RSFormProHelper::componentExists($formId, RSFORM_FIELD_CALENDAR);
@@ -1599,7 +1626,7 @@ class RSFormProHelper
 		}
 		
 		if ($doc->getDirection() == 'rtl')
-			RSFormProAssets::addStyleSheet(JHtml::stylesheet('com_rsform/front-rtl.css', array('pathOnly' => true, 'relative' => true)));
+			RSFormProAssets::addStyleSheet(JHtml::_('stylesheet', 'com_rsform/front-rtl.css', array('pathOnly' => true, 'relative' => true)));
 
 		$hasAjax = (bool) $form->AjaxValidation;
 
@@ -1685,7 +1712,7 @@ class RSFormProHelper
 				'Order'			  => isset($data['Order']) ? $data['Order'] : 0
 			);
 
-			$mainframe->triggerEvent('rsfp_bk_onBeforeCreateFrontComponentBody', array(array(
+			$mainframe->triggerEvent('onRsformBackendBeforeCreateFrontComponentBody', array(array(
 				'out' 			=> &$out,
 				'formId' 		=> $formId,
 				'componentId' 	=> $component->ComponentId,
@@ -1721,7 +1748,7 @@ class RSFormProHelper
 				}
 			}
 
-			$mainframe->triggerEvent('rsfp_bk_onAfterCreateFrontComponentBody', array(array(
+			$mainframe->triggerEvent('onRsformBackendAfterCreateFrontComponentBody', array(array(
 				'out' 			=> &$out,
 				'formId' 		=> $formId,
 				'componentId' 	=> $component->ComponentId,
@@ -1765,7 +1792,7 @@ class RSFormProHelper
 		unset($all_data);
 
 
-		$mainframe->triggerEvent('rsfp_f_onInitFormDisplay', array(array(
+		$mainframe->triggerEvent('onRsformFrontendInitFormDisplay', array(array(
 			'find'		 => &$find,
 			'replace'	 => &$replace,
 			'formLayout' => &$formLayout,
@@ -1854,7 +1881,23 @@ class RSFormProHelper
 			$encType = ' enctype="multipart/form-data"';
 		}
 
-		$formLayout = '<form method="post" '.$CSSId.$CSSClass.$CSSName.$CSSAdditionalAttributes.$encType.' action="'.RSFormProHelper::htmlEscape($u).'">'.$formLayout.'</form>';
+		$useCsrf = RSFormProHelper::getConfig('use_csrf');
+		$token = $useCsrf ? JHtml::_('form.token') : '';
+
+		// Try to keep session alive, using try because Joomla! 4 will trigger exceptions when used in onAfterRender()
+		if ($useCsrf)
+		{
+			try
+			{
+				JHtml::_('behavior.keepalive');
+			}
+			catch (Exception $e)
+			{
+
+			}
+		}
+
+		$formLayout = '<form method="post" '.$CSSId.$CSSClass.$CSSName.$CSSAdditionalAttributes.$encType.' action="'.RSFormProHelper::htmlEscape($u).'">' . $formLayout . $token . '</form>';
 
 		require_once JPATH_ADMINISTRATOR.'/components/com_rsform/helpers/prices.php';
 		if ($prices = RSFormProPrices::getInstance($formId)->getPrices()) {
@@ -1917,7 +1960,7 @@ class RSFormProHelper
 
 		// Allow plugins to inject code with their own Ajax script
 		$ajaxScript = '';
-		$mainframe->triggerEvent('rsfp_f_onAJAXScriptCreate', array(array('script' => &$ajaxScript, 'formId' => $formId)));
+		$mainframe->triggerEvent('onRsformFrontendAJAXScriptCreate', array(array('script' => &$ajaxScript, 'formId' => $formId)));
 
 		if ($hasAjax || $ajaxScript) {
 			$formLayout .= "\n".'<script type="text/javascript">';
@@ -1967,7 +2010,7 @@ class RSFormProHelper
 		eval($form->ScriptDisplay);
 
 		//Trigger Event - onBeforeFormDisplay
-		$mainframe->triggerEvent('rsfp_f_onBeforeFormDisplay', array(array('formLayout'=>&$formLayout,'formId'=>$formId,'formLayoutName' => $form->FormLayoutName)));
+		$mainframe->triggerEvent('onRsformFrontendBeforeFormDisplay', array(array('formLayout'=>&$formLayout,'formId'=>$formId,'formLayoutName' => $form->FormLayoutName)));
 		return $formLayout;
 	}
 
@@ -1985,10 +2028,10 @@ class RSFormProHelper
 			->where($db->qn('FormId') . ' = ' . $db->q($formId));
 		$form = $db->setQuery($query)->loadObject();
 
-		RSFormProAssets::addStyleSheet(JHtml::stylesheet('com_rsform/front.css', array('pathOnly' => true, 'relative' => true)));
+		RSFormProAssets::addStyleSheet(JHtml::_('stylesheet', 'com_rsform/front.css', array('pathOnly' => true, 'relative' => true)));
 		if ($doc->getDirection() == 'rtl')
 		{
-			RSFormProAssets::addStyleSheet(JHtml::stylesheet('com_rsform/front-rtl.css', array('pathOnly' => true, 'relative' => true)));
+			RSFormProAssets::addStyleSheet(JHtml::_('stylesheet', 'com_rsform/front-rtl.css', array('pathOnly' => true, 'relative' => true)));
 		}
 
 		$formparams = $session->get('com_rsform.formparams.formId'.$formId);
@@ -2018,23 +2061,22 @@ class RSFormProHelper
 		$session->clear('com_rsform.formparams.formId'.$formId);
 
 		//Trigger Event - onAfterShowThankyouMessage
-		$mainframe->triggerEvent('rsfp_f_onAfterShowThankyouMessage', array(array('output'=>&$output,'formId'=>&$formId)));
+		$mainframe->triggerEvent('onRsformFrontendAfterShowThankyouMessage', array(array('output'=>&$output,'formId'=>&$formId)));
 
 		if ($form->ScrollToThankYou)
 		{
 			// scroll the window to the Thank You Message
-			RSFormProAssets::addScript(JHtml::script('com_rsform/script.js', array('pathOnly' => true, 'relative' => true)));
+			RSFormProAssets::addScript(JHtml::_('script', 'com_rsform/script.js', array('pathOnly' => true, 'relative' => true)));
 			RSFormProAssets::addScriptDeclaration("RSFormProUtils.addEvent(window, 'load', function(){ RSFormPro.scrollToElement(document.getElementById('rsfp-thankyou-scroll{$formId}')); });");
 		}
 
 		if ($form->ThankYouMessagePopUp && !$form->ScrollToThankYou)
 		{
-			RSFormProAssets::addScript(JHtml::script('com_rsform/script.js', array('pathOnly' => true, 'relative' => true)));
+			RSFormProAssets::addScript(JHtml::_('script', 'com_rsform/script.js', array('pathOnly' => true, 'relative' => true)));
 			RSFormProAssets::addScriptDeclaration("RSFormProUtils.addEvent(window, 'load', function(){ RSFormPro.showThankYouPopup(document.getElementById('rsfp-thankyou-popup-container{$formId}')); });");
 		}
 
 		// Cache enabled ?
-		jimport('joomla.plugin.helper');
 		if (JPluginHelper::isEnabled('system', 'cache'))
 		{
 			RSFormProHelper::cleanCache();
@@ -2045,9 +2087,21 @@ class RSFormProHelper
 
 	public static function processForm($formId)
 	{
+		$invalid    = array();
 		$mainframe  = JFactory::getApplication();
         $db         = JFactory::getDbo();
 		$formId     = (int) $formId;
+
+		// Let's check the token
+		if (RSFormProHelper::getConfig('use_csrf') && !JSession::checkToken())
+		{
+			$invalid[] = true;
+
+			$mainframe->enqueueMessage(JText::_('JINVALID_TOKEN_NOTICE'), 'warning');
+
+			return $invalid;
+		}
+
 		$form       = RSFormProHelper::getForm($formId);
 
 		$lang 		  = RSFormProHelper::getCurrentLanguage();
@@ -2068,7 +2122,7 @@ class RSFormProHelper
 		$post = JFactory::getApplication()->input->post->get('form', array(), 'array');
 
 		//Trigger Event - onBeforeFormValidation
-		$mainframe->triggerEvent('rsfp_f_onBeforeFormValidation', array(array('invalid'=>&$invalid, 'formId' => $formId, 'post' => &$post)));
+		$mainframe->triggerEvent('onRsformFrontendBeforeFormValidation', array(array('invalid'=>&$invalid, 'formId' => $formId, 'post' => &$post)));
 
 		$_POST['form'] = $post;
 
@@ -2077,17 +2131,18 @@ class RSFormProHelper
 		eval($form->ScriptProcess);
 
 		if (!empty($invalid))
+		{
 			return $invalid;
+		}
 
 		$post = $_POST['form'];
 
 		//Trigger Event - onBeforeFormProcess
-		$mainframe->triggerEvent('rsfp_f_onBeforeFormProcess', array(array('post' => &$post)));
+		$mainframe->triggerEvent('onRsformFrontendBeforeFormProcess', array(array('post' => &$post)));
 
 		if (empty($invalid))
 		{
 			// Cache enabled ?
-			jimport('joomla.plugin.helper');
 			$cache_enabled = JPluginHelper::isEnabled('system', 'cache');
 			if ($cache_enabled)
 				RSFormProHelper::cleanCache();
@@ -2148,7 +2203,7 @@ class RSFormProHelper
 			}
 
 			//Trigger Event - onBeforeStoreSubmissions
-			$mainframe->triggerEvent('rsfp_f_onBeforeStoreSubmissions', array(array('formId'=>$formId,'post'=>&$post,'SubmissionId'=>$SubmissionId)));
+			$mainframe->triggerEvent('onRsformFrontendBeforeStoreSubmissions', array(array('formId'=>$formId,'post'=>&$post,'SubmissionId'=>$SubmissionId)));
 
 			// Add to db (values)
 			foreach ($post as $key => $val)
@@ -2166,7 +2221,7 @@ class RSFormProHelper
 			}
 
 			//Trigger Event - onAfterStoreSubmissions
-			$mainframe->triggerEvent('rsfp_f_onAfterStoreSubmissions', array(array('SubmissionId'=>$SubmissionId, 'formId'=>$formId)));
+			$mainframe->triggerEvent('onRsformFrontendAfterStoreSubmissions', array(array('SubmissionId'=>$SubmissionId, 'formId'=>$formId)));
 
 			// Send emails
 			list($replace, $with) = RSFormProHelper::sendSubmissionEmails($SubmissionId);
@@ -2354,7 +2409,7 @@ class RSFormProHelper
 			    $db->setQuery($query)->execute();
 			}
 
-			if ($silentPost && !empty($silentPost->url) && $silentPost->url != 'http://')
+			if ($silentPost && !empty($silentPost->url) && !in_array($silentPost->url, array('http://', 'https://')))
 			{
 				// Set URL to send data to
 				$url = $silentPost->url;
@@ -2486,7 +2541,7 @@ class RSFormProHelper
 			$session->set('com_rsform.formparams.formId'.$formId, $formparams);
 
 			// Trigger - After form process
-			$mainframe->triggerEvent('rsfp_f_onAfterFormProcess', array(array('SubmissionId' => $SubmissionId, 'formId' => $formId)));
+			$mainframe->triggerEvent('onRsformFrontendAfterFormProcess', array(array('SubmissionId' => $SubmissionId, 'formId' => $formId)));
 
 			// If we didn't get redirected through a plugin, mark form as processed to display Thank You Message on next page load
 			$formparams->formProcessed = true;
@@ -2763,16 +2818,7 @@ class RSFormProHelper
 		{
 			default:
 			case 'joomla':
-				static $filter;
-				if (is_null($filter)) {
-					jimport('joomla.filter.filterinput');
-					$filter = JFilterInput::getInstance(array('form', 'input', 'select', 'textarea'), array('style'), 1, 1);
-				}
-
-				$val = preg_replace('/([\x00-\x08][\x0b-\x0c][\x0e-\x20])/', "", $val);
-				$val = str_replace("\0", "", $val);
-
-				return $filter->clean($val);
+				return JComponentHelper::filterText($val);
 				break;
 
 			case 'rsform':
@@ -2893,7 +2939,7 @@ class RSFormProHelper
         {
             $translatable = array('LABEL', 'RESETLABEL', 'PREVBUTTON', 'NEXTBUTTON', 'CAPTION', 'DESCRIPTION', 'VALIDATIONMESSAGE', 'DEFAULTVALUE', 'ITEMS', 'TEXT', 'REFRESHTEXT', 'DISPLAYPROGRESSMSG', 'WIRE', 'SHOWDAYPLEASE', 'SHOWMONTHPLEASE', 'SHOWYEARPLEASE', 'POPUPLABEL', 'PLACEHOLDER');
 
-            JFactory::getApplication()->triggerEvent('rsfp_bk_onGetTranslatableProperties', array(&$translatable));
+            JFactory::getApplication()->triggerEvent('onRsformBackendGetTranslatableProperties', array(&$translatable));
         }
 
         return $translatable;
@@ -2901,7 +2947,12 @@ class RSFormProHelper
 
 	public static function translateIcon()
 	{
-        return RSFormProHelper::getConfig('global.disable_multilanguage') ? '' : '<span class="rsficon rsficon-flag" title="' . JText::_('RSFP_THIS_ITEM_IS_TRANSLATABLE') . '" style="color:#3071a9"></span>';
+		if (RSFormProHelper::getConfig('global.disable_multilanguage'))
+		{
+			return '';
+		}
+
+		return '<span class="rsficon rsficon-flag fieldHasTooltip rsfp-translatable" data-title="' . JText::_('RSFP_TRANSLATABLE_TITLE') . '" data-content="' . JText::_('RSFP_THIS_ITEM_IS_TRANSLATABLE') . '"></span>';
 	}
 
 	public static function mappingsColumns($config, $method, $row = null)
@@ -2928,14 +2979,14 @@ class RSFormProHelper
 		$value = $db->escape($value);
 	}
 
-	public static function sendMail($from, $fromname, $recipient, $subject, $body, $mode=0, $cc=null, $bcc=null, $attachment=null, $replyto=null, $replytoname=null)
+	public static function sendMail($from, $fromname, $recipient, $subject, $body, $mode = 0, $cc = null, $bcc = null, $attachment = null, $replyto = null, $replytoname = null, $recipientname = '')
 	{
 		try {
 			// Get a JMail instance
 			$mail 		= JFactory::getMailer();
 
 			// Allow this to be overridden
-			JFactory::getApplication()->triggerEvent('rsfp_onCreateMailer', array(array(
+			JFactory::getApplication()->triggerEvent('onRsformCreateMailer', array(array(
 				'mailer' 		=> &$mail,
 				'from' 			=> &$from,
 				'fromname' 		=> &$fromname,
@@ -2981,7 +3032,7 @@ class RSFormProHelper
 				}
 			}
 
-			$mail->addRecipient($recipient);
+			$mail->addRecipient($recipient, $recipientname);
 			$mail->addCC($cc);
 			$mail->addBCC($bcc);
 			// If we leave $type = '' then PHPMailer will try to auto-detect the mime type.
@@ -3032,7 +3083,7 @@ class RSFormProHelper
 			$no 	 	= isset($args[5]) ? htmlspecialchars($args[5], ENT_COMPAT, 'utf-8') : 'JNO';
 
 			// prepare the xml
-			$element = new SimpleXMLElement('<field name="'.$name.'" type="radio" class="btn-group"><option '.$additional.' value="0">'.$no.'</option><option '.$additional.' value="1">'.$yes.'</option></field>');
+			$element = new SimpleXMLElement('<field name="'.$name.'" type="radio" class="btn-group btn-group-yesno"><option '.$additional.' value="0">'.$no.'</option><option '.$additional.' value="1">'.$yes.'</option></field>');
 
 			// run
 			$radio->setup($element, $value);
@@ -3053,7 +3104,7 @@ class RSFormProHelper
                 RSFORM_FIELD_PAGEBREAK
             );
 
-            JFactory::getApplication()->triggerEvent('rsfp_bk_onGetDirectoryExcludedFields', array(&$excludedFields, $formId));
+            JFactory::getApplication()->triggerEvent('onRsformBackendGetDirectoryExcludedFields', array(&$excludedFields, $formId));
 
 			$query = $db->getQuery(true);
 			$query->select($db->qn('p.PropertyValue','FieldName'))
@@ -3088,7 +3139,7 @@ class RSFormProHelper
 				);
 			}
 
-			JFactory::getApplication()->triggerEvent('rsfp_bk_onGetAllDirectoryFields', array(&$cache[$formId], $formId));
+			JFactory::getApplication()->triggerEvent('onRsformBackendGetAllDirectoryFields', array(&$cache[$formId], $formId));
 		}
 
 		return $cache[$formId];
@@ -3390,11 +3441,12 @@ class RSFormProHelper
 		return is_object($form[$formId]) ? clone $form[$formId] : false;
 	}
 
-	public static function getRawPost() {
+	public static function getRawPost()
+	{
 		return JFactory::getApplication()->input->post->getArray(array(), null, 'raw');
 	}
 
-	public static function generateQuickAddGlobal($type = 'display')
+	public static function generateQuickAddGlobal($type = 'display', $justArray = false)
 	{
 		switch ($type)
 		{
@@ -3412,7 +3464,9 @@ class RSFormProHelper
 					'{global:mailfrom}',
 					'{global:fromname}',
 					'{global:confirmation}',
+					'{global:confirmation_hash}',
 					'{global:deletion}',
+					'{global:deletion_hash}',
 					'{global:submissionid}',
 					'{global:submission_id}',
 					'{global:date_added}',
@@ -3440,7 +3494,12 @@ class RSFormProHelper
 
 		$html = '<strong><u>' . JText::_('COM_RSFORM_GLOBAL_PLACEHOLDERS') . '</u></strong><br />';
 
-		JFactory::getApplication()->triggerEvent('rsfp_onAfterCreateQuickAddGlobalPlaceholders', array(&$placeholders, $type));
+		JFactory::getApplication()->triggerEvent('onRsformAfterCreateQuickAddGlobalPlaceholders', array(&$placeholders, $type));
+
+		if ($justArray)
+		{
+			return $placeholders;
+		}
 
 		foreach ($placeholders as $placeholder)
 		{
@@ -3467,10 +3526,10 @@ class RSFormProHelper
 	public static function getFormLayouts($formId = 0)
     {
         $layouts = array(
-            'html5Layouts' 	 => array('responsive', 'bootstrap2', 'bootstrap3', 'bootstrap4', 'uikit', 'uikit3', 'foundation')
+            'html5Layouts' 	 => array('responsive', 'bootstrap2', 'bootstrap3', 'bootstrap4', 'bootstrap5', 'uikit', 'uikit3', 'foundation')
         );
 
-        JFactory::getApplication()->triggerEvent('rsfp_bk_onLayoutsDefine', array(&$layouts, $formId));
+        JFactory::getApplication()->triggerEvent('onRsformBackendLayoutsDefine', array(&$layouts, $formId));
 
         return $layouts;
     }

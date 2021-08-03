@@ -176,7 +176,7 @@ class RSFormProFieldButton extends RSFormProField
 			
 			// Start building the HTML input
 			if ($buttonType == 'button') {
-				$html = '<div><button';
+				$html = '<button';
 			} else {
 				$html = '<input';
 			}
@@ -188,7 +188,7 @@ class RSFormProFieldButton extends RSFormProField
 			$html .= $additional;
 			// Add the label & close the tag
 			if ($buttonType == 'button') {
-				$html .= ' >'.$this->escape($label).'</button></div>';
+				$html .= ' >'.$this->escape($label).'</button>';
 			} else {
 				$html .= ' value="'.$this->escape($label).'" />';
 			}

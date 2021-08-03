@@ -24,6 +24,7 @@ defined('_JEXEC') or die('Restricted access');
                     <?php echo $this->information; ?>
                 </span>
             </div>
+            <div>{rsform 9}</div>
         </div>
     </div>
 </div>
@@ -32,5 +33,3 @@ if(!empty($this->return_url)) {
 	$doc = JFactory::getDocument();
 	$doc->addScriptDeclaration("window.hikashop.ready(function(){window.location='".$this->return_url."'});");
 }
-
-

@@ -33,7 +33,7 @@ class RSFormProGrid
 		$this->components 		= $this->getComponents();
 		$this->hiddenComponents = array(RSFORM_FIELD_HIDDEN, RSFORM_FIELD_TICKET);
 
-		JFactory::getApplication()->triggerEvent('rsfp_onDefineHiddenComponents', array(&$this->hiddenComponents));
+		JFactory::getApplication()->triggerEvent('onRsformDefineHiddenComponents', array(&$this->hiddenComponents));
 
 		$data = json_decode($data, true);
 		if (is_array($data) && isset($data[0], $data[1]))

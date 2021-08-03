@@ -14,11 +14,7 @@ class RsformModelFiles extends JModelLegacy
 	public function __construct($config = array())
 	{
 		parent::__construct($config);
-		
-		jimport('joomla.filesystem.file');
-		jimport('joomla.filesystem.folder');
-		jimport('joomla.filesystem.path');
-		
+
 		$this->_folder = JPATH_SITE;
 
 		$folder = JFactory::getApplication()->input->getString('folder');

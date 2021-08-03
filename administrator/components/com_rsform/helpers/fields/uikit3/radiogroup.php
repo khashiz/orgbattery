@@ -15,7 +15,7 @@ class RSFormProFieldUikit3RadioGroup extends RSFormProFieldRadioGroup
 		// For convenience
 		extract($data);
 		
-		return $this->buildInput($data).'<label class="uk-flex uk-flex-column uk-flex-center uk-flex-middle uk-border-rounded" for="'.$this->escape($id).$i.'"><span class="hikashop_checkout_payment_images"><img src="'.JURI::base().'images/sprite.svg#'.$this->escape($id).$i.'" width="32" height="32" data-uk-svg></span><span class="hikashop_checkout_payment_name uk-text-small uk-display-block font boxInputTitle">'.$item->label.'</span></label> ';
+		return '<label for="'.$this->escape($id).$i.'">'.$this->buildInput($data).$item->label.'</label> ';
 	}
 	
 	public function buildItem($data) {
@@ -27,12 +27,12 @@ class RSFormProFieldUikit3RadioGroup extends RSFormProFieldRadioGroup
 		$flow		= $this->getProperty('FLOW', 'HORIZONTAL');
 		if ($flow != 'HORIZONTAL') {
 			$this->glue = '<br />';
-			$this->blocks = array('1' => 'uk-width-1-1', '2' => 'uk-width-1-1 uk-width-1-2@m', '3' => 'uk-width-1-3', '4' => 'uk-width-1-4', '6' => 'uk-width-1-6');
+			$this->blocks = array('1' => 'uk-width-1-1', '2' => 'uk-width-1-2', '3' => 'uk-width-1-3', '4' => 'uk-width-1-4', '6' => 'uk-width-1-6');
 			$this->splitterStart = '<div class="{block_size}">';
 			$this->splitterEnd = '</div>';
 			
 			if ($flow != 'VERTICAL') {
-				$this->gridStart = '<div class="uk-grid-small" data-uk-grid>';
+				$this->gridStart = '<div class="uk-grid">';
 				$this->gridEnd = '</div>';
 			}
 		}

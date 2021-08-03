@@ -13,9 +13,9 @@ defined('_JEXEC') or die('Restricted access');
 	<option value="-1"><?php echo JText::_('RSFP_EXPORT_FILTERED_ROWS'); ?> (<?php echo $this->exportFilteredCount; ?>)</option>
 </select>
 
-<table class="adminlist table table-striped">
+<table class="table table-striped">
 	<tr>
-		<td><input type="checkbox" onclick="toggleCheckColumns();" id="checkColumns" /></td>
+		<td><input type="checkbox" onclick="toggleExportCheckboxes();" id="checkColumns" checked /></td>
 		<td colspan="2"><label for="checkColumns"><strong><?php echo JText::_('RSFP_CHECK_ALL'); ?></strong></label></td>
 	</tr>
 	<thead>
@@ -25,16 +25,14 @@ defined('_JEXEC') or die('Restricted access');
 		<th class="title" width="5" nowrap="nowrap"><?php echo JText::_('RSFP_EXPORT_COLUMN_ORDER'); ?></th>
 	</tr>
 	</thead>
-	<?php $k = 0; ?>
 	<?php $i = 1; ?>
 	<?php foreach ($this->staticHeaders as $header) { ?>
-		<tr class="row<?php echo $k; ?>">
-			<td><input type="checkbox" onchange="updateCSVPreview();" name="ExportSubmission[<?php echo $header; ?>]" id="header<?php echo $i; ?>" value="<?php echo $header; ?>" <?php echo $this->isHeaderEnabled($header, 1) ? 'checked="checked"' : ''; ?> /></td>
-			<td><label for="header<?php echo $i; ?>"><?php echo JText::_('RSFP_'.$header); ?></label></td>
-			<td><input type="text" onkeyup="updateCSVPreview();" style="text-align: center" name="ExportOrder[<?php echo $header; ?>]" value="<?php echo $i; ?>" size="3"/></td>
+		<tr>
+			<td><input type="checkbox" onchange="updateCSVPreview();" class="exportCheckbox" name="ExportSubmission[<?php echo $header->value; ?>]" id="header<?php echo $i; ?>" value="<?php echo $header->value; ?>" <?php if ($header->enabled) { ?>checked="checked"<?php } ?> /></td>
+			<td><label for="header<?php echo $i; ?>"><?php echo $header->label; ?></label></td>
+			<td><input type="text" onkeyup="updateCSVPreview();" style="text-align: center" name="ExportOrder[<?php echo $header->value; ?>]" value="<?php echo $i; ?>" size="3"/></td>
 		</tr>
 		<?php $i++; ?>
-		<?php $k=1-$k; ?>
 	<?php } ?>
 	<thead>
 	<tr>
@@ -44,16 +42,15 @@ defined('_JEXEC') or die('Restricted access');
 	</tr>
 	</thead>
 	<?php foreach ($this->headers as $header) { ?>
-		<tr class="row<?php echo $k; ?>">
-			<td><input type="checkbox" onchange="updateCSVPreview();" name="ExportComponent[<?php echo $header; ?>]" id="header<?php echo $i; ?>" value="<?php echo $header; ?>" <?php echo $this->isHeaderEnabled($header, 0) ? 'checked="checked"' : ''; ?> /></td>
+		<tr>
+			<td><input type="checkbox" onchange="updateCSVPreview();" class="exportCheckbox" name="ExportComponent[<?php echo $header->value; ?>]" id="header<?php echo $i; ?>" value="<?php echo $header->value; ?>" <?php if ($header->enabled) { ?>checked="checked"<?php } ?> /></td>
 			<td><label for="header<?php echo $i; ?>">
-					<?php echo $this->getHeaderLabel($header); ?>
+					<?php echo $header->label; ?>
 				</label></td>
-			<td><input type="text" onkeyup="updateCSVPreview();" style="text-align: center" name="ExportOrder[<?php echo $header; ?>]" value="<?php echo $i; ?>" size="3" /></td>
+			<td><input type="text" onkeyup="updateCSVPreview();" style="text-align: center" name="ExportOrder[<?php echo $header->value; ?>]" value="<?php echo $i; ?>" size="3" /></td>
 		</tr>
 		<?php $i++; ?>
-		<?php $k=1-$k; ?>
 	<?php } ?>
 </table>
 
-<button type="button" class="btn btn-primary" onclick="Joomla.submitbutton('submissions.export.task');" name="Export"><?php echo JText::_('RSFP_EXPORT');?></button>
+<button type="button" class="btn btn-primary" onclick="Joomla.submitbutton('submissions.exporttask');" name="Export"><?php echo JText::_('RSFP_EXPORT');?></button>

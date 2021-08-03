@@ -40,6 +40,7 @@ class RsformModelConditions extends JModelLegacy
 	
 	public function getOptionFields()
 	{
+		$result = array();
 		$app 	= JFactory::getApplication();
         $formId = $this->getFormId();
 		$types 	= array(
@@ -49,7 +50,7 @@ class RsformModelConditions extends JModelLegacy
 			RSFORM_FIELD_RANGE_SLIDER
         );
 		
-		$app->triggerEvent('rsfp_bk_onCreateConditionOptionFields', array(array('types' => &$types, 'formId' => $formId)));
+		$app->triggerEvent('onRsformBackendCreateConditionOptionFields', array(array('types' => &$types, 'formId' => $formId)));
 		$types = array_map('intval', $types);
 
 		$optionFields = array();
@@ -101,21 +102,29 @@ class RsformModelConditions extends JModelLegacy
 
                 $field = new RSFormProFieldMultiple($config);
 
+				$resultItems = array();
+
                 if ($items = $field->getItems())
                 {
                     foreach ($items as $item)
                     {
 						$item = new RSFormProFieldItem($item);
 						
-						$app->triggerEvent('rsfp_bk_onCreateConditionOptionFieldItem', array(array('field' => &$optionField, 'item' => &$item, 'formId' => $formId)));
+						$app->triggerEvent('onRsformBackendCreateConditionOptionFieldItem', array(array('field' => &$optionField, 'item' => &$item, 'formId' => $formId)));
 						
-                        $optionField->items[] = $item;
+                        $resultItems[] = (object) array('value' => $item->value, 'label' => $item->label);
                     }
                 }
+
+                $result[$optionField->ComponentId] = (object) array(
+                	'id'	=> $optionField->ComponentId,
+                	'name'	=> $optionField->ComponentName,
+                	'items' => $resultItems
+				);
             }
         }
 
-        return $optionFields;
+        return $result;
 	}
 	
 	public function getCondition()

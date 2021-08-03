@@ -84,11 +84,27 @@ class RSFormProBackupXML
 		return $this->add('?xml version="1.0" encoding="utf-8"?');
 	}
 	
-	public function add($tag, $value = null) {
+	public function add()
+	{
+		$args = func_get_args();
+
+		if (count($args) === 1)
+		{
+			$tag = $args[0];
+		}
+		else
+		{
+			$tag = $args[0];
+			$value = $args[1];
+		}
+
 		// If a value is not supplied, this means that we're adding a single tag.
-		if (is_null($value)) {
+		if (!isset($value))
+		{
 			$this->buffer .= "<$tag>\n";
-		} else {
+		}
+		else
+		{
 			$this->buffer .= "<$tag>".$this->escape($value)."</$tag>\n";
 		}
 		

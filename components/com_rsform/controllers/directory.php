@@ -124,7 +124,7 @@ class RsformControllerDirectory extends RsformController
 					$actualValues = array();
 					foreach ($files as $file)
 					{
-						$actualValues[] = '<a href="' . $root . JRoute::_('index.php?option=com_rsform&task=submissions.view.file&hash=' . md5($item->SubmissionId.$secret.$item->FieldName) . '&file=' . md5($file)) . '">' . RSFormProHelper::htmlEscape(basename($file)) . '</a>';
+						$actualValues[] = '<a href="' . $root . JRoute::_('index.php?option=com_rsform&task=submissions.viewfile&hash=' . md5($item->SubmissionId.$secret.$item->FieldName) . '&file=' . md5($file)) . '">' . RSFormProHelper::htmlEscape(basename($file)) . '</a>';
 					}
 
 					$item->FieldValue = implode("\n", $actualValues);
@@ -138,7 +138,7 @@ class RsformControllerDirectory extends RsformController
 			$submissions[$item->SubmissionId]->values[$item->FieldName] = $item->FieldValue;
 		}
 
-		$app->triggerEvent('rsfp_f_onDownloadCSV', array(&$submissions, $formId));
+		$app->triggerEvent('onRsformFrontendDownloadCSV', array(&$submissions, $formId));
 		
 		$enclosure = $params->get('enclosure', '"');
 		$delimiter = $params->get('delimiter', ',');
@@ -155,7 +155,7 @@ class RsformControllerDirectory extends RsformController
 		$app->sendHeaders();
 		
 		ob_end_clean();
-		echo $enclosure.implode($enclosure.$delimiter.$enclosure, $downloadableFieldCaptions).$enclosure."\n";
+		echo $enclosure . implode($enclosure . $delimiter . $enclosure, str_replace($enclosure, $enclosure . $enclosure, $downloadableFieldCaptions)) . $enclosure . "\n";
 		foreach ($cids as $cid) {
 			$row = array();
 			foreach ($downloadableFields as $field) {

@@ -21,10 +21,8 @@ class RsformViewRsform extends JViewLegacy
 		$this->buttons  = $this->get('Buttons');
 		$this->code		= $this->get('code');
 		$this->version	= (string) new RSFormProVersion();
-		
-		$this->sidebar	= $this->get('SideBar');
 
-        JHtml::stylesheet('com_rsform/admin/dashboard.css', array('relative' => true, 'version' => 'auto'));
+        JHtml::_('stylesheet', 'com_rsform/admin/dashboard.css', array('relative' => true, 'version' => 'auto'));
 		
 		parent::display($tpl);
 	}

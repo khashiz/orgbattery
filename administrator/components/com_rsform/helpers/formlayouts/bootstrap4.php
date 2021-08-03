@@ -24,7 +24,8 @@ class RSFormProFormLayoutBootstrap4 extends RSFormProFormLayout
 		parent::__construct();
 	}
 	
-	public function loadFramework() {
+	public function loadFramework()
+	{
 		// Load the CSS files
 		$this->addStyleSheet('com_rsform/frameworks/bootstrap4/bootstrap.min.css');
 

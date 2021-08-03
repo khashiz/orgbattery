@@ -7,4 +7,4 @@
 
 defined('_JEXEC') or die;
 ?>
-<button class="btn" onclick="RSFormPro.gridModal.close();" type="button"><?php echo JText::_('RSFP_CLOSE'); ?></button>
+<button class="btn btn-secondary" onclick="RSFormPro.gridModal.close();" type="button"><?php echo JText::_('RSFP_CLOSE'); ?></button>

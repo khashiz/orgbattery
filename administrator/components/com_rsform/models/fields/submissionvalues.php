@@ -7,8 +7,6 @@
 
 defined('JPATH_PLATFORM') or die;
 
-JFormHelper::loadFieldClass('list');
-
 class JFormFieldSubmissionvalues extends JFormField
 {
 	public function getInput()
@@ -80,7 +78,7 @@ class JFormFieldSubmissionvalues extends JFormField
 	// Create remove button
 	var button = document.createElement('button');
 	button.setAttribute('type', 'button');
-	button.setAttribute('class', 'btn btn-small');
+	button.setAttribute('class', 'btn btn-secondary btn-small btn-sm');
 	button.setAttribute('onclick', 'deleteField(this);');
 	button.innerText = Joomla.JText._('COM_RSFORM_REMOVE_VALUE');
 	

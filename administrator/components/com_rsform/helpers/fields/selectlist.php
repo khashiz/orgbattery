@@ -82,7 +82,7 @@ class RSFormProFieldSelectList extends RSFormProFieldMultiple
 		$prices = RSFormProPrices::getInstance($this->formId);
 		
 		// Start building the HTML input
-		$html = '<div><select';
+		$html = '<select';
 		
 		// Multiple selectable items?
 		if ($multiple) {
@@ -148,7 +148,7 @@ class RSFormProFieldSelectList extends RSFormProFieldMultiple
 		}
 		
 		// Close the tag
-		$html .= '</select></div>';
+		$html .= '</select>';
 		
 		return $html;
 	}

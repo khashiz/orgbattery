@@ -19,7 +19,7 @@ class RsformControllerConditions extends RsformController
 	public function save()
 	{
 		// Check for request forgeries
-		JSession::checkToken() or jexit('Invalid Token');
+		$this->checkToken();
 
 		$model 	= $this->getModel('conditions');
 		$task 	= $this->getTask();
@@ -62,7 +62,8 @@ class RsformControllerConditions extends RsformController
         $app->input->set('formId', $formId);
 		
 		parent::display();
-		jexit();
+
+		$app->close();
 	}
 	
 	public function showConditions()
@@ -77,6 +78,7 @@ class RsformControllerConditions extends RsformController
         $app->input->set('formId', $formId);
 		
 		parent::display();
-        jexit();
+
+		$app->close();
 	}
 }

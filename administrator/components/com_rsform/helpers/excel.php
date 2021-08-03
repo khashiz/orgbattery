@@ -36,9 +36,7 @@ if (!class_exists('ZipArchive')) {
 		}
 
 		public function close() {
-			// 2.5 fix
-			jimport('joomla.filesystem.archive');
-			$zip = JArchive::getAdapter('zip');
+			$zip = new Joomla\Archive\Zip();
 			$zip->create($this->filename, $this->files);
 		}
 	}

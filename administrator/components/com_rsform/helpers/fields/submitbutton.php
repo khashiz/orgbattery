@@ -27,9 +27,9 @@ class RSFormProFieldSubmitButton extends RSFormProFieldButton
 		}
 		if ($reset) {
 			if ($buttonType == 'button') {
-				$html .= '<button type="reset" class="btn btn-danger">'.$this->escape($resetLabel).'</button>';
+				$html .= '&nbsp;&nbsp;<button type="reset" class="btn btn-danger">'.$this->escape($resetLabel).'</button>';
 			} else {
-				$html .= '<input type="reset" class="btn btn-danger" value="'.$this->escape($resetLabel).'"/>';
+				$html .= '&nbsp;&nbsp;<input type="reset" class="btn btn-danger" value="'.$this->escape($resetLabel).'"/>';
 			}
 		}
 		
@@ -57,7 +57,7 @@ class RSFormProFieldSubmitButton extends RSFormProFieldButton
 		
 		// Start building the HTML input
 		if ($buttonType == 'button') {
-			$html .= '<div class="uk-flex-first uk-flex-last@m"><button';
+			$html .= '<button';
 		} else {
 			$html .= '<input';
 		}
@@ -83,7 +83,7 @@ class RSFormProFieldSubmitButton extends RSFormProFieldButton
 		$html .= $additional;
 		// Add the label & close the tag
 		if ($buttonType == 'button') {
-			$html .= ' >'.$this->escape($label).'</button></div>';
+			$html .= ' >'.$this->escape($label).'</button>';
 		} else {
 			$html .= ' value="'.$this->escape($label).'" />';
 		}

@@ -43,6 +43,16 @@ var RSFormProPasswords = {
 				success: 	'bg-success'
 			}
 		},
+		bootstrap5: {
+			container: 	'progress',
+			inner: 		'progress-bar',
+			states: {
+				danger:		'bg-danger',
+				warning: 	'bg-warning',
+				info: 		'bg-info',
+				success: 	'bg-success'
+			}
+		},
 		uikit: {
 			container: 	'uk-progress',
 			inner: 		'uk-progress-bar',

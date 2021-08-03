@@ -83,9 +83,9 @@ class RSFormProPassword
 			// we need to load this just once regardless of the instance
 			if (!RSFormProPassword::$init) {
 				$script .= "\n";
-				$script .= "jQuery(document).ready(function(){
+				$script .= "window.addEventListener('DOMContentLoaded', function() {
 					RSFormProPasswords.init();
-				})";
+				});";
 
 				RSFormProPassword::$init = true;
 			}

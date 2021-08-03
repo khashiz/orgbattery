@@ -975,9 +975,6 @@ span{
 }
 
 // Product Page
-.hikashop_product_name_main{
-  font-variation-settings: "wght" 700, "wdth" 100, "slnt" 0, "DOTR" 1, "DOTS" 0, "KASH" 0;
-}
 @media (max-width:959px){
   .hikashop_cart_products{
     tr{
@@ -1211,7 +1208,7 @@ span{
     }
   }
   &.uk-button-small{
-    font-variation-settings: "wght" 500,"wdth" 100,"slnt" 0,"DOTR" 1,"DOTS" 0,"KASH" 0;
+    font-weight: 500;
   }
 }
 .uk-form-label{
@@ -1224,7 +1221,7 @@ span{
 .uk-textarea,
 .uk-select{
   font-size: 14px;
-  font-variation-settings: "wght" 500, "wdth" 100, "slnt" 0, "DOTR" 1, "DOTS" 0, "KASH" 0;
+  font-weight: 500;
   color: @dark;
   .transition;
   &:focus{
@@ -1275,6 +1272,9 @@ span{
   color: inherit !important;
   .transition(.2s);
 }
+.uk-background-primary{background-color: @primary}
+.uk-background-secondary{background-color: @secondary}
+.uk-background-accent{background-color: @accent}
 .uk-text-white{color: white;}
 .uk-text-primary{color: @primary !important;}
 .uk-text-success{color: @success !important;}

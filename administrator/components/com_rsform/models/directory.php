@@ -18,25 +18,27 @@ class RsformModelDirectory extends JModelList
 			$config['filter_fields'] = array(
 				'FormTitle',
 				'FormName',
-				'FormId'
+				'FormId',
+				'state'
 			);
 		}
 
 		parent::__construct($config);
 	}
 
-	protected function populateState($ordering = 'FormId', $direction = 'asc')
+	protected function populateState($ordering = null, $direction = null)
 	{
-		$search = $this->getUserStateFromRequest($this->context . '.filter.search', 'filter_search', '', 'string');
-		$this->setState('filter_search', $search);
+		$this->setState('filter.search', 	$this->getUserStateFromRequest($this->context.'.filter.search', 'filter_search'));
+		$this->setState('filter.state', 	$this->getUserStateFromRequest($this->context.'.filter.state', 'filter_state'));
 
 		// List state information.
-		parent::populateState($ordering, $direction);
+		parent::populateState('FormId', 'asc');
 	}
 
 	protected function getListQuery()
 	{
-		$filter_search = $this->getState('filter_search');
+		$filter_search = $this->getState('filter.search');
+		$filter_state  = $this->getState('filter.state');
 		$lang		   = JFactory::getLanguage();
 		$query		   = $this->_db->getQuery(true);
 		$or 	= array();
@@ -130,9 +132,42 @@ class RsformModelDirectory extends JModelList
 
 		$query->join('left', $this->_db->qn('#__rsform_directory', 'd') . ' ON (' . $this->_db->qn('f.FormId') . ' = ' . $this->_db->qn('d.formId') . ')');
 
+		if ($filter_state === '1')
+		{
+			$query->having('DirectoryFormId IS NOT NULL');
+		}
+		elseif ($filter_state === '0')
+		{
+			$query->having('DirectoryFormId IS NULL');
+		}
+
 		$query->order($this->_db->qn($this->getSortColumn()) . ' ' . $this->_db->escape($this->getSortOrder()));
 
 		return $query;
+	}
+
+	public function getForm($data = array(), $loadData = true)
+	{
+		// Get the form.
+		$form = $this->loadForm('com_rsform.directory', 'directory', array('control' => 'jform', 'load_data' => false));
+		if (empty($form))
+		{
+			return false;
+		}
+
+		$app = JFactory::getApplication();
+
+		// Check the session for previously entered form data.
+		$data = $app->getUserState('com_rsform.edit.directory.data', array());
+
+		if (empty($data))
+		{
+			$data = $this->getItem();
+		}
+
+		$form->bind($data);
+
+		return $form;
 	}
 
 	public function getForms()
@@ -172,50 +207,54 @@ class RsformModelDirectory extends JModelList
 		return $this->getState('list.direction', 'ASC');
 	}
 
-	public function getSideBar() {
-		require_once JPATH_COMPONENT.'/helpers/toolbar.php';
-
-		return RSFormProToolbarHelper::render();
+	public function getItem()
+	{
+		return $this->getDirectory();
 	}
 
-	public function getDirectory() {
-		$formId = JFactory::getApplication()->input->getInt('formId');
-		$table 	= JTable::getInstance('RSForm_Directory', 'Table');
+	public function getDirectory()
+	{
+		if ($this->_directory === null)
+		{
+			$formId = JFactory::getApplication()->input->getInt('formId');
+			$table 	= JTable::getInstance('RSForm_Directory', 'Table');
 
-		$table->load($formId);
+			$table->load($formId);
 
-		if (!$table->formId) {
-			$table->enablecsv = 0;
-			$table->enablepdf = 0;
-			$table->HideEmptyValues = 0;
-			$table->ShowGoogleMap = 0;
-			$table->ViewLayoutAutogenerate = 1;
-			$table->ViewLayoutName = 'dir-inline';
+			if (!$table->formId) {
+				$table->enablecsv = 0;
+				$table->enablepdf = 0;
+				$table->HideEmptyValues = 0;
+				$table->ShowGoogleMap = 0;
+				$table->ViewLayoutAutogenerate = 1;
+				$table->ViewLayoutName = 'dir-inline';
+			}
+
+			if ($table->groups) {
+				$registry = new JRegistry;
+				$registry->loadString($table->groups);
+				$table->groups = $registry->toArray();
+			} else {
+				$table->groups = array();
+			}
+
+			if ($table->DeletionGroups) {
+				$registry = new JRegistry;
+				$registry->loadString($table->DeletionGroups);
+				$table->DeletionGroups = $registry->toArray();
+			} else {
+				$table->DeletionGroups = array();
+			}
+
+			$this->_directory = $table;
+
+			if ($this->_directory->ViewLayoutAutogenerate)
+			{
+				$this->autoGenerateLayout();
+			}
 		}
 
-		if ($table->groups) {
-			$registry = new JRegistry;
-			$registry->loadString($table->groups);
-			$table->groups = $registry->toArray();
-		} else {
-			$table->groups = array();
-		}
-
-        if ($table->DeletionGroups) {
-            $registry = new JRegistry;
-            $registry->loadString($table->DeletionGroups);
-            $table->DeletionGroups = $registry->toArray();
-        } else {
-            $table->DeletionGroups = array();
-        }
-
-		$this->_directory = $table;
-
-		if ($this->_directory->ViewLayoutAutogenerate) {
-			$this->autoGenerateLayout();
-		}
-
-		return $table;
+		return $this->_directory;
 	}
 
 	public function save($data) {
@@ -437,25 +476,5 @@ class RsformModelDirectory extends JModelList
 		}
 
 		return true;
-	}
-
-	public function getFilterBar()
-	{
-		require_once JPATH_COMPONENT.'/helpers/adapters/filterbar.php';
-
-		// Search filter
-		$options['search'] = array(
-			'label' => JText::_('JSEARCH_FILTER'),
-			'tooltip' => JText::_('COM_RSFORM_SEARCH_FILTER_PLACEHOLDER'),
-			'value' => $this->getState('filter_search')
-		);
-		$options['reset_button'] = true;
-
-		$options['limitBox'] = $this->getPagination()->getLimitBox();
-		$options['orderDir'] = false;
-
-		$bar = new RSFilterBar($options);
-
-		return $bar;
 	}
 }

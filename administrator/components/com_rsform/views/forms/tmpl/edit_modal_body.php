@@ -6,24 +6,17 @@
 */
 
 defined('_JEXEC') or die;
+
+$tabs = new RSFormProAdapterTabs('editModalTabs');
+$tabs->addTitle('RSFP_COMPONENTS_GENERAL_TAB', 'rsfptab0');
+$tabs->addContent('');
+$tabs->addTitle('RSFP_COMPONENTS_VALIDATIONS_TAB', 'rsfptab1');
+$tabs->addContent('');
+$tabs->addTitle('RSFP_COMPONENTS_ATTRIBUTES_TAB', 'rsfptab2');
+$tabs->addContent('');
+$tabs->addTitle('RSFP_COMPONENTS_FREETEXT_TAB', 'rsfptab3');
+$tabs->addContent('<div id="rsfp-editor-container" class="rsfp-hidden">' . RSFormProHelper::getEditor()->display('param[TEXT]', '', '100%', '120px', 40, 12, false, 'TEXT', null, null) . '</div>');
 ?>
 	<div id="rsfp-tabs">
-		<?php echo JHtml::_('bootstrap.startTabSet', 'editModalTabs', array('active' => 'rsfptab0')); ?>
-		
-		<?php echo JHtml::_('bootstrap.addTab', 'editModalTabs', 'rsfptab0', JText::_('RSFP_COMPONENTS_GENERAL_TAB')); ?>
-		<?php echo JHtml::_('bootstrap.endTab'); ?>
-		
-		<?php echo JHtml::_('bootstrap.addTab', 'editModalTabs', 'rsfptab1', JText::_('RSFP_COMPONENTS_VALIDATIONS_TAB')); ?>
-		<?php echo JHtml::_('bootstrap.endTab'); ?>
-		
-		<?php echo JHtml::_('bootstrap.addTab', 'editModalTabs', 'rsfptab2', JText::_('RSFP_COMPONENTS_ATTRIBUTES_TAB')); ?>
-		<?php echo JHtml::_('bootstrap.endTab'); ?>
-
-		<?php echo JHtml::_('bootstrap.addTab', 'editModalTabs', 'rsfptab3', JText::_('RSFP_COMPONENTS_FREETEXT_TAB')); ?>
-		<div id="rsfp-editor-container" class="rsfp-hidden">
-		<?php echo RSFormProHelper::getEditor()->display('param[TEXT]', '', '100%', '120px', 40, 12, true, 'TEXT', null, null); ?>
-		</div>
-		<?php echo JHtml::_('bootstrap.endTab'); ?>
-		
-		<?php echo JHtml::_('bootstrap.endTabSet'); ?>
+		<?php $tabs->render(); ?>
 	</div>

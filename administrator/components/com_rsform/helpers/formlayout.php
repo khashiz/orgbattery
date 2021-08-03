@@ -25,12 +25,12 @@ class RSFormProFormLayout
 	}
 	
 	protected function addStyleSheet($path) {
-		$stylesheet = JHtml::stylesheet($path, array('pathOnly' => true, 'relative' => true));
+		$stylesheet = JHtml::_('stylesheet', $path, array('pathOnly' => true, 'relative' => true));
 		RSFormProAssets::addStyleSheet($stylesheet);
 	}
 	
 	protected function addScript($path) {
-		$script = JHtml::script($path, array('pathOnly' => true, 'relative' => true));
+		$script = JHtml::_('script', $path, array('pathOnly' => true, 'relative' => true));
 		RSFormProAssets::addScript($script);
 	} 
 	
@@ -38,7 +38,8 @@ class RSFormProFormLayout
 		RSFormProAssets::addScriptDeclaration($script);
 	}
 	
-	protected function addjQuery() {
-		JHtml::_('jquery.framework', true);
+	protected function addjQuery()
+	{
+		RSFormProAssets::addJquery();
 	}
 }

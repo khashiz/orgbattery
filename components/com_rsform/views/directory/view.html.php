@@ -20,11 +20,11 @@ class RsformViewDirectory extends JViewLegacy
 		$this->tooltipClass = RSFormProHelper::getTooltipClass();
 		$this->url          = JUri::getInstance();
 
-        JHtml::script('com_rsform/directory.js', array('relative' => true, 'version' => 'auto'));
+        JHtml::_('script', 'com_rsform/directory.js', array('relative' => true, 'version' => 'auto'));
 		
 		if ($this->layout == 'view')
 		{
-            JHtml::stylesheet('com_rsform/directory.css', array('relative' => true, 'version' => 'auto'));
+            JHtml::_('stylesheet', 'com_rsform/directory.css', array('relative' => true, 'version' => 'auto'));
 			
 			$this->template  = $this->get('template');
             $this->id		 = $this->app->input->getInt('id',0);
@@ -50,7 +50,7 @@ class RsformViewDirectory extends JViewLegacy
 		{
 			if (RSFormProHelper::canEdit($this->params->get('formId'),$this->app->input->getInt('id',0)))
 			{
-                JHtml::stylesheet('com_rsform/directory.css', array('relative' => true, 'version' => 'auto'));
+                JHtml::_('stylesheet', 'com_rsform/directory.css', array('relative' => true, 'version' => 'auto'));
 				$this->fields		= $this->get('EditFields');
 			}
 			else

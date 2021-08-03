@@ -20,26 +20,27 @@ class RsformControllerRichtext extends RsformController
 	{
         $app = JFactory::getApplication();
 
-		$app->input->set('view',    'forms');
-        $app->input->set('layout',  'richtext');
+		$app->input->set('view', 'richtext');
+        $app->input->set('layout', 'default');
 		
 		parent::display();
 	}
 	
 	public function save()
 	{
-		$db 	= JFactory::getDbo();
-		$app    = JFactory::getApplication();
-		$formId = $app->input->getInt('formId');
-		$opener = $app->input->getCmd('opener');
-		$value  = $app->input->post->get($opener, '', 'raw');
-		$model  = $this->getModel('forms');
+		$db 		= JFactory::getDbo();
+		$app    	= JFactory::getApplication();
+		$formsModel = $this->getModel('forms');
+		$model		= $this->getModel('richtext');
+		$lang   	= $formsModel->getLang();
+		$formId 	= $model->getFormId();
+		$opener 	= $model->getEditorName();
+		$value  	= $app->input->post->get($opener, '', 'raw');
+		$noEditor	= $model->getNoEditor();
 
-		$model->getForm();
-		$lang = $model->getLang();
-		if ($model->_form->Lang != $lang || (RSFormProHelper::getConfig('global.disable_multilanguage') && RSFormProHelper::getConfig('global.default_language') != 'en-GB'))
+		if ($formsModel->_form->Lang != $lang || (RSFormProHelper::getConfig('global.disable_multilanguage') && RSFormProHelper::getConfig('global.default_language') != 'en-GB'))
 		{
-			$model->saveFormRichtextTranslation($formId, $opener, $value, $lang);
+			$model->saveTranslation($value);
 		}
 		else
 		{
@@ -58,7 +59,7 @@ class RsformControllerRichtext extends RsformController
 
 		if ($this->getTask() == 'apply')
 		{
-			return $this->setRedirect('index.php?option=com_rsform&task=richtext.show&opener='.$opener.'&formId='.$formId.'&tmpl=component');
+			return $this->setRedirect('index.php?option=com_rsform&task=richtext.show&opener='.$opener.'&formId='.$formId.'&tmpl=component' . ($noEditor ? '&noEditor=1' : ''));
 		}
 
         JFactory::getDocument()->addScriptDeclaration('window.close();');
@@ -66,26 +67,6 @@ class RsformControllerRichtext extends RsformController
 	
 	public function preview()
 	{
-	    $app    = JFactory::getApplication();
-		$formId = $app->input->getInt('formId');
-		$opener = $app->input->getCmd('opener');
-		
-		$db = JFactory::getDbo();
-
-		$query = $db->getQuery(true)
-            ->select($db->qn($opener))
-            ->from($db->qn('#__rsform_forms'))
-            ->where($db->qn('FormId') . ' = ' . $db->q($formId));
-		$db->setQuery($query);
-		$value = $db->loadResult();
-		
-		$model = $this->getModel('forms');
-		$model->getForm();
-		$lang = $model->getLang();
-		$translations = RSFormProHelper::getTranslations('forms', $formId, $lang);
-		if ($translations && isset($translations[$opener]))
-			$value = $translations[$opener];
-		
-		echo $value;
+		echo $this->getModel('richtext')->getEditorText();
 	}
 }

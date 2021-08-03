@@ -39,11 +39,11 @@ class RSFormProYUICalendar
 			return;
 		}
 
-		RSFormProAssets::addScript(JHtml::script('com_rsform/calendar/calendar.js', array('pathOnly' => true, 'relative' => true)));
-		RSFormProAssets::addScript(JHtml::script('com_rsform/calendar/script.js', array('pathOnly' => true, 'relative' => true)));
-		RSFormProAssets::addStyleSheet(JHtml::stylesheet('com_rsform/calendar/calendar.css', array('pathOnly' => true, 'relative' => true)));
+		RSFormProAssets::addScript(JHtml::_('script', 'com_rsform/calendar/calendar.js', array('pathOnly' => true, 'relative' => true)));
+		RSFormProAssets::addScript(JHtml::_('script', 'com_rsform/calendar/script.js', array('pathOnly' => true, 'relative' => true)));
+		RSFormProAssets::addStyleSheet(JHtml::_('stylesheet', 'com_rsform/calendar/calendar.css', array('pathOnly' => true, 'relative' => true)));
 		if (JFactory::getDocument()->direction == 'rtl') {
-			RSFormProAssets::addStyleSheet(JHtml::stylesheet('com_rsform/calendar/calendar-rtl.css', array('pathOnly' => true, 'relative' => true)));
+			RSFormProAssets::addStyleSheet(JHtml::_('stylesheet', 'com_rsform/calendar/calendar-rtl.css', array('pathOnly' => true, 'relative' => true)));
 		}
 		
 		$out = "\n";

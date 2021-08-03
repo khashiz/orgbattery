@@ -84,12 +84,11 @@ RSFormPro.submitForm = function(form) {
 	var func;
 
 	if (typeof RSFormPro.formEvents[formId] === 'object' && RSFormPro.formEvents[formId].length > 0) {
-		if (func = RSFormPro.formEvents[formId].shift()) {
-			if (typeof func === 'function') {
-				func();
+		func = RSFormPro.formEvents[formId].shift()
+		if (typeof func === 'function') {
+			func();
 
-				return false;
-			}
+			return false;
 		}
 	}
 
@@ -410,6 +409,34 @@ RSFormPro.addMoreFiles = function(button) {
 	}
 };
 
+RSFormPro.openImageModal = function(element) {
+	var modal = document.createElement('div');
+	modal.setAttribute('class', 'rsfp-modal');
+
+	var close = document.createElement('span');
+	close.innerHTML = '&times;';
+	close.setAttribute('class', 'rsfp-modal-close-button');
+	modal.onclick = close.onclick = function() {
+		modal.parentNode.removeChild(modal);
+	};
+
+	var img = document.createElement('img');
+	img.setAttribute('class', 'rsfp-modal-image');
+	img.setAttribute('src', element.getAttribute('src'));
+
+	var caption = document.createElement('div');
+	caption.setAttribute('class', 'rsfp-modal-caption');
+	caption.innerHTML = element.getAttribute('alt');
+
+	modal.appendChild(close);
+	modal.appendChild(img);
+	modal.appendChild(caption);
+
+	document.getElementsByTagName('body')[0].appendChild(modal);
+
+	modal.style.display = 'block';
+}
+
 RSFormPro.loadImage = function(input) {
 	if ('files' in input && typeof FileReader === 'function')
 	{
@@ -441,31 +468,7 @@ RSFormPro.loadImage = function(input) {
 					img.onclick = false;
 				};
 				img.onclick = function() {
-					var modal = document.createElement('div');
-					modal.setAttribute('class', 'rsfp-modal');
-
-					var close = document.createElement('span');
-					close.innerHTML = '&times;';
-					close.setAttribute('class', 'rsfp-modal-close-button');
-					modal.onclick = close.onclick = function() {
-						modal.parentNode.removeChild(modal);
-					};
-
-					var img = document.createElement('img');
-					img.setAttribute('class', 'rsfp-modal-image');
-					img.setAttribute('src', this.getAttribute('src'));
-
-					var caption = document.createElement('div');
-					caption.setAttribute('class', 'rsfp-modal-caption');
-					caption.innerHTML = this.getAttribute('alt');
-
-					modal.appendChild(close);
-					modal.appendChild(img);
-					modal.appendChild(caption);
-
-					document.getElementsByTagName('body')[0].appendChild(modal);
-
-					modal.style.display = 'block';
+					RSFormPro.openImageModal(this);
 				};
 
 				div.appendChild(img);
@@ -1813,7 +1816,7 @@ RSFormPro.Ajax = {
 
 			if (form.elements[i].type !== 'file')
 			{
-				if (typeof RSFormPro.Editors[form.elements[i].name] === 'function')
+				if (typeof RSFormPro.Editors[form.elements[i].name] === 'function' && RSFormPro.Editors[form.elements[i].name]() !== null)
 				{
 					RSFormPro.Ajax.Params.push(form.elements[i].name + '=' + encodeURIComponent(RSFormPro.Editors[form.elements[i].name]()));
 				}

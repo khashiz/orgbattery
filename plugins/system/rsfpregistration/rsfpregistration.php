@@ -46,7 +46,7 @@ class plgSystemRsfpregistration extends JPlugin
 		// Run only once
 		if (!isset($rows[$formId])) {
 			$rows[$formId] = false;
-			if ($row = JTable::getInstance('RSForm_Registration', 'Table')) {
+			if ($row = $this->getTable()) {
 				if ($row->load(array('form_id' => $formId, 'published' => 1))) {
 					$rows[$formId] = $row;
 				}
@@ -54,6 +54,11 @@ class plgSystemRsfpregistration extends JPlugin
 		}
 
 		return $rows[$formId];
+	}
+
+	protected function getTable()
+	{
+		return JTable::getInstance('RSForm_Registration', 'Table');
 	}
 
 	private function hasConsentPlugin()
@@ -124,16 +129,13 @@ class plgSystemRsfpregistration extends JPlugin
 		return $vars;
 	}
 
-	public function rsfp_onFormSave($form) {
-		$row = JTable::getInstance('RSForm_Registration', 'Table');
-		if (!$row) {
-			return false;
-		}
-
+	public function onRsformFormSave($form)
+	{
 		$data 			 = JFactory::getApplication()->input->get('reg', array(), 'array');
 		$data['form_id'] = $form->FormId;
 
-		switch ($data['activation']) {
+		switch ($data['activation'])
+		{
 			case RSFP_REG_NONE:
 				$data['defer_admin_email'] = 0;
 				break;
@@ -143,17 +145,21 @@ class plgSystemRsfpregistration extends JPlugin
 				break;
 		}
 
-		if (!$row->save($data))
+		if ($row = $this->getTable())
 		{
-			return false;
+			if (!$row->save($data))
+			{
+				JFactory::getApplication()->enqueueMessage($row->getError(), 'error');
+			}
 		}
 	}
 	
-	public function rsfp_bk_onFormCopy($args){
+	public function onRsformBackendFormCopy($args)
+	{
 		$formId 	= $args['formId'];
 		$newFormId 	= $args['newFormId'];
 
-		if ($row = JTable::getInstance('RSForm_Registration', 'Table'))
+		if ($row = $this->getTable())
 		{
 			if ($row->load($formId))
 			{
@@ -162,29 +168,16 @@ class plgSystemRsfpregistration extends JPlugin
 					return false;
 				}
 
-				$db 	= JFactory::getDbo();
-				$query 	= $db->getQuery(true)
-					->select($db->qn('form_id'))
-					->from($db->qn('#__rsform_registration'))
-					->where($db->qn('form_id').'='.$db->q($newFormId));
-				if (!$db->setQuery($query)->loadResult())
-				{
-					$query = $db->getQuery(true)
-						->insert($db->qn('#__rsform_registration'))
-						->set($db->qn('form_id').'='.$db->q($newFormId));
-					$db->setQuery($query)->execute();
-				}
-
 				$row->check();
 				
-				return $row->store();
+				$row->store();
 			}
 		}
 	}
 
-	public function rsfp_bk_onAfterShowFormEditTabs() {
+	public function onRsformBackendAfterShowFormEditTabs() {
 		$formId = JFactory::getApplication()->input->getInt('formId');
-		$row 	= JTable::getInstance('RSForm_Registration', 'Table');
+		$row 	= $this->getTable();
 
 		if (!$row) {
 			return false;
@@ -249,14 +242,14 @@ class plgSystemRsfpregistration extends JPlugin
 					</tr>
 					<tr>
 						<td width="80" align="right" nowrap="nowrap" class="key"><span class="hasTip" title="<?php echo JText::_('RSFP_REG_ACTION_DESC'); ?>"><?php echo JText::_('RSFP_REG_ACTION'); ?></span></td>
-						<td><?php echo JHtml::_('select.genericlist', array(1 => JText::_('RSFP_REG_ALWAYS_REGISTER'), 2 => JText::_('RSFP_REG_BASED_ON_SELECTION')), 'reg[action]', 'onchange="rsfp_changeRegAction(this.value);"', 'value', 'text', $row->action); echo JHtml::_('select.genericlist', $fields, 'reg[action_field]', $row->action != 2 ? 'disabled="disabled"' : '', 'value', 'text', $row->action_field); ?></td>
+						<td><?php echo JHtml::_('select.genericlist', array(1 => JText::_('RSFP_REG_ALWAYS_REGISTER'), 2 => JText::_('RSFP_REG_BASED_ON_SELECTION')), 'reg[action]', 'onchange="regChangeAction(this.value);"', 'value', 'text', $row->action); echo JHtml::_('select.genericlist', $fields, 'reg[action_field]', $row->action != 2 ? 'disabled="disabled"' : '', 'value', 'text', $row->action_field); ?></td>
 					</tr>
 					<tr>
 						<td colspan="2"><?php echo JText::_('RSFP_REG_ACTION_WARNING'); ?></td>
 					</tr>
 					<tr>
 						<td width="80" align="right" nowrap="nowrap" class="key"><span class="hasTip" title="<?php echo JText::_('RSFP_REG_ACTIVATION_DESC'); ?>"><?php echo JText::_('RSFP_REG_ACTIVATION'); ?></span></td>
-						<td><?php echo JHtml::_('select.genericlist', array(JText::_('RSFP_REG_NONE'), JText::_('RSFP_REG_SELF'), JText::_('RSFP_REG_ADMIN')), 'reg[activation]', 'onchange="rsfp_changeRegActivation(this.value);"', 'value', 'text', $row->activation); ?></td>
+						<td><?php echo JHtml::_('select.genericlist', array(JText::_('RSFP_REG_NONE'), JText::_('RSFP_REG_SELF'), JText::_('RSFP_REG_ADMIN')), 'reg[activation]', 'onchange="regChangeActivation(this.value);"', 'value', 'text', $row->activation); ?></td>
 					</tr>
 					<tr>
 						<td colspan="2"><?php echo JText::_('RSFP_REG_ACTIVATION_WARNING'); ?></td>
@@ -287,7 +280,7 @@ class plgSystemRsfpregistration extends JPlugin
 				<table class="table table-bordered">
 					<tr>
 						<td width="80" align="right" nowrap="nowrap" class="key"><span class="hasTip" title="<?php echo JText::_('RSFP_REG_USER_ACTIVATION_ACTION_DESC'); ?>"><?php echo JText::_('RSFP_REG_USER_ACTIVATION_ACTION'); ?></span></td>
-						<td><?php echo JHtml::_('select.genericlist', array(JText::_('RSFP_REG_REDIRECT_DEFAULT'), JText::_('RSFP_REG_REDIRECT_TO_URL'), JText::_('RSFP_REG_SHOW_MESSAGE')), 'reg[user_activation_action]', 'onchange="rsfp_changeRegUserAction(this.value);"', 'value', 'text', $row->user_activation_action); ?></td>
+						<td><?php echo JHtml::_('select.genericlist', array(JText::_('RSFP_REG_REDIRECT_DEFAULT'), JText::_('RSFP_REG_REDIRECT_TO_URL'), JText::_('RSFP_REG_SHOW_MESSAGE')), 'reg[user_activation_action]', 'onchange="regChangeUserAction(this.value);"', 'value', 'text', $row->user_activation_action); ?></td>
 					</tr>
 					<tr id="reg_user_activation_url_container" <?php echo $row->user_activation_action != 1 ? 'style="display: none;"' : ''; ?>>
 						<td width="80" align="right" nowrap="nowrap" class="key"><span class="hasTip" title="<?php echo JText::_('RSFP_REG_USER_ACTIVATION_URL_DESC'); ?>"><?php echo JText::_('RSFP_REG_USER_ACTIVATION_URL'); ?></span></td>
@@ -305,7 +298,7 @@ class plgSystemRsfpregistration extends JPlugin
 				<table class="table table-bordered">
 					<tr>
 						<td width="80" align="right" nowrap="nowrap" class="key"><span class="hasTip" title="<?php echo JText::_('RSFP_REG_ADMIN_ACTIVATION_ACTION_DESC'); ?>"><?php echo JText::_('RSFP_REG_ADMIN_ACTIVATION_ACTION'); ?></span></td>
-						<td><?php echo JHtml::_('select.genericlist', array(JText::_('RSFP_REG_REDIRECT_DEFAULT'), JText::_('RSFP_REG_REDIRECT_TO_URL'), JText::_('RSFP_REG_SHOW_MESSAGE')), 'reg[admin_activation_action]', 'onchange="rsfp_changeRegAdminAction(this.value);"', 'value', 'text', $row->admin_activation_action); ?></td>
+						<td><?php echo JHtml::_('select.genericlist', array(JText::_('RSFP_REG_REDIRECT_DEFAULT'), JText::_('RSFP_REG_REDIRECT_TO_URL'), JText::_('RSFP_REG_SHOW_MESSAGE')), 'reg[admin_activation_action]', 'onchange="regChangeAdminAction(this.value);"', 'value', 'text', $row->admin_activation_action); ?></td>
 					</tr>
 					<tr id="reg_admin_activation_url_container" <?php echo $row->admin_activation_action != 1 ? 'style="display: none;"' : ''; ?>>
 						<td width="80" align="right" nowrap="nowrap" class="key"><span class="hasTip" title="<?php echo JText::_('RSFP_REG_ADMIN_ACTIVATION_URL_DESC'); ?>"><?php echo JText::_('RSFP_REG_ADMIN_ACTIVATION_URL'); ?></span></td>
@@ -384,11 +377,11 @@ class plgSystemRsfpregistration extends JPlugin
 			}
 			?>
 			<script type="text/javascript">
-				function rsfp_changeRegAction(value) {
-					document.getElementsByName('reg[action_field]')[0].disabled = value == 2 ? false : true;
+				function regChangeAction(value) {
+					document.getElementsByName('reg[action_field]')[0].disabled = value !== '2';
 				}
 
-				function rsfp_changeRegUserAction(value) {
+				function regChangeUserAction(value) {
 					// For convenience, grab the containers
 					var url  = document.getElementById('reg_user_activation_url_container');
 					var text = document.getElementById('reg_user_activation_text_container');
@@ -400,14 +393,14 @@ class plgSystemRsfpregistration extends JPlugin
 					// Force the value to an integer
 					value = parseInt(value);
 
-					if (value == 1) {
+					if (value === 1) {
 						url.style.display = '';
-					} else if (value == 2) {
+					} else if (value === 2) {
 						text.style.display = '';
 					}
 				}
 
-				function rsfp_changeRegAdminAction(value) {
+				function regChangeAdminAction(value) {
 					// For convenience, grab the containers
 					var url  = document.getElementById('reg_admin_activation_url_container');
 					var text = document.getElementById('reg_admin_activation_text_container');
@@ -419,14 +412,14 @@ class plgSystemRsfpregistration extends JPlugin
 					// Force the value to an integer
 					value = parseInt(value);
 
-					if (value == 1) {
+					if (value === 1) {
 						url.style.display = '';
-					} else if (value == 2) {
+					} else if (value === 2) {
 						text.style.display = '';
 					}
 				}
 
-				function rsfp_changeRegActivation(value) {
+				function regChangeActivation(value) {
 					var defer 	= document.getElementsByName('reg[defer_admin_email]')[0];
 					var user 	= document.getElementById('user_activation_action_container');
 					var admin 	= document.getElementById('admin_activation_action_container');
@@ -457,32 +450,39 @@ class plgSystemRsfpregistration extends JPlugin
 		<?php
 	}
 
-	public function rsfp_bk_onAfterShowFormEditTabsTab() {
+	public function onRsformBackendAfterShowFormEditTabsTab() {
 		?>
 		<li><a href="javascript: void(0);" id="joomlaregistration"><span class="rsficon rsficon-joomla"></span><span class="inner-text"><?php echo JText::_('RSFP_REG_TITLE'); ?></span></a></li>
 		<?php
 	}
 
-	protected function getPasswordFields($formId) {
+	protected function getPasswordFields($formId)
+	{
 		static $passwords = array();
-		if (!isset($passwords[$formId])) {
+		if (!isset($passwords[$formId]))
+		{
 			$passwords[$formId] = RSFormProHelper::componentExists($formId, RSFORM_FIELD_PASSWORD);
 		}
 
 		return $passwords[$formId];
 	}
 
-	public function rsfp_bk_onAfterCreateFrontComponentBody($args) {
+	public function onRsformBackendAfterCreateFrontComponentBody($args)
+	{
 		$formId 	 = $args['formId'];
 		$componentId = $args['componentId'];
 		$passwords 	 = $this->getPasswordFields($formId);
 
-		if ($row = $this->_getRow($formId)) {
-			if ($row->password_strength && !empty($passwords)) {
-				if (in_array($componentId, $passwords)) {
+		if ($row = $this->_getRow($formId))
+		{
+			if ($row->password_strength && !empty($passwords))
+			{
+				if (in_array($componentId, $passwords))
+				{
 					$data = $args['data'];
 
-					if ($data['NAME'] == $row->vars['password1']) {
+					if ($data['NAME'] == $row->vars['password1'])
+					{
 						require_once JPATH_ADMINISTRATOR.'/components/com_rsform/helpers/password.php';
 						$passwordClass = RSFormProPassword::getInstance($formId);
 						$passwordClass->setPasswordField($data['NAME']);
@@ -492,13 +492,16 @@ class plgSystemRsfpregistration extends JPlugin
 		}
 	}
 
-	public function rsfp_f_onBeforeFormDisplay($args) {
+	public function onRsformFrontendBeforeFormDisplay($args)
+	{
 		$formId 	= $args['formId'];
 		$layoutName = $args['formLayoutName'];
 		$passwords  = $this->getPasswordFields($formId);
 
-		if ($row = $this->_getRow($formId)) {
-			if ($row->password_strength && !empty($passwords)) {
+		if ($row = $this->_getRow($formId))
+		{
+			if ($row->password_strength && !empty($passwords))
+			{
 				require_once JPATH_ADMINISTRATOR.'/components/com_rsform/helpers/password.php';
 				$passwordClass = RSFormProPassword::getInstance($formId);
 				$passwordClass->setLayout($layoutName);
@@ -508,13 +511,15 @@ class plgSystemRsfpregistration extends JPlugin
 	}
 
 	// Validate our fields (change the validation message to point to the exact error as well)
-	public function rsfp_f_onBeforeFormValidation($args) {
+	public function onRsformFrontendBeforeFormValidation($args)
+	{
 		$formId 	= $args['formId'];
 		$post 		= &$args['post'];
 		$invalid 	= &$args['invalid'];
 		$post		= isset($post['form']) && is_array($post['form']) ? $post['form'] : $post;
 
-		if ($row = $this->_getRow($formId)) {
+		if ($row = $this->_getRow($formId))
+		{
 			// Check if the 'Based on field selection' value matches
 			if ($row->action == 2)
 			{
@@ -566,7 +571,6 @@ class plgSystemRsfpregistration extends JPlugin
 				$componentId = RSFormProHelper::componentNameExists($fields['email'], $formId);
 
 				// Check for proper email address formatting
-				jimport('joomla.mail.helper');
 				if (!JMailHelper::isEmailAddress($vars['email'])) {
 					throw new Exception(JText::_('RSFP_REG_ERROR_VALID_MAIL'));
 				}
@@ -625,7 +629,7 @@ class plgSystemRsfpregistration extends JPlugin
 	}
 
 	// Before storing the submission values, create the actual user so we can update the submission's user ID
-	public function rsfp_f_onBeforeStoreSubmissions($args)
+	public function onRsformFrontendBeforeStoreSubmissions($args)
 	{
 		$formId 		= $args['formId'];
 		$post 			= &$args['post'];
@@ -760,7 +764,8 @@ class plgSystemRsfpregistration extends JPlugin
 		}
 	}
 
-	public function rsfp_onAfterCreatePlaceholders($args) {
+	public function onRsformAfterCreatePlaceholders($args)
+	{
 		$placeholders 	= &$args['placeholders'];
 		$values			= &$args['values'];
 		$submission		= &$args['submission'];
@@ -866,7 +871,7 @@ class plgSystemRsfpregistration extends JPlugin
 	}
 
 	// We're done, remove the data from the submission
-	public function rsfp_f_onAfterFormProcess($args) {
+	public function onRsformFrontendAfterFormProcess($args) {
 		$SubmissionId 	= $args['SubmissionId'];
 		$formId 		= $args['formId'];
 
@@ -898,7 +903,7 @@ class plgSystemRsfpregistration extends JPlugin
 	}
 
 
-	public function rsfp_beforeUserEmail($args)
+	public function onRsformBeforeUserEmail($args)
 	{
 		$form =& $args['form'];
 
@@ -923,7 +928,7 @@ class plgSystemRsfpregistration extends JPlugin
 		}
 	}
 
-	public function rsfp_beforeAdminEmail($args)
+	public function onRsformBeforeAdminEmail($args)
 	{
 		$form =& $args['form'];
 
@@ -1050,7 +1055,7 @@ class plgSystemRsfpregistration extends JPlugin
 		$item = str_replace(',', '\,', $item);
 	}
 
-	public function rsfp_bk_onAfterShowConfigurationTabs($tabs) {
+	public function onRsformBackendAfterShowConfigurationTabs($tabs) {
 		$tabs->addTitle(JText::_('RSFP_REG_FORM_NAME_LABEL'), 'form-register');
 		$tabs->addContent($this->configurationScreen());
 	}
@@ -1075,7 +1080,7 @@ class plgSystemRsfpregistration extends JPlugin
 				<tr>
 					<td width="200" style="width: 200px;" align="right" class="key"><label for=""><span class="hasTip" title="<?php echo JText::_('RSFP_REG_FORM_NAME_DESC'); ?>"><?php echo JText::_( 'RSFP_REG_FORM_NAME_LABEL' ); ?></span></label></td>
 					<td>
-						<?php echo JHTML::_('select.genericlist', $forms, 'rsformConfig[registration_form]', null, 'value', 'text', RSFormProHelper::getConfig('registration_form')); ?>
+						<?php echo JHtml::_('select.genericlist', $forms, 'rsformConfig[registration_form]', null, 'value', 'text', RSFormProHelper::getConfig('registration_form')); ?>
 					</td>
 				</tr>
 				<tr>
@@ -1097,7 +1102,8 @@ class plgSystemRsfpregistration extends JPlugin
 		return $contents;
 	}
 
-	public function rsfp_f_onSwitchTasks() {
+	public function onRsformFrontendSwitchTasks()
+	{
 		$app = JFactory::getApplication();
 
 		$formId		  = $app->input->getInt('formId');
@@ -1105,36 +1111,33 @@ class plgSystemRsfpregistration extends JPlugin
 		$action		  = $app->input->getCmd('action');
 		$submissionId = $app->input->getInt('submissionId');
 
-		if ($action != 'user.activate') {
+		if ($action != 'user.activate')
+		{
 			return;
 		}
 
-		if ($row = $this->_getRow($formId)) {
+		if ($row = $this->_getRow($formId))
+		{
 			$db				= JFactory::getDbo();
 			$query			= $db->getQuery(true);
 			$useractivation = $row->activation;
 
-			// If the user is logged in, return them back to the homepage.
-			if (JFactory::getUser()->get('id')) {
-				return $app->redirect('index.php');
-			}
-
 			// If user registration or account activation is disabled, throw a 403.
-			if ($useractivation == RSFP_REG_NONE) {
-				JError::raiseError(403, JText::_('JLIB_APPLICATION_ERROR_ACCESS_FORBIDDEN'));
-				return false;
+			if ($useractivation == RSFP_REG_NONE)
+			{
+				throw new Exception(JText::_('JLIB_APPLICATION_ERROR_ACCESS_FORBIDDEN'), 403);
 			}
 
 			// Check that the token is in a valid format.
-			if ($token === null || strlen($token) !== 32) {
-				JError::raiseError(403, JText::_('JINVALID_TOKEN'));
-				return false;
+			if ($token === null || strlen($token) !== 32)
+			{
+				throw new Exception(JText::_('JINVALID_TOKEN'), 403);
 			}
 
 			// Check if there's a submissionId in the request.
-			if (!$submissionId) {
-				JError::raiseError(403, JText::_('RSFP_REG_MISSING_ACTIVATION_PARAMETERS'));
-				return false;
+			if (!$submissionId)
+			{
+				throw new Exception(JText::_('RSFP_REG_MISSING_ACTIVATION_PARAMETERS'), 403);
 			}
 
 			// Check if the submission ID exists
@@ -1144,9 +1147,9 @@ class plgSystemRsfpregistration extends JPlugin
 				->where($db->qn('FormId').'='.$db->q($formId));
 			$submission = $db->setQuery($query)->loadObject();
 
-			if (!$submission) {
-				JError::raiseError(403, JText::_('RSFP_REG_MISSING_SUBMISSION'));
-				return false;
+			if (!$submission)
+			{
+				throw new Exception(JText::_('RSFP_REG_MISSING_SUBMISSION'), 403);
 			}
 
 			$query->clear()
@@ -1154,25 +1157,27 @@ class plgSystemRsfpregistration extends JPlugin
 				->from($db->qn('#__users'))
 				->where($db->qn('activation').' = '.$db->q($token))
 				->where($db->qn('block').' = 1')
-				->where($db->qn('lastvisitDate').' = '.$db->q($db->getNullDate()));
+				->where('(' . $db->qn('lastvisitDate') . ' IS NULL OR ' . $db->qn('lastvisitDate').' = '.$db->q($db->getNullDate()) . ')');
 			$db->setQuery($query);
 
-			try {
+			try
+			{
 				$userId = (int) $db->loadResult();
-			} catch (RuntimeException $e) {
-				JError::raiseError(500, JText::sprintf('RSFP_REG_DATABASE_ERROR', $e->getMessage()));
-				return false;
+			}
+			catch (RuntimeException $e)
+			{
+				throw new Exception(JText::sprintf('RSFP_REG_DATABASE_ERROR', $e->getMessage()), 500);
 			}
 
 			// Check for a valid user id.
-			if (!$userId) {
-				JError::raiseError(403, JText::_('RSFP_REG_ACTIVATION_TOKEN_NOT_FOUND'));
-				return false;
+			if (!$userId)
+			{
+				throw new Exception(JText::_('RSFP_REG_ACTIVATION_TOKEN_NOT_FOUND'), 403);
 			}
 
-			if ($submission->UserId != $userId) {
-				JError::raiseError(403, JText::_('RSFP_REG_WRONG_USER_SUBMISSION'));
-				return false;
+			if ($submission->UserId != $userId)
+			{
+				throw new Exception(JText::_('RSFP_REG_WRONG_USER_SUBMISSION'), 403);
 			}
 
 			// Load the users plugin group.
@@ -1234,8 +1239,9 @@ class plgSystemRsfpregistration extends JPlugin
 				}
 			}
 
-			if (!$user->save()) {
-				JError::raiseError(403, JText::sprintf('RSFP_REG_REGISTRATION_ACTIVATION_SAVE_FAILED', $user->getError()));
+			if (!$user->save())
+			{
+				$app->enqueueMessage(JText::sprintf('RSFP_REG_REGISTRATION_ACTIVATION_SAVE_FAILED', $user->getError()), 'error');
 				return false;
 			}
 
@@ -1243,7 +1249,8 @@ class plgSystemRsfpregistration extends JPlugin
 			if ($useractivation == RSFP_REG_SELF) {
 				switch ($row->user_activation_action) {
 					default:
-						$app->redirect(self::toSef('index.php?option=com_users&view=login', false, $row->itemid), JText::_('RSFP_REG_REGISTRATION_ACTIVATE_SUCCESS'));
+						$app->enqueueMessage(JText::_('RSFP_REG_REGISTRATION_ACTIVATE_SUCCESS'));
+						$app->redirect(self::toSef('index.php?option=com_users&view=login', false, $row->itemid));
 						break;
 
 					case 1:
@@ -1273,7 +1280,8 @@ class plgSystemRsfpregistration extends JPlugin
 			} elseif ($user->getParam('activate')) {
 				switch ($row->user_activation_action) {
 					default:
-						$app->redirect(self::toSef('index.php?option=com_users&view=registration&layout=complete', false, $row->itemid), JText::_('RSFP_REG_REGISTRATION_VERIFY_SUCCESS'));
+						$app->enqueueMessage(JText::_('RSFP_REG_REGISTRATION_VERIFY_SUCCESS'));
+						$app->redirect(self::toSef('index.php?option=com_users&view=registration&layout=complete', false, $row->itemid));
 						break;
 
 					case 1:
@@ -1303,7 +1311,8 @@ class plgSystemRsfpregistration extends JPlugin
 			} else {
 				switch ($row->admin_activation_action) {
 					default:
-						$app->redirect(self::toSef('index.php?option=com_users&view=registration&layout=complete', false, $row->itemid), JText::_('RSFP_REG_REGISTRATION_ADMINACTIVATE_SUCCESS'));
+						$app->enqueueMessage(JText::_('RSFP_REG_REGISTRATION_ADMINACTIVATE_SUCCESS'));
+						$app->redirect(self::toSef('index.php?option=com_users&view=registration&layout=complete', false, $row->itemid));
 						break;
 
 					case 1:
@@ -1334,46 +1343,56 @@ class plgSystemRsfpregistration extends JPlugin
 		}
 	}
 
-	public function rsfp_onAfterFormBuildRoute(&$segments, &$query) {
-		if (isset($query['view']) && $query['view'] == 'registration') {
+	public function onRsformAfterFormBuildRoute(&$segments, &$query)
+	{
+		if (isset($query['view']) && $query['view'] == 'registration')
+		{
 			$segments = array('registration-message');
 
 			unset($query['view']);
 		}
 	}
 
-	public function rsfp_onAfterFormParseRoute(&$segments, &$query) {
-		if (isset($segments[0]) && $segments[0] == 'registration-message') {
+	public function onRsformAfterFormParseRoute(&$segments, &$query)
+	{
+		if (isset($segments[0]) && $segments[0] == 'registration-message')
+		{
 			$query['view'] = 'registration';
 		}
 	}
 
 	// Redirect frontend users to the assigned registration form or registration URL
-	public function onAfterRoute() {
+	public function onAfterRoute()
+	{
 		$app = JFactory::getApplication();
 
 		// No point in running in the administrator section
-		if ($app->isAdmin()) {
+		if ($app->isClient('administrator'))
+		{
 			return;
 		}
 
 		// Look for com_users
-		if ($app->input->getCmd('option') != 'com_users') {
+		if ($app->input->getCmd('option') != 'com_users')
+		{
 			return;
 		}
 
 		// Are we on the registration view?
-		if ($app->input->getCmd('view') != 'registration') {
+		if ($app->input->getCmd('view') != 'registration')
+		{
 			return;
 		}
 
 		// There's also the 'layout=complete' case we have to take into account
-		if ($app->input->getCmd('layout', 'default') != 'default') {
+		if ($app->input->getCmd('layout', 'default') != 'default')
+		{
 			return;
 		}
 		
 		// Also the tasks
-		if ($app->input->getCmd('task')) {
+		if ($app->input->getCmd('task'))
+		{
 			return;
 		}
 		
@@ -1383,80 +1402,82 @@ class plgSystemRsfpregistration extends JPlugin
 		
 		$config = RSFormProConfig::getInstance();
 
-		if ($formId = $config->get('registration_form')) {
+		if ($formId = $config->get('registration_form'))
+		{
 			$app->redirect(JRoute::_('index.php?option=com_rsform&formId='.$formId, false));
-		} elseif ($url = $config->get('redirect_url')) {
+		}
+		elseif ($url = $config->get('redirect_url'))
+		{
 			$app->redirect($url);
 		}
 	}
 
 	// When a form is deleted, delete the reference as well
-	public function rsfp_onFormDelete($formId) {
-		$db 	= JFactory::getDbo();
-		$query 	= $db->getQuery(true);
-		$query->delete('#__rsform_registration')
-			->where($db->qn('form_id').'='.$db->q($formId));
-		$db->setQuery($query)->execute();
+	public function onRsformFormDelete($formId)
+	{
+		if ($row = $this->getTable())
+		{
+			$row->delete($formId);
+		}
 	}
 
 	// Inject the registration settings in the form backup
-	public function rsfp_onFormBackup($form, $xml, $fields) {
-		$db 	= JFactory::getDbo();
-		$query 	= $db->getQuery(true);
-		$query->select('*')
-			->from($db->qn('#__rsform_registration'))
-			->where($db->qn('form_id').'='.$db->q($form->FormId));
-		$db->setQuery($query);
-		if ($registration = $db->loadObject()) {
-			// No need for a form_id
-			unset($registration->form_id);
+	public function onRsformFormBackup($form, $xml, $fields)
+	{
+		if ($row = $this->getTable())
+		{
+			if ($row->load($form->FormId))
+			{
+				$row->check();
 
-			$xml->add('registration');
-			foreach ($registration as $property => $value) {
-				$xml->add($property, $value);
+				$data = $row->getProperties();
+				unset($data['form_id']);
+
+				$xml->add('registration');
+				foreach ($data as $property => $value)
+				{
+					$xml->add($property, $value);
+				}
+				$xml->add('/registration');
 			}
-			$xml->add('/registration');
 		}
 	}
 
 	// Restore the registration settings from a form backup
-	public function rsfp_onFormRestore($form, $xml, $fields) {
-		if (isset($xml->registration)) {
+	public function onRsformFormRestore($form, $xml, $fields)
+	{
+		if (isset($xml->registration))
+		{
 			$data = array(
 				'form_id' => $form->FormId
 			);
 
-			foreach ($xml->registration->children() as $property => $value) {
+			foreach ($xml->registration->children() as $property => $value)
+			{
 				$data[$property] = (string) $value;
 			}
 
-			if (isset($data['reg_merge_vars']) && !isset($data['vars'])) {
+			if (isset($data['reg_merge_vars']) && !isset($data['vars']))
+			{
 				$data['vars'] = $data['reg_merge_vars'];
 			}
 
-			if (!isset($data['groups'])) {
+			if (!isset($data['groups']))
+			{
 				$params	= JComponentHelper::getParams('com_users');
 				$data['groups'] = array($params->get('new_usertype', 2));
 			}
 
-			if ($row = JTable::getInstance('RSForm_Registration', 'Table')) {
-				if (!$row->load($form->FormId)) {
-					$db = JFactory::getDbo();
-					$query = $db->getQuery(true);
-					$query	->insert('#__rsform_registration')
-						->set(array(
-							$db->qn('form_id') .'='. $db->q($form->FormId),
-						));
-					$db->setQuery($query)->execute();
-				}
-
+			if ($row = $this->getTable())
+			{
 				$row->save($data);
 			}
 		}
 	}
 
 	// Truncate this table when we're restoring clean
-	public function rsfp_bk_onFormRestoreTruncate() {
+	public function onRsformBackendFormRestoreTruncate()
+	{
 		JFactory::getDbo()->truncateTable('#__rsform_registration');
 	}
 
@@ -1477,7 +1498,7 @@ class plgSystemRsfpregistration extends JPlugin
 		}
 	}
 
-	public function rsfp_onAfterCreateQuickAddGlobalPlaceholders(& $placeholders, $type)
+	public function onRsformAfterCreateQuickAddGlobalPlaceholders(& $placeholders, $type)
 	{
 		static $hasRegistration, $newPlaceholders;
 
@@ -1485,7 +1506,7 @@ class plgSystemRsfpregistration extends JPlugin
 		{
 			$hasRegistration = false;
 
-			if ($row = JTable::getInstance('RSForm_Registration', 'Table'))
+			if ($row = $this->getTable())
 			{
 				$formId = JFactory::getApplication()->input->getInt('formId');
 				if ($row->load($formId) && $row->published)

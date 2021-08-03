@@ -113,7 +113,7 @@ abstract class RSFormProSubmissionsHelper
                 $deletionEmail['bcc'] = explode(',', $deletionEmail['bcc']);
             }
 
-            JFactory::getApplication()->triggerEvent('rsfp_beforeDeletionEmail', array(array('form' => &$form, 'placeholders' => &$placeholders, 'values' => &$values, 'submissionId' => $SubmissionId, 'deletionEmail'=> &$deletionEmail)));
+            JFactory::getApplication()->triggerEvent('onRsformBeforeDeletionEmail', array(array('form' => &$form, 'placeholders' => &$placeholders, 'values' => &$values, 'submissionId' => $SubmissionId, 'deletionEmail'=> &$deletionEmail)));
 
             if ($deletionEmail['to'])
             {
@@ -162,7 +162,7 @@ abstract class RSFormProSubmissionsHelper
             {
 				$fields = RSFormProHelper::componentExists($formId, RSFORM_FIELD_FILEUPLOAD, false);
 
-				JFactory::getApplication()->triggerEvent('rsfp_onDeleteSubmissionFiles', $fields, $formId, $cid);
+				JFactory::getApplication()->triggerEvent('onRsformDeleteSubmissionFiles', array($fields, $formId, $cid));
 
                 if ($fields)
                 {
@@ -184,8 +184,6 @@ abstract class RSFormProSubmissionsHelper
                             ->where($db->qn('FieldValue') . ' != ' . $db->q(''));
                         if ($files = $db->setQuery($query)->loadColumn())
                         {
-                            jimport('joomla.filesystem.file');
-
                             foreach ($files as $file)
                             {
                             	$file = RSFormProHelper::explode($file);
@@ -261,8 +259,6 @@ abstract class RSFormProSubmissionsHelper
                     ->where($db->qn('FieldValue') . ' != ' . $db->q(''));
                 if ($files = $db->setQuery($query)->loadColumn())
                 {
-                    jimport('joomla.filesystem.file');
-
                     foreach ($files as $file)
                     {
                         if (file_exists($file) && is_file($file))

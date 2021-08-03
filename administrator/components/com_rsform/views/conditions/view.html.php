@@ -20,7 +20,7 @@ class RsformViewConditions extends JViewLegacy
 		$condition		= $this->get('condition');
 		$allFields 		= $this->get('allFields');
 
-        $lists['allfields'] = JHtml::_('select.genericlist', $allFields, 'component_id[]', 'multiple="multiple" size="5" class="advancedSelect"', 'ComponentId', 'PropertyValue', $condition->component_id);
+        $lists['allfields'] = JHtml::_('select.genericlist', $allFields, 'component_id[]', 'multiple="multiple" size="5" class="advancedSelect conditionsSelect"', 'ComponentId', 'PropertyValue', $condition->component_id);
 
 		$actions = array(
 			JHtml::_('select.option', 'show', JText::_('RSFP_CONDITION_SHOW')),

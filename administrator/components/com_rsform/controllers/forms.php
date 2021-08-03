@@ -13,12 +13,22 @@ class RsformControllerForms extends RsformController
 	{
 		parent::__construct($config);
 		
-		$this->registerTask('apply', 	 'save');
-		$this->registerTask('new', 	 	 'add');
-		$this->registerTask('publish',   'changestatus');
+		$this->registerTask('apply', 'save');
+		$this->registerTask('publish', 'changestatus');
 		$this->registerTask('unpublish', 'changestatus');
 		
 		$this->_db = JFactory::getDbo();
+	}
+
+	public function changeLanguage()
+	{
+		$formId  	 = JFactory::getApplication()->input->getInt('formId');
+		$tabposition = JFactory::getApplication()->input->getInt('tabposition');
+		$tab		 = JFactory::getApplication()->input->getInt('tab',0);
+		$tab 		 = $tabposition ? '&tab='.$tab : '';
+		JFactory::getSession()->set('com_rsform.form.formId'.$formId.'.lang', JFactory::getApplication()->input->getString('Language'));
+
+		$this->setRedirect('index.php?option=com_rsform&view=forms&layout=edit&formId='.$formId.'&tabposition='.$tabposition.$tab);
 	}
 
 	public function manage()
@@ -38,22 +48,6 @@ class RsformControllerForms extends RsformController
 	{
 		JFactory::getApplication()->input->set('view', 	'forms');
 		JFactory::getApplication()->input->set('layout', 	'edit');
-		
-		parent::display();
-	}
-	
-	public function add()
-	{
-		JFactory::getApplication()->input->set('view', 	'forms');
-		JFactory::getApplication()->input->set('layout', 	'new');
-		
-		parent::display();
-	}
-	
-	public function emails()
-	{
-		JFactory::getApplication()->input->set('view', 	'forms');
-		JFactory::getApplication()->input->set('layout', 	'emails');
 		
 		parent::display();
 	}
@@ -113,9 +107,7 @@ class RsformControllerForms extends RsformController
 			$componentId = $component->id;
 		}
 		
-		JTable::addIncludePath(JPATH_ADMINISTRATOR . '/components/com_menus/tables');
-		
-		$table = JTable::getInstance('Menu', 'MenusTable');
+		$table = JTable::getInstance('Menu');
 		$data = array(
 			'menutype' 		=> 'main',
 			'title'			=> trim($title),
@@ -138,17 +130,12 @@ class RsformControllerForms extends RsformController
 		}
 		catch (InvalidArgumentException $e)
 		{
-			if (class_exists('JLog'))
-			{
-				JLog::add($e->getMessage(), JLog::WARNING, 'jerror');
-			}
-
 			$app->enqueueMessage($e->getMessage(), 'error');
 			$app->redirect('index.php?option=com_rsform&view=forms');
 			return false;
 		}
 		
-		if (!$table->bind($data) || !$table->check() || !$table->store())
+		if (!$table->save($data))
 		{
 			$app->enqueueMessage($table->getError(), 'error');
 			$app->redirect('index.php?option=com_rsform&view=forms');
@@ -158,14 +145,14 @@ class RsformControllerForms extends RsformController
 		$table->rebuild(1);
 		
 		// Mark this form as added
-		$query = $db->getQuery(true)
-			->update($db->qn('#__rsform_forms'))
-			->set($db->qn('Backendmenu') . ' = ' . $db->q(1))
-			->where($db->qn('FormId') . ' = ' . $db->q($formId));
-		$db->setQuery($query)->execute();
+		$object = (object) array(
+			'FormId'        => $formId,
+			'Backendmenu'   => 1
+		);
+		$db->updateObject('#__rsform_forms', $object, array('FormId'));
 		
 		// Redirect
-		$app->redirect('index.php?option=com_rsform&view=forms', JText::_('RSFP_FORM_ADDED_BACKEND'));
+		$this->setRedirect('index.php?option=com_rsform&view=forms', JText::_('RSFP_FORM_ADDED_BACKEND'));
 	}
 	
 	/**
@@ -184,9 +171,8 @@ class RsformControllerForms extends RsformController
 		}
 		
 		// Remove from menu
-		JTable::addIncludePath(JPATH_ADMINISTRATOR . '/components/com_menus/tables');
-		
-		$table = JTable::getInstance('Menu', 'MenusTable');
+		$table = JTable::getInstance('Menu');
+
 		$query = $db->getQuery(true)
 			->select($db->qn('id'))
 			->from($db->qn('#__menu'))
@@ -202,199 +188,14 @@ class RsformControllerForms extends RsformController
 		}
 		
 		// Mark this form as removed
-		$query = $db->getQuery(true)
-			->update($db->qn('#__rsform_forms'))
-			->set($db->qn('Backendmenu') . ' = ' . $db->q(0))
-			->where($db->qn('FormId') . ' = ' . $db->q($formId));
-		$db->setQuery($query)->execute();
+		$object = (object) array(
+			'FormId'        => $formId,
+			'Backendmenu'   => 0
+		);
+		$db->updateObject('#__rsform_forms', $object, array('FormId'));
 		
 		// Redirect
-		$app->redirect('index.php?option=com_rsform&view=forms', JText::_('RSFP_FORM_REMOVED_BACKEND'));
-	}
-	
-	public function newStepTwo()
-	{
-		JFactory::getApplication()->input->set('view', 'forms');
-		JFactory::getApplication()->input->set('layout', 'new2');
-		
-		parent::display();
-	}
-	
-	public function newStepThree()
-	{
-	    $app     = JFactory::getApplication();
-		$session = JFactory::getSession();
-
-		$session->set('com_rsform.wizard.FormTitle', $app->input->get('FormTitle', '', 'raw'));
-		$session->set('com_rsform.wizard.FormLayout', $app->input->get('FormLayout', '', 'raw'));
-		$session->set('com_rsform.wizard.ScrollToThankYou', $app->input->get('ScrollToThankYou', 0, 'int'));
-		$session->set('com_rsform.wizard.ThankYouMessagePopUp', $app->input->get('ThankYouMessagePopUp', 0, 'int'));
-		$session->set('com_rsform.wizard.AdminEmail', $app->input->get('AdminEmail', 0, 'int'));
-		$session->set('com_rsform.wizard.AdminEmailTo', $app->input->get('AdminEmailTo', '', 'raw'));
-		$session->set('com_rsform.wizard.UserEmail', $app->input->get('UserEmail', 0, 'int'));
-		$session->set('com_rsform.wizard.SubmissionAction', $app->input->get('SubmissionAction', '', 'cmd'));
-		$session->set('com_rsform.wizard.Thankyou', $app->input->get('Thankyou', '', 'raw'));
-		$session->set('com_rsform.wizard.ReturnUrl', $app->input->get('ReturnUrl', '', 'raw'));
-		
-		$app->input->set('view', 'forms');
-		$app->input->set('layout', 'new3');
-		
-		parent::display();
-	}
-	
-	public function newStepFinal()
-	{
-		$session = JFactory::getSession();
-		$config = JFactory::getConfig();
-		
-		$row = JTable::getInstance('RSForm_Forms', 'Table');
-		$row->Lang = JFactory::getLanguage()->getDefault();
-		$row->FormTitle = $session->get('com_rsform.wizard.FormTitle');
-		$row->ScrollToThankYou = $session->get('com_rsform.wizard.ScrollToThankYou');
-		if (empty($row->ScrollToThankYou)) {
-			$row->ThankYouMessagePopUp = $session->get('com_rsform.wizard.ThankYouMessagePopUp');
-		}
-		if (empty($row->FormTitle))
-			$row->FormTitle = JText::_('RSFP_FORM_DEFAULT_TITLE');
-		$row->FormName = JFilterOutput::stringURLSafe($row->FormTitle);
-		$row->FormLayoutName = $session->get('com_rsform.wizard.FormLayout');		
-		if (empty($row->FormLayoutName))
-		{
-		    $rsformConfig = RSFormProConfig::getInstance();
-            $row->FormLayoutName = $rsformConfig->get('global.default_layout', 'responsive');
-            $row->LoadFormLayoutFramework = $rsformConfig->get('global.default_load_layout_framework', 1);
-        }
-		
-		$AdminEmail = $session->get('com_rsform.wizard.AdminEmail');
-		if ($AdminEmail)
-		{
-			$row->AdminEmailTo = $session->get('com_rsform.wizard.AdminEmailTo');
-			$row->AdminEmailFrom = $config->get('mailfrom');
-			$row->AdminEmailFromName = $config->get('fromname');
-			$row->AdminEmailSubject = JText::sprintf('RSFP_ADMIN_EMAIL_DEFAULT_SUBJECT', $row->FormTitle);
-			$row->AdminEmailText = JText::_('RSFP_ADMIN_EMAIL_DEFAULT_MESSAGE');
-		}
-		
-		$UserEmail = $session->get('com_rsform.wizard.UserEmail');
-		if ($UserEmail)
-		{
-			$row->UserEmailFrom = $config->get('mailfrom');
-			$row->UserEmailFromName = $config->get('fromname');
-			$row->UserEmailSubject = JText::_('RSFP_USER_EMAIL_DEFAULT_SUBJECT');
-			$row->UserEmailText = JText::_('RSFP_USER_EMAIL_DEFAULT_MESSAGE');
-		}
-		
-		$action = $session->get('com_rsform.wizard.SubmissionAction');
-		if ($action == 'thankyou')
-			$row->Thankyou = $session->get('com_rsform.wizard.Thankyou');
-		elseif ($action == 'redirect')
-			$row->ReturnUrl = $session->get('com_rsform.wizard.ReturnUrl');
-		
-		$filter = JFilterInput::getInstance();
-		
-		$layout = JPATH_ADMINISTRATOR.'/components/com_rsform/layouts/'.$filter->clean($row->FormLayoutName, 'path').'.php';
-		
-		$predefinedForm = JFactory::getApplication()->input->get('predefinedForm', '', 'string');
-		
-		require_once JPATH_ADMINISTRATOR . '/components/com_rsform/helpers/quickfields.php';
-		
-		if (file_exists($layout) && !$predefinedForm)
-		{
-			$quickfields = array();
-			$requiredfields = array();
-			$this->_form = $row;
-			
-			$showFormTitle =  1;
-			$requiredMarker = '(*)';
-			$formOptions = false;
-			
-			$fieldsets = RSFormProQuickFields::getFieldNames('fieldsets');
-			
-			ob_start();
-				// include the layout selected
-				include $layout;
-				$out = ob_get_contents();
-			ob_end_clean();
-			$row->FormLayout = $out;
-		}
-		
-		if ($row->store())
-		{
-			if ($predefinedForm)
-			{
-				$path = JPATH_ADMINISTRATOR.'/components/com_rsform/assets/forms/'.$filter->clean($predefinedForm);
-				if (file_exists($path.'/install.xml'))
-				{
-					$GLOBALS['q_FormId'] = $row->FormId;
-					JFactory::getApplication()->input->set('formId', $row->FormId);
-					
-					$options = array();
-					$options['cleanup'] = 0;
-					
-					require_once JPATH_ADMINISTRATOR.'/components/com_rsform/helpers/restore/legacy.php';
-					
-					$restore = new RSFormProRestore($options);
-					$restore->setInstallDir($path);
-					
-					if ($restore->restore())
-					{
-						$row->load($row->FormId);
-						
-						$model = $this->getModel('forms');
-						$quickfields = $model->getQuickFields();
-						
-						if ($AdminEmail && !empty($quickfields)){
-							foreach ($quickfields as $quickfield) {
-								$row->AdminEmailText .= "\n".'<p>{'.$quickfield['name'].':caption}: {'.$quickfield['name'].':value}</p>';
-							}	
-						}
-						
-						if ($UserEmail)
-						{
-							$row->UserEmailTo = '{Email:value}';
-							if (!empty($quickfields)) {
-								foreach ($quickfields as $quickfield) {
-									$row->UserEmailText .= "\n".'<p>{'.$quickfield['name'].':caption}: {'.$quickfield['name'].':value}</p>';
-								}	
-							}		
-						}
-						
-						// Genereate the layout
-						if (file_exists($layout)) {
-							$requiredfields = array();
-							$this->_form = $row;
-							$formId = $row->FormId;
-							
-							$showFormTitle =  1;
-							$requiredMarker = '(*)';
-							$formOptions = false;
-							
-							$fieldsets = RSFormProQuickFields::getFieldNames('fieldsets');
-							
-							ob_start();
-								// include the layout selected
-								include $layout;
-								$out = ob_get_contents();
-							ob_end_clean();
-							$row->FormLayout = $out;
-						}
-						
-						$row->store();
-					}
-				}
-			}
-		}
-		
-		$session->clear('com_rsform.wizard.FormTitle');
-		$session->clear('com_rsform.wizard.FormLayout');
-		$session->clear('com_rsform.wizard.AdminEmail');
-		$session->clear('com_rsform.wizard.AdminEmailTo');
-		$session->clear('com_rsform.wizard.UserEmail');
-		$session->clear('com_rsform.wizard.SubmissionAction');
-		$session->clear('com_rsform.wizard.Thankyou');
-		$session->clear('com_rsform.wizard.ReturnUrl');
-		
-		$this->setRedirect('index.php?option=com_rsform&view=forms&layout=edit&formId='.$row->FormId);
+		$this->setRedirect('index.php?option=com_rsform&view=forms', JText::_('RSFP_FORM_REMOVED_BACKEND'));
 	}
 	
 	public function getProperty($fieldData, $prop, $default=null) {
@@ -414,7 +215,7 @@ class RsformControllerForms extends RsformController
 		$formId = JFactory::getApplication()->input->getInt('formId');
 		
 		$model = $this->getModel('forms');
-		$model->save();
+		$saved = $model->save();
 
 		$task = $this->getTask();
 		switch ($task)
@@ -433,8 +234,10 @@ class RsformControllerForms extends RsformController
 		if (JFactory::getApplication()->input->getCmd('tmpl') == 'component') {
             $link .= '&tmpl=component';
         }
-		
-		$this->setRedirect($link, JText::_('RSFP_FORM_SAVED'));
+
+		$msg = $saved ? JText::_('RSFP_FORM_SAVED') : null;
+
+		$this->setRedirect($link, $msg);
 	}
 	
 	public function cancel()
@@ -565,7 +368,7 @@ class RsformControllerForms extends RsformController
 			RSFormProSubmissionsHelper::deleteAllSubmissions($formId);
 			
 			// Trigger Event - onFormDelete
-			JFactory::getApplication()->triggerEvent('rsfp_onFormDelete', array(
+			JFactory::getApplication()->triggerEvent('onRsformFormDelete', array(
 				'formId' => $formId
 			));
 		}
@@ -619,22 +422,24 @@ class RsformControllerForms extends RsformController
 				continue;
 			}
 
+			$original = JTable::getInstance('RSForm_Forms', 'Table');
+			if (!$original->load($formId))
+			{
+				continue;
+			}
+
 			$total++;
 
-			$original = JTable::getInstance('RSForm_Forms', 'Table');
-			$original->load($formId);
-			$original->FormName .= ' copy';
-			$original->FormTitle .= ' copy';
-			$original->FormId = null;
+			$data = $original->getProperties();
+			$data['FormName'] .= '-copy';
+			$data['FormTitle'] .= ' copy';
+			$data['FormId'] = null;
 
 			$copy = JTable::getInstance('RSForm_Forms', 'Table');
-			$copy->bind($original);
-			$copy->store();
-
-			$copy->FormLayout = str_replace('rsform_'.$formId.'_page', 'rsform_'.$copy->FormId.'_page', $copy->FormLayout);
-			if ($copy->FormLayout != $original->FormLayout)
+			if (!$copy->save($data))
 			{
-				$copy->store();
+				$app->enqueueMessage($copy->getError(), 'error');
+				continue;
 			}
 			
 			$newFormId = $copy->FormId;
@@ -760,7 +565,16 @@ class RsformControllerForms extends RsformController
 			{
 				foreach ($components as $r)
 				{
-					$componentRelations[$r] = $model->copyComponent($r, $newFormId);
+					try
+					{
+						$componentRelations[$r] = $model->copyComponent($r, $newFormId);
+					}
+					catch (Exception $e)
+					{
+						$app->enqueueMessage($e->getMessage(), 'warning');
+
+						continue;
+					}
 				}
 			}
 			
@@ -973,7 +787,7 @@ class RsformControllerForms extends RsformController
             }
 			
 			//Trigger Event - onFormCopy
-			$app->triggerEvent('rsfp_bk_onFormCopy', array(
+			$app->triggerEvent('onRsformBackendFormCopy', array(
 				array(
 					'formId' => $formId,
 					'newFormId' => $newFormId,
@@ -1031,76 +845,6 @@ class RsformControllerForms extends RsformController
 
         $app->close();
     }
-	
-	public function calculations()
-	{
-		$db 		= JFactory::getDbo();
-		$app		= JFactory::getApplication();
-		$formId 	= $app->input->getInt('formId');
-		$total		= $app->input->get('total', '', 'raw');
-		$expression	= $app->input->get('expression', '', 'raw');
-
-		$query = $db->getQuery(true)
-			->select('MAX(' . $db->qn('ordering') . ')')
-			->from($db->qn('#__rsform_calculations'))
-			->where($db->qn('formId') . ' = ' . $db->q($formId));
-
-		$ordering = (int) $db->setQuery($query)->loadResult() + 1;
-
-		$object = (object) array(
-			'formId' => $formId,
-			'total' => $total,
-			'expression' => $expression,
-			'ordering' => $ordering
-		);
-
-		$db->insertObject('#__rsform_calculations', $object, 'id');
-		
-		echo $object->id . '|' . $ordering;
-
-		$app->close();
-	}
-	
-	public function removeCalculation()
-	{
-		$db 	= JFactory::getDbo();
-		$app 	= JFactory::getApplication();
-		$id		= $app->input->getInt('id');
-
-		$query = $db->getQuery(true)
-            ->delete($db->qn('#__rsform_calculations'))
-            ->where($db->qn('id') . ' = ' . $db->q($id));
-		
-		$db->setQuery($query);
-
-		echo $db->execute() ? 1 : 0;
-
-		$app->close();
-	}
-	
-	public function saveCalculationsOrdering()
-	{
-		$db		= JFactory::getDbo();
-		$app	= JFactory::getApplication();
-		$cids	= $app->input->get('cid', array(), 'array');
-		$formId	= $app->input->getInt('formId',0);
-		
-		foreach ($cids as $key => $order)
-		{
-			$query = $db->getQuery(true)
-				->update($db->qn('#__rsform_calculations'))
-				->set($db->qn('ordering') . ' = ' . $db->q($order))
-				->where($db->qn('id') . ' = ' . $db->q($key))
-				->where($db->qn('formId') . ' = ' . $db->q($formId));
-
-			$db->setQuery($query);
-			$db->execute();
-		}
-		
-		echo 'Ok';
-
-		$app->close();
-	}
 	
 	public function saveGridLayout()
 	{

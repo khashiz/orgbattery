@@ -34,6 +34,6 @@ class RSFormProFormLayoutUIkit3 extends RSFormProFormLayout
 
     public function generateButton($goto)
     {
-        return '<button type="button" class="rsform-submit-button rsform-thankyou-button uk-width-1-1 uk-border-rounded uk-box-shadow-small font uk-button uk-button-default" name="continue" onclick="'.$goto.'">'.JText::_('RSFP_THANKYOU_BUTTON').'</button>';
+        return '<button type="button" class="rsform-submit-button rsform-thankyou-button uk-button uk-button-primary" name="continue" onclick="'.$goto.'">'.JText::_('RSFP_THANKYOU_BUTTON').'</button>';
     }
 }

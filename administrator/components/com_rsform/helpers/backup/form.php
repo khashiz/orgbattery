@@ -68,7 +68,7 @@ class RSFormProBackupForm
 		$this->storeGridLayout();
 		
 		// Allow plugins to add their own data to the backup.
-		JFactory::getApplication()->triggerEvent('rsfp_onFormBackup', array($this->form, $this->xml, $this->fields));
+		JFactory::getApplication()->triggerEvent('onRsformFormBackup', array($this->form, $this->xml, $this->fields));
 		
 		// Close <form> tag
 		$this->xml->add('/form');

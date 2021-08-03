@@ -27,7 +27,19 @@ class TableRSForm_Mappings extends JTable
 	public $andor;
 	public $ordering;
 	
-	public function __construct(& $db) {
+	public function __construct(& $db)
+	{
 		parent::__construct('#__rsform_mappings', 'id', $db);
+	}
+
+	public function check()
+	{
+		if (!$this->ordering && !$this->id)
+		{
+			$db = $this->getDbo();
+			$this->ordering = $this->getNextOrder($db->qn('formId') . ' = ' . $db->q($this->formId));
+		}
+
+		return true;
 	}
 }

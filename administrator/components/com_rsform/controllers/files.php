@@ -18,7 +18,7 @@ class RsformControllerFiles extends RsformController
 	
 	public function upload() {
 		// Check for request forgeries
-		JSession::checkToken() or jexit('Invalid Token');
+		$this->checkToken();
 
 		// Get the model
 		$model  = $this->getModel('files');

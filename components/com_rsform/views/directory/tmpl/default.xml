@@ -10,27 +10,27 @@
 		<fieldset name="basic">
 			<field name="formId" type="directories" onchange="generateDirectoryLink();" required="true" default="" label="RSFP_SUBM_DIR_FORM" description="RSFP_SUBM_DIR_FORM" />
 			<field name="lang" type="lang" default="" label="RSFP_SUBM_DIR_LANGUAGE" description="RSFP_SUBM_DIR_LANGUAGE_DESC" />
-			<field name="enable_directory" type="radio" class="btn-group" default="0" label="RSFP_SUBM_DIR_ENABLE_DIRECTORY" description="RSFP_SUBM_DIR_ENABLE_DIRECTORY_DESC">
+			<field name="enable_directory" type="radio" class="btn-group btn-group-yesno" default="0" label="RSFP_SUBM_DIR_ENABLE_DIRECTORY" description="RSFP_SUBM_DIR_ENABLE_DIRECTORY_DESC">
 				<option value="0">JNO</option>
 				<option value="1">JYES</option>
 			</field>
-			<field name="show_descriptions" type="radio" class="btn-group" default="0" label="RSFP_SUBM_DIR_SHOW_DESCRIPTIONS" description="RSFP_SUBM_DIR_SHOW_DESCRIPTIONS_DESC">
+			<field name="show_descriptions" type="radio" class="btn-group btn-group-yesno" default="0" label="RSFP_SUBM_DIR_SHOW_DESCRIPTIONS" description="RSFP_SUBM_DIR_SHOW_DESCRIPTIONS_DESC">
 				<option value="0">JNO</option>
 				<option value="1">JYES</option>
 			</field>
-			<field name="show_confirmed" type="radio" class="btn-group" default="0" label="RSFP_SUBM_DIR_CONFIRMED" description="RSFP_SUBM_DIR_CONFIRMED_DESC">
+			<field name="show_confirmed" type="radio" class="btn-group btn-group-yesno" default="0" label="RSFP_SUBM_DIR_CONFIRMED" description="RSFP_SUBM_DIR_CONFIRMED_DESC">
 				<option value="0">JNO</option>
 				<option value="1">JYES</option>
 			</field>
-			<field name="show_filtering_result" type="radio" class="btn-group" default="0" label="COM_RSFORM_SHOW_FILTERING_RESULT" description="COM_RSFORM_SHOW_FILTERING_RESULT_DESC">
+			<field name="show_filtering_result" type="radio" class="btn-group btn-group-yesno" default="0" label="COM_RSFORM_SHOW_FILTERING_RESULT" description="COM_RSFORM_SHOW_FILTERING_RESULT_DESC">
 				<option value="0">JNO</option>
 				<option value="1">JYES</option>
 			</field>
-			<field name="show_all_submissions" type="radio" class="btn-group" default="1" label="COM_RSFORM_SHOW_ALL_SUBMISSIONS" description="COM_RSFORM_SHOW_ALL_SUBMISSIONS_DESC" showon="show_logged_in_submissions:0">
+			<field name="show_all_submissions" type="radio" class="btn-group btn-group-yesno" default="1" label="COM_RSFORM_SHOW_ALL_SUBMISSIONS" description="COM_RSFORM_SHOW_ALL_SUBMISSIONS_DESC" showon="show_logged_in_submissions:0">
 				<option value="0">JNO</option>
 				<option value="1">JYES</option>
 			</field>
-			<field name="show_logged_in_submissions" type="radio" class="btn-group" default="0" label="COM_RSFORM_SHOW_LOGGED_IN_SUBMISSIONS" description="COM_RSFORM_SHOW_LOGGED_IN_SUBMISSIONS_DESC" showon="show_all_submissions:0">
+			<field name="show_logged_in_submissions" type="radio" class="btn-group btn-group-yesno" default="0" label="COM_RSFORM_SHOW_LOGGED_IN_SUBMISSIONS" description="COM_RSFORM_SHOW_LOGGED_IN_SUBMISSIONS_DESC" showon="show_all_submissions:0">
 				<option value="0">JNO</option>
 				<option value="1">JYES</option>
 			</field>

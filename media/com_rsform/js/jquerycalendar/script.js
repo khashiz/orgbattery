@@ -706,6 +706,13 @@ RSFormPro.jQueryCalendar = {
 							}
 						});
 					}
+				},
+				
+				onGenerate: function(ct, $i){
+					// focus time on popup calendar
+					if (!config.inline){
+						this.trigger('afterOpen.xdsoft');
+					}
 				}
 			});
 		}

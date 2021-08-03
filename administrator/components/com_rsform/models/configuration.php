@@ -9,43 +9,58 @@ defined('_JEXEC') or die('Restricted access');
 
 class RsformModelConfiguration extends JModelAdmin
 {
-	public function getForm($data = array(), $loadData = true) {
+	public function getForm($data = array(), $loadData = true)
+	{
 		// Get the form.
 		$form = $this->loadForm('com_rsform.configuration', 'configuration', array('control' => 'rsformConfig', 'load_data' => $loadData));
-		if (empty($form)) {
+		if (empty($form))
+		{
 			return false;
 		}
 
 		return $form;
 	}
 	
-	protected function loadFormData() {
+	protected function loadFormData()
+	{
 		$data = (array) $this->getConfig()->getData();
 		
 		return $data;
 	}
 	
-	public function getConfig() {
+	public function getConfig()
+	{
 		return RSFormProConfig::getInstance();
 	}
 	
-	public function getRSFieldset() {
-		require_once JPATH_COMPONENT.'/helpers/adapters/fieldset.php';
-		
-		$fieldset = new RSFieldset();
-		return $fieldset;
-	}
-	
-	public function getRSTabs() {
-		require_once JPATH_COMPONENT.'/helpers/adapters/tabs.php';
-		
-		$tabs = new RSTabs('com-rsform-configuration');
+	public function getRSTabs()
+	{
+		$tabs = new RSFormProAdapterTabs('com-rsform-configuration');
 		return $tabs;
 	}
-	
-	public function getSideBar() {
-		require_once JPATH_COMPONENT.'/helpers/toolbar.php';
-		
-		return RSFormProToolbarHelper::render();
+
+	public function save($data)
+	{
+		JFactory::getApplication()->triggerEvent('onRsformConfigurationSave', array(&$data));
+
+		$db = $this->getDbo();
+
+		if ($data)
+		{
+			foreach ($data as $name => $value)
+			{
+				if ($name == 'global.register.code')
+				{
+					$value = trim($value);
+				}
+
+				$object = (object) array(
+					'SettingValue' => $value,
+					'SettingName' => $name
+				);
+
+				$db->updateObject('#__rsform_config', $object, array('SettingName'));
+			}
+		}
 	}
 }

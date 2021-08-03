@@ -57,7 +57,7 @@ class RSFormProFieldCalendar extends RSFormProField
 					$value = RSFormProCalendar::fixValue($value, $format);
 				}
 				// Try to create a date to see if it's valid
-				$date = JFactory::getDate()->createFromFormat($format, $value);
+				$date = DateTime::createFromFormat($format, $value);
 				if ($date !== false)
 				{
 					$hiddenValue = $date->format('m/d/Y');
@@ -227,7 +227,7 @@ class RSFormProFieldCalendar extends RSFormProField
 				$value = RSFormProCalendar::fixValue($value, $format);
 			}
 
-			$validDate = JFactory::getDate()->createFromFormat($format, $value);
+			$validDate = DateTime::createFromFormat($format, $value);
 
 			if ($validDate)
 			{

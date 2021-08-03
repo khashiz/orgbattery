@@ -9,7 +9,7 @@ defined('_JEXEC') or die('Restricted access');
 ?>
 <form action="index.php" method="post" name="adminForm" id="adminForm">
 	<p><?php echo JText::sprintf('RSFP_ADD_TO_MENU', $this->formTitle); ?></p>
-	<table class="adminlist table table-striped" id="articleList">
+	<table class="table table-striped">
 	<thead>
 		<tr>
 			<th width="20"><?php echo JText::_('#'); ?></th>

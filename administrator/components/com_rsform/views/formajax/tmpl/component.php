@@ -23,9 +23,6 @@ $count = 0;
 				</div>
 				<div class="controls">
 					<?php echo $field->body; ?>
-					<?php if ($field->translatable) { ?>
-						<span class="help-inline"><?php echo $this->translateIcon; ?></span>
-					<?php } ?>
 				</div>
 			</div>
 		<?php } ?>

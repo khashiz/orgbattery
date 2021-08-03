@@ -66,6 +66,9 @@ class RsformModelFormajax extends JModelLegacy
 
 		usort($results, array($this, 'sortFields'));
 
+		$multilanguageDisabled = RSFormProHelper::getConfig('global.disable_multilanguage');
+		$translateIcon = RSFormProHelper::translateIcon();
+
 		foreach ($results as $result)
 		{
 			$field = new stdClass();
@@ -74,6 +77,9 @@ class RsformModelFormajax extends JModelLegacy
 			$field->label = '<label for="'.$field->name.'" id="caption' . $field->name.'" '.$this->getTooltip($field->name).'>'.$field->caption.'</label>';
 			$field->body = '';
 			$field->type = $result->FieldType;
+			$field->translatable = !$multilanguageDisabled && in_array($result->FieldName, $translatable) && $result->FieldType != 'hiddenparam' && $result->FieldType != 'hidden';
+
+			$additional = 'class="form-control"';
 
 			switch ($result->FieldType)
 			{
@@ -92,15 +98,18 @@ class RsformModelFormajax extends JModelLegacy
 							$value = $values;
 					}
 
-					$additional = '';
-
 					if ($result->Properties != ''){
 						$additional .= ' data-properties="'. $result->Properties .'"';
 					}
 
 					$type = $result->FieldType == 'textbox' ? 'text' : 'color';
 
-					$field->body .= '<input type="' . $type . '" id="'.$field->name.'" name="param['.$field->name.']" value="'.RSFormProHelper::htmlEscape($value).'" '.$additional.' class="rsform_inp" />';
+					$field->body .= '<input type="' . $type . '" id="'.$field->name.'" name="param['.$field->name.']" value="'.RSFormProHelper::htmlEscape($value).'" '.$additional.' />';
+
+					if ($field->translatable)
+					{
+						$field->body = RSFormProAdapterGrid::inputAppend($field->body, $translateIcon);
+					}
 				}
 					break;
 
@@ -109,38 +118,53 @@ class RsformModelFormajax extends JModelLegacy
 					if ($componentId > 0)
 					{
 						if (!isset($data[$field->name]))
+						{
 							$data[$field->name] = '';
+						}
 
 						if ($lang->hasKey('RSFP_COMP_FVALUE_'.$data[$field->name]))
+						{
 							$value = JText::_('RSFP_COMP_FVALUE_'.$data[$field->name]);
+						}
 						else
+						{
 							$value = $data[$field->name];
+						}
 					}
 					else
 					{
 						$values = RSFormProHelper::isCode($result->FieldValues);
 
 						if ($lang->hasKey('RSFP_COMP_FVALUE_'.$values))
+						{
 							$value = JText::_('RSFP_COMP_FVALUE_'.$values);
+						}
 						else
+						{
 							$value = $values;
+						}
 					}
 
-					$additional = '';
-
-					if ($result->Properties != ''){
-						$additional .= 'data-properties="'. $result->Properties .'"';
+					if ($result->Properties != '')
+					{
+						$additional .= ' data-properties="'. $result->Properties .'"';
 						$additional .= ' data-tags="' .RSFormProHelper::htmlEscape($value). '" ';
 					}
 
-					$field->body .= '<textarea id="'.$field->name.'" name="param['.$field->name.']" rows="5" cols="20" class="rsform_txtarea" '. $additional .'>'.RSFormProHelper::htmlEscape($value).'</textarea>';
+					$field->body .= '<textarea id="'.$field->name.'" name="param['.$field->name.']" rows="5" cols="20" '. $additional .'>'.RSFormProHelper::htmlEscape($value).'</textarea>';
+
+					if ($field->translatable)
+					{
+						$field->body = RSFormProAdapterGrid::inputAppend($field->body, $translateIcon);
+					}
 				}
 					break;
 
 				case 'select':
 				case 'selectmultiple':
-				{					
-					$additional = '';
+				{
+					$additional = 'class="form-control form-select"';
+
 					/**
 					 * determine if we have a json in the properties.
 					 * used to create the conditional fields
@@ -210,8 +234,6 @@ class RsformModelFormajax extends JModelLegacy
 					$field->body = '<input type="hidden" id="'.$field->name.'" name="param['.$field->name.']" value="'.RSFormProHelper::htmlEscape($result->FieldValues).'" />';
 					break;
 			}
-
-			$field->translatable = (in_array($result->FieldName, $translatable) && $result->FieldType != 'hiddenparam' && $result->FieldType != 'hidden');
 
 			if (in_array($field->name, $general) || $result->FieldType == 'hidden' || $result->FieldType == 'hiddenparam')
 				$return['general'][] = $field;

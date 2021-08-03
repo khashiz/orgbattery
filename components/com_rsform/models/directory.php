@@ -296,7 +296,7 @@ class RsformModelDirectory extends JModelLegacy
 			}
 		}
 
-		JFactory::getApplication()->triggerEvent('rsfp_onAfterManageDirectoriesQueryCreated', array(&$query, $this->params->get('formId')));
+		JFactory::getApplication()->triggerEvent('onRsformAfterManageDirectoriesQueryCreated', array(&$query, $this->params->get('formId')));
 
         return $query;
     }
@@ -357,9 +357,7 @@ class RsformModelDirectory extends JModelLegacy
             $items[$i] = $newItem;
         }
 
-        $mainframe->triggerEvent('rsfp_onAfterManageDirectoriesQuery', array(&$items, $this->params->get('formId')));
-
-        jimport('joomla.filesystem.file');
+        $mainframe->triggerEvent('onRsformAfterManageDirectoriesQuery', array(&$items, $this->params->get('formId')));
 
         list($multipleSeparator, $uploadFields, $multipleFields, $textareaFields, $secret) = RSFormProHelper::getDirectoryFormProperties($this->params->get('formId'));
 
@@ -379,7 +377,7 @@ class RsformModelDirectory extends JModelLegacy
                     	$values = array();
                     	foreach ($files as $file)
 						{
-							$values[] = '<a href="' . JRoute::_('index.php?option=com_rsform&task=submissions.view.file&hash=' . md5($item->SubmissionId . $secret . $field) . '&file=' . md5($file)) . '">' . RSFormProHelper::htmlEscape(basename($file)) . '</a>';
+							$values[] = '<a href="' . JRoute::_('index.php?option=com_rsform&task=submissions.viewfile&hash=' . md5($item->SubmissionId . $secret . $field) . '&file=' . md5($file)) . '">' . RSFormProHelper::htmlEscape(basename($file)) . '</a>';
 						}
                     	
                         $item->{$field} = implode('<br />', $values);
@@ -403,7 +401,7 @@ class RsformModelDirectory extends JModelLegacy
     {
         $unescapedFields = array();
 
-        JFactory::getApplication()->triggerEvent('rsfp_b_onManageDirectoriesCreateUnescapedFields', array(array('fields' => & $unescapedFields, 'formId' => $this->params->get('formId'))));
+        JFactory::getApplication()->triggerEvent('onRsformBackendManageDirectoriesCreateUnescapedFields', array(array('fields' => & $unescapedFields, 'formId' => $this->params->get('formId'))));
 
         return $unescapedFields;
     }
@@ -509,9 +507,6 @@ class RsformModelDirectory extends JModelLegacy
 
 	public function save()
 	{
-		jimport('joomla.filesystem.file');
-		jimport('joomla.filesystem.folder');
-
 		$app        = JFactory::getApplication();
 		$db         = JFactory::getDbo();
 		$cid    	= $app->input->getInt('id');
@@ -550,7 +545,7 @@ class RsformModelDirectory extends JModelLegacy
 		}
 
 		//Trigger Event - onBeforeDirectorySave
-		$this->_app->triggerEvent('rsfp_f_onBeforeDirectorySave', array(array('SubmissionId' => &$cid, 'formId' => $formId, 'post' => &$form)));
+		$this->_app->triggerEvent('onRsformFrontendBeforeDirectorySave', array(array('SubmissionId' => &$cid, 'formId' => $formId, 'post' => &$form)));
 
 		require_once JPATH_ADMINISTRATOR . '/components/com_rsform/helpers/submissions.php';
 		$submission = RSFormProSubmissionsHelper::getSubmission($cid);
@@ -757,7 +752,7 @@ class RsformModelDirectory extends JModelLegacy
 				}
 
 				//Trigger Event - beforeDirectoryEmail
-				$this->_app->triggerEvent('rsfp_beforeDirectoryEmail', array(array('directory' => &$directory, 'placeholders' => &$placeholders, 'values' => &$values, 'submissionId' => $SubmissionId, 'directoryEmail'=>&$directoryEmail)));
+				$this->_app->triggerEvent('onRsformBeforeDirectoryEmail', array(array('directory' => &$directory, 'placeholders' => &$placeholders, 'values' => &$values, 'submissionId' => $SubmissionId, 'directoryEmail'=>&$directoryEmail)));
 
 				eval($directory->EmailsScript);
 
@@ -848,8 +843,6 @@ class RsformModelDirectory extends JModelLegacy
 		$return		= array();
 		$values		= $app->input->get('form',array(),'array');
 		$cid		= $this->_app->input->getInt('id');
-
-		jimport('joomla.filesystem.file');
 
 		// Load submission
 		require_once JPATH_ADMINISTRATOR . '/components/com_rsform/helpers/submissions.php';
@@ -1166,7 +1159,7 @@ class RsformModelDirectory extends JModelLegacy
 
 					foreach ($files as $file)
 					{
-						$new_field[RSFORM_DIR_INPUT] .= '<p><button type="button" class="btn btn-small" onclick="RSFormProDirectory.clearUpload(\'' . $name . '\', this, \'' . md5($file) . '\');">' . JText::_('COM_RSFORM_CLEAR') . '</button> <span' . ($invalid ? ' class="' . $invalid . '"' : '') . '>' . RSFormProHelper::htmlEscape(basename($file)) . '</span></p>';
+						$new_field[RSFORM_DIR_INPUT] .= '<p><button type="button" class="btn btn-secondary btn-small btn-sm" onclick="RSFormProDirectory.clearUpload(\'' . $name . '\', this, \'' . md5($file) . '\');">' . JText::_('COM_RSFORM_CLEAR') . '</button> <span' . ($invalid ? ' class="' . $invalid . '"' : '') . '>' . RSFormProHelper::htmlEscape(basename($file)) . '</span></p>';
 					}
 
 					$new_field[RSFORM_DIR_INPUT] .= '</div>';
@@ -1204,7 +1197,7 @@ class RsformModelDirectory extends JModelLegacy
 					$data['ComponentTypeName'] 	= $field->type;
 					$data['Order'] 				= $field->ordering;
 
-					$app->triggerEvent('rsfp_bk_onBeforeCreateFrontComponentBody', array(array(
+					$app->triggerEvent('onRsformBackendBeforeCreateFrontComponentBody', array(array(
 						'out' 			=> &$out,
 						'formId' 		=> $submission->FormId,
 						'componentId' 	=> $field->componentId,
@@ -1231,7 +1224,7 @@ class RsformModelDirectory extends JModelLegacy
 
 					$out .= $fieldClass->output;
 
-					$app->triggerEvent('rsfp_bk_onAfterCreateFrontComponentBody', array(array(
+					$app->triggerEvent('onRsformBackendAfterCreateFrontComponentBody', array(array(
 						'out' 			=> &$out,
 						'formId' 		=> $formId,
 						'componentId' 	=> $fieldClass->componentId,
@@ -1268,9 +1261,7 @@ class RsformModelDirectory extends JModelLegacy
 			}
 		}
 
-		RSFormProAssets::addScript(JHtml::script('com_rsform/script.js', array('pathOnly' => true, 'relative' => true)));
-
-		JFactory::getApplication()->triggerEvent('rsfp_f_onGetEditFields', array(&$return, $submission));
+		JFactory::getApplication()->triggerEvent('onRsformFrontendGetEditFields', array(&$return, $submission));
 
 		return $return;
 	}

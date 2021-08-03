@@ -13,7 +13,7 @@ class TableRSForm_Forms extends JTable
 	
 	public $FormName = '';
 	public $FormLayout = '';
-	public $GridLayout;
+	public $GridLayout = '';
 	public $FormLayoutName = 'responsive';
 	public $FormLayoutAutogenerate = 1;
 	public $FormLayoutFlow = 0;
@@ -71,7 +71,7 @@ class TableRSForm_Forms extends JTable
 	public $UserEmailScript = '';
 	public $AdminEmailScript = '';
 	public $AdditionalEmailsScript = '';
-	public $MetaTitle = '';
+	public $MetaTitle = 0;
 	public $MetaDesc = '';
 	public $MetaKeywords = '';
 	public $Required = '(*)';
@@ -84,7 +84,8 @@ class TableRSForm_Forms extends JTable
 	public $CSSAction = '';
 	public $CSSAdditionalAttributes = '';
 	public $AjaxValidation = 0;
-	public $Backendmenu = '';
+	public $ScrollToError = 0;
+	public $Backendmenu = 0;
 	public $ConfirmSubmission = 0;
 	public $ConfirmSubmissionUrl = '';
 	public $Access = '';
@@ -92,7 +93,27 @@ class TableRSForm_Forms extends JTable
 
 	public $Published = 1;
 		
-	public function __construct(& $db) {
+	public function __construct(& $db)
+	{
 		parent::__construct('#__rsform_forms', 'FormId', $db);
+	}
+
+	public function check()
+	{
+		$emails = array(
+			'UserEmailReplyTo', 'UserEmailTo', 'UserEmailCC', 'UserEmailBCC',
+			'AdminEmailReplyTo', 'AdminEmailTo', 'AdminEmailCC', 'AdminEmailBCC',
+			'DeletionEmailReplyTo', 'DeletionEmailTo', 'DeletionEmailCC', 'DeletionEmailBCC'
+		);
+		// Normalize separators
+		foreach ($emails as $email)
+		{
+			if ($this->{$email})
+			{
+				$this->{$email} = str_replace(';', ',', $this->{$email});
+			}
+		}
+
+		return true;
 	}
 }

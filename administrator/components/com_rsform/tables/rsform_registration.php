@@ -12,7 +12,7 @@ class TableRSForm_Registration extends JTable
 {
 	public $form_id 				= null;
 	public $action					= 1;
-	public $action_field			= null;
+	public $action_field			= '';
 	public $groups 					= 2;
 	public $vars 					= '';
 	public $joomla_fields 			= '';
@@ -20,45 +20,52 @@ class TableRSForm_Registration extends JTable
 	public $activation 				= 1;
 	public $cbactivation 			= 1;
 	public $defer_admin_email 		= 0;
-	public $user_activation_action 	= null;
-	public $admin_activation_action = null;
-	public $user_activation_url 	= null;
-	public $admin_activation_url 	= null;
-	public $user_activation_text 	= null;
-	public $admin_activation_text 	= null;
-	public $itemid					= null;
+	public $user_activation_action 	= 0;
+	public $admin_activation_action = 0;
+	public $user_activation_url 	= '';
+	public $admin_activation_url 	= '';
+	public $user_activation_text 	= '';
+	public $admin_activation_text 	= '';
+	public $password_strength       = 0;
+	public $itemid					= 0;
 	public $published 				= 0;
 	
-	public function __construct(& $db) {
+	public function __construct(& $db)
+	{
 		parent::__construct('#__rsform_registration', 'form_id', $db);
 	}
 	
-	public function load($keys = null, $reset = true) {
+	public function load($keys = null, $reset = true)
+	{
 		$result = parent::load($keys, $reset);
 		
-		if ($result) {
+		if ($result)
+		{
 			$this->groups = explode(',', $this->groups);
 			
-			$this->vars = unserialize($this->vars);
-			if ($this->vars === false || !is_array($this->vars)) {
+			$this->vars = !empty($this->vars) ? @unserialize($this->vars) : array();
+			if ($this->vars === false || !is_array($this->vars))
+			{
 				$this->vars = array();
 			}
 			
-			if (!isset($this->vars['password'])) {
+			if (!isset($this->vars['password']))
+			{
 				$this->vars['password'] = isset($this->vars['password1']) ? $this->vars['password1'] : '';
 			}
 			
-			if (!isset($this->vars['email'])) {
+			if (!isset($this->vars['email']))
+			{
 				$this->vars['email'] = isset($this->vars['email1']) ? $this->vars['email1'] : '';
 			}
 
-			$this->joomla_fields = unserialize($this->joomla_fields);
+			$this->joomla_fields = !empty($this->joomla_fields) ? @unserialize($this->joomla_fields) : array();
 			if ($this->joomla_fields === false || !is_array($this->joomla_fields))
 			{
 				$this->joomla_fields = array();
 			}
 
-			$this->profile_fields = unserialize($this->profile_fields);
+			$this->profile_fields = !empty($this->profile_fields) ? @unserialize($this->profile_fields) : array();
 			if ($this->profile_fields === false || !is_array($this->profile_fields))
 			{
 				$this->profile_fields = array();
@@ -69,12 +76,15 @@ class TableRSForm_Registration extends JTable
 	}
 	
 	// Validate data before save
-	public function check() {
-		if (is_array($this->groups)) {
+	public function check()
+	{
+		if (is_array($this->groups))
+		{
 			$this->groups = implode(',', $this->groups);
 		}
 		
-		if (is_array($this->vars)) {
+		if (is_array($this->vars))
+		{
 			$this->vars	= serialize($this->vars);
 		}
 
@@ -88,16 +98,20 @@ class TableRSForm_Registration extends JTable
 			$this->profile_fields = serialize($this->profile_fields);
 		}
 		
-		// Check if we need to add the empty record to the database
-		$row = self::getInstance('RSForm_Registration', 'Table');
-		if (!$row->load($this->form_id)) {
-			$db 	= JFactory::getDbo();
-			$query	= $db->getQuery(true)
-						 ->insert($db->qn($this->getTableName()))
-						 ->set($db->qn('form_id').'='.$db->q($this->form_id));
-			$db->setQuery($query)->execute();
-		}
-		
 		return true;
+	}
+
+	public function hasPrimaryKey()
+	{
+		$db 	= $this->getDbo();
+		$key 	= $this->getKeyName();
+		$table	= $this->getTableName();
+
+		$query = $db->getQuery(true)
+			->select($db->qn($key))
+			->from($db->qn($table))
+			->where($db->qn($key) . ' = ' . $db->q($this->{$key}));
+
+		return $db->setQuery($query)->loadResult() !== null;
 	}
 }

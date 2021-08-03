@@ -12,28 +12,80 @@ define('RSFP_MAPPING_DELETE', 2);
 define('RSFP_MAPPING_UPDATE', 1);
 define('RSFP_MAPPING_REPLACE', 3);
 
-class RsformModelMappings extends JModelLegacy
+class RsformModelMappings extends JModelAdmin
 {	
-	public function getMapping() {
+	public function getMapping()
+	{
 		$row = JTable::getInstance('RSForm_Mappings', 'Table');
 		$row->load(JFactory::getApplication()->input->getInt('cid'));
 		
 		return $row;
 	}
+
+	public function getForm($data = array(), $loadData = true)
+	{
+		// Get the form.
+		$form = $this->loadForm('com_rsform.mappings', 'mappings', array('control' => 'jform', 'load_data' => $loadData));
+		if (empty($form))
+		{
+			return false;
+		}
+
+		if ($loadData)
+		{
+			$mapping = $this->getMapping();
+
+			if ($mapping->id)
+			{
+				$config = $mapping->getProperties();
+				$config['user'] = $config['username'];
+
+				try
+				{
+					if ($tables = $this->getTables($config))
+					{
+						$tableField = $form->getField('table');
+						$form->setFieldAttribute('table', 'disabled', 'false');
+						foreach ($form->getFieldset('connection') as $field)
+						{
+							$form->setFieldAttribute($field->fieldname, 'disabled', 'true');
+						}
+
+						$form->setFieldAttribute('table', 'disabled', 'false');
+
+						foreach ($tables as $table)
+						{
+							$tableField->addOption($table, array('value' => $table));
+						}
+					}
+				}
+				catch (Exception $e)
+				{
+					// Nothing for now
+				}
+			}
+		}
+
+		return $form;
+	}
+
+	protected function loadFormData()
+	{
+		return $this->getMapping();
+	}
 	
-	public function save() {
-		$post 		= RSFormProHelper::getRawPost();
-		$row 		= JTable::getInstance('RSForm_Mappings', 'Table');
-		$db	 		= JFactory::getDbo();
-		
+	public function save($post)
+	{
+		$row = JTable::getInstance('RSForm_Mappings', 'Table');
+
 		if (!$row->bind($post))
 		{
 			return false;
 		}
-		
-		if (empty($row->id))
+
+		if (!$row->check())
 		{
-			$row->ordering = $row->getNextOrder($db->qn('formId').'='.$db->q($row->formId));
+			return false;
 		}
 		
 		$data = $where = $extra = $andor = array();
@@ -77,15 +129,11 @@ class RsformModelMappings extends JModelLegacy
 		$row->extra 	= serialize($extra);
 		$row->andor 	= serialize($andor);
 		
-		if (!$row->store())
-		{
-			return false;
-		}
-
-		return $row;
+		return $row->store();
 	}
 	
-	public function remove() {
+	public function remove()
+	{
 		$id 	= JFactory::getApplication()->input->getInt('mid');
 		$db		= JFactory::getDbo();
 		$row 	= JTable::getInstance('RSForm_Mappings', 'Table');
@@ -97,54 +145,49 @@ class RsformModelMappings extends JModelLegacy
 		$row->reorder($db->qn('formId').'='.$db->q($formId));
 	}
 	
-	public function getFields() {
-		$db		= JFactory::getDbo();
-		$query  = $db->getQuery(true);
-		$formId = JFactory::getApplication()->input->getInt('formId');
-		
-		$query->select($db->qn('p.PropertyValue'))
-			  ->from($db->qn('#__rsform_components', 'c'))
-			  ->leftJoin($db->qn('#__rsform_properties', 'p').' ON ('.$db->qn('c.ComponentId').'='.$db->qn('p.ComponentId').')')
-			  ->where($db->qn('c.FormId').'='.$db->q($formId))
-			  ->where($db->qn('p.PropertyName').'='.$db->q('NAME'))
-			  ->order($db->qn('c.Order'));
-		
-		return $db->setQuery($query)->loadColumn();
-	}
-	
-	public function getQuickFields() {
+	public function getQuickFields()
+	{
 		require_once JPATH_ADMINISTRATOR . '/components/com_rsform/helpers/quickfields.php';
 		return RSFormProQuickFields::getFieldNames();
 	}
 	
 	// Get columns from a specific table
-	public function getColumns($config) {
+	public function getColumns($config)
+	{
 		$db 	= $this->getMappingDbo($config);
 		$tables = $db->getTableList();
 		$table 	= isset($config['table']) ? $config['table'] : '';
 		
-		if (empty($table) || !in_array($table,$tables)) {
+		if (empty($table) || !in_array($table, $tables))
+		{
 			return false;
-		} else {
+		}
+		else
+		{
 			return $db->getTableColumns($table);
 		}
 	}
 	
 	// Get tables in database
-	public function getTables($config) {
+	public function getTables($config)
+	{
 		$db = $this->getMappingDbo($config);
 		
 		return $db->getTableList();
 	}
 	
 	// Get database connector object
-	public function getMappingDbo($config) {
-		if ($config['connection']) {
-			if (!strlen($config['database'])) {
+	public function getMappingDbo($config)
+	{
+		if ($config['connection'])
+		{
+			if (!strlen($config['database']))
+			{
 				throw new Exception(JText::_('RSFP_PLEASE_SELECT_A_DATABASE_FIRST'));
 			}
 			
-			if (empty($config['driver'])) {
+			if (empty($config['driver']))
+			{
 				throw new Exception(JText::_('RSFP_PLEASE_SELECT_A_DRIVER_FIRST'));
 			}
 			
@@ -154,7 +197,9 @@ class RsformModelMappings extends JModelLegacy
 			$database->connect();
 			
 			return $database;
-		} else {
+		}
+		else
+		{
 			return JFactory::getDbo();
 		}
 	}

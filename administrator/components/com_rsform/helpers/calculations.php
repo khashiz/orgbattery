@@ -32,7 +32,7 @@ class RSFormProCalculations
 				$return .= "\t\t\t }\n";
 				$return .= "\t\t }\n";
 				$return .= "\t } else { \n";
-				$return .= "\t\t total".$field." += (values".$field.".indexOf('".self::escape(RSFormProHelper::getConfig('calculations.thousands'))."') == -1 && values".$field.".indexOf('".self::escape(RSFormProHelper::getConfig('calculations.decimal'))."') == -1) ? parseFloat(values".$field.") :  parseFloat(rsfp_toNumber(values".$field.",'".self::escape(RSFormProHelper::getConfig('calculations.decimal'))."','".self::escape(RSFormProHelper::getConfig('calculations.thousands'))."','".self::escape(RSFormProHelper::getConfig('calculations.nodecimals'))."')); \n";
+				$return .= "\t\t total".$field." += (values".$field.".indexOf('".self::escape(RSFormProHelper::getConfig('calculations.thousands'))."') == -1 && values".$field.".indexOf('".self::escape(RSFormProHelper::getConfig('calculations.decimal'))."') == -1) ? parseFloat(values".$field.") :  parseFloat(RSFormPro.toNumber(values".$field.",'".self::escape(RSFormProHelper::getConfig('calculations.decimal'))."','".self::escape(RSFormProHelper::getConfig('calculations.thousands'))."','".self::escape(RSFormProHelper::getConfig('calculations.nodecimals'))."')); \n";
 				$return .= "\t } \n";
 				$return .= "\t total".$field." = !isNaN(total".$field.") ? total".$field." : 0; \n\n";
 				
@@ -40,7 +40,13 @@ class RSFormProCalculations
 			}
 			
 			$return .= "\n\t grandTotal".$calculation->id.$formId." = ".$expression.";\n";
-			$return .= "\t RSFormPro.getFieldsByName($formId, '{$calculation->total}')[0].value = number_format(grandTotal".$calculation->id.$formId.",".(int) RSFormProHelper::getConfig('calculations.nodecimals').",'".self::escape(RSFormProHelper::getConfig('calculations.decimal'))."','".self::escape(RSFormProHelper::getConfig('calculations.thousands'))."'); \n\n";
+
+			$return .= "\t if (RSFormPro.getFieldsByName($formId, '{$calculation->total}')[0].getAttribute('type') === 'number') {\n";
+			// No formatting for input type="number"
+			$return .= "\t\t RSFormPro.getFieldsByName($formId, '{$calculation->total}')[0].value = grandTotal".$calculation->id.$formId."\n";
+			$return .= "\t } else {\n";
+			$return .= "\t\t RSFormPro.getFieldsByName($formId, '{$calculation->total}')[0].value = number_format(grandTotal".$calculation->id.$formId.",".(int) RSFormProHelper::getConfig('calculations.nodecimals').",'".self::escape(RSFormProHelper::getConfig('calculations.decimal'))."','".self::escape(RSFormProHelper::getConfig('calculations.thousands'))."'); \n";
+			$return .= "\t }\n\n";
 		}
 		
 		return $return;

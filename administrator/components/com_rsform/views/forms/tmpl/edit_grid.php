@@ -7,9 +7,18 @@
 
 defined('_JEXEC') or die('Restricted access');
 
-JHtml::_('jquery.ui', array('core', 'sortable'));
-JHtml::script('com_rsform/admin/jquery.ui.resizable.js', array('relative' => true, 'version' => 'auto'));
-JHtml::stylesheet('com_rsform/admin/jquery.ui.resizable.css', array('relative' => true, 'version' => 'auto'));
+if (version_compare(JVERSION, '4.0', '<'))
+{
+	JHtml::_('jquery.ui', array('core', 'sortable'));
+}
+else
+{
+	JHtml::_('script', 'com_rsform/admin/jquery.ui.core.min.js', array('relative' => true, 'version' => 'auto'));
+	JHtml::_('script', 'com_rsform/admin/jquery.ui.sortable.min.js', array('relative' => true, 'version' => 'auto'));
+}
+
+JHtml::_('script', 'com_rsform/admin/jquery.ui.resizable.js', array('relative' => true, 'version' => 'auto'));
+JHtml::_('stylesheet', 'com_rsform/admin/jquery.ui.resizable.css', array('relative' => true, 'version' => 'auto'));
 
 JText::script('RSFP_ROW_OPTIONS');
 JText::script('RSFP_ADD_NEW_ROW');
@@ -92,8 +101,8 @@ $this->loadTemplate('grid_modal_body'));
 					<div id="rsfp-grid-field-id-<?php echo $field->id; ?>" class="rsfp-grid-field<?php echo $fieldClasses ? ' ' . implode(' ', $fieldClasses) : ''; ?>">
 						<strong class="pull-left rsfp-grid-field-name"><?php echo JHtml::_('grid.id', $i, $field->id); ?> <?php echo $this->escape($this->show_caption ? $field->caption : $field->name); ?><?php if ($field->required) { ?> (*)<?php } ?></strong>
 						<div class="btn-group pull-right rsfp-grid-field-buttons">
-							<button type="button" class="btn btn-small" onclick="displayTemplate('<?php echo $field->type_id; ?>','<?php echo $field->id; ?>');"><?php echo JText::_('RSFP_EDIT'); ?></button>
-							<button type="button" class="btn btn-small btn-danger" onclick="if (confirm(Joomla.JText._('RSFP_REMOVE_COMPONENT_CONFIRM').replace('%s', '<?php echo $this->escape($field->name); ?>'))) removeComponent('<?php echo $this->form->FormId; ?>','<?php echo $field->id; ?>');"><?php echo JText::_('RSFP_DELETE'); ?></button>
+							<button type="button" class="btn btn-secondary btn-small btn-sm" onclick="displayTemplate('<?php echo $field->type_id; ?>','<?php echo $field->id; ?>');"><?php echo JText::_('RSFP_EDIT'); ?></button>
+							<button type="button" class="btn btn-small btn-sm btn-danger" onclick="if (confirm(Joomla.JText._('RSFP_REMOVE_COMPONENT_CONFIRM').replace('%s', '<?php echo $this->escape($field->name); ?>'))) removeComponent('<?php echo $field->id; ?>');"><?php echo JText::_('RSFP_DELETE'); ?></button>
 						</div>
 						<div class="clearfix"></div>
 						<?php if ($this->show_previews) { ?>
@@ -112,7 +121,7 @@ $this->loadTemplate('grid_modal_body'));
 			<div class="clearfix"></div>
 			<div class="rsfp-row-controls">
 				<?php if (!$has_pagebreak) { ?>
-				<button type="button" class="btn" onclick="RSFormPro.gridModal.open(this);"><?php echo JText::_('RSFP_ROW_OPTIONS'); ?></button>
+				<button type="button" class="btn btn-secondary" onclick="RSFormPro.gridModal.open(this);"><?php echo JText::_('RSFP_ROW_OPTIONS'); ?></button>
 				<?php } ?>
 				<button type="button" class="btn btn-success" onclick="RSFormPro.gridModal.open(this, true);"><?php echo JText::_('RSFP_ADD_NEW_ROW'); ?></button>
 				<?php if (!$has_pagebreak) { ?>
@@ -131,8 +140,8 @@ $this->loadTemplate('grid_modal_body'));
 		<div id="rsfp-grid-field-id-<?php echo $field->id; ?>" class="rsfp-grid-field<?php if (!$field->published) { ?> rsfp-grid-unpublished-field<?php } ?>">
 			<strong class="pull-left rsfp-grid-field-name"><?php echo JHtml::_('grid.id', $i, $field->id); ?> <?php echo $this->escape($this->show_caption ? $field->caption : $field->name); ?><?php if ($field->required) { ?> (*)<?php } ?></strong>
 			<div class="btn-group pull-right">
-				<button type="button" class="btn btn-small" onclick="displayTemplate('<?php echo $field->type_id; ?>','<?php echo $field->id; ?>');"><?php echo JText::_('RSFP_EDIT'); ?></button>
-				<button type="button" class="btn btn-small btn-danger" onclick="if (confirm(Joomla.JText._('RSFP_REMOVE_COMPONENT_CONFIRM').replace('%s', '<?php echo $this->escape($field->name); ?>'))) removeComponent('<?php echo $this->form->FormId; ?>','<?php echo $field->id; ?>');"><?php echo JText::_('RSFP_DELETE'); ?></button>
+				<button type="button" class="btn btn-secondary btn-small btn-sm" onclick="displayTemplate('<?php echo $field->type_id; ?>','<?php echo $field->id; ?>');"><?php echo JText::_('RSFP_EDIT'); ?></button>
+				<button type="button" class="btn btn-small btn-sm btn-danger" onclick="if (confirm(Joomla.JText._('RSFP_REMOVE_COMPONENT_CONFIRM').replace('%s', '<?php echo $this->escape($field->name); ?>'))) removeComponent('<?php echo $field->id; ?>');"><?php echo JText::_('RSFP_DELETE'); ?></button>
 			</div>
 			<?php if ($this->show_previews) { ?>
 				<div class="clearfix"></div>
@@ -149,23 +158,3 @@ $this->loadTemplate('grid_modal_body'));
 </div>
 
 <input type="hidden" name="GridLayout" value="<?php echo $this->escape($this->form->GridLayout); ?>" />
-
-<script>
-jQuery(function($) {
-	// Let's save the JSON first if we've added new elements
-	RSFormPro.Grid.toJson();
-
-	$('#componentscontent').on('components.shown', function() {
-		if (!RSFormPro.Grid.initialized && jQuery('.rsfp-grid-row').width() != 98)
-		{
-			RSFormPro.Grid.initialize();
-
-			jQuery('#rsfp-grid-loader').fadeOut(200, function(){
-				jQuery(this).remove();
-			});
-		}
-	});
-
-	$(window).on('resize', RSFormPro.Grid.resize);
-});
-</script>

@@ -17,9 +17,8 @@ class RsformViewRestore extends JViewLegacy
 
 		$this->addToolbar();
 
-        JHtml::script('com_rsform/admin/restore.js', array('relative' => true, 'version' => 'auto'));
-		
-		$this->sidebar  	= $this->get('Sidebar');
+        JHtml::_('script', 'com_rsform/admin/restore.js', array('relative' => true, 'version' => 'auto'));
+
 		$this->key			= $this->get('Key');
 		$this->overwrite	= $this->get('Overwrite');
 		$this->keepId		= $this->get('KeepId');
@@ -34,6 +33,6 @@ class RsformViewRestore extends JViewLegacy
 		JToolbarHelper::title('RSForm! Pro', 'rsform');
 		
 		require_once JPATH_COMPONENT.'/helpers/toolbar.php';
-		RSFormProToolbarHelper::addToolbar('backuprestore');
+		RSFormProToolbarHelper::addToolbar('restorescreen');
 	}
 }

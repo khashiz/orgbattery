@@ -42,7 +42,7 @@ class RsformViewSubmissions extends JViewLegacy
 		}
 
         // Allow plugins to use their own PDF library
-        $this->app->triggerEvent('rsfp_onPDFView', array($contents, $filename));
+        $this->app->triggerEvent('onRsformPdfView', array($contents, $filename));
 
         /*
          * Setup external configuration options
@@ -54,7 +54,7 @@ class RsformViewSubmissions extends JViewLegacy
          */
 
         // Installation path
-        define("K_PATH_MAIN", JPATH_LIBRARIES . "/tcpdf");
+        define("K_PATH_MAIN", JPATH_ADMINISTRATOR . '/components/com_rsform/helpers/tcpdf');
 
         // URL path
         define("K_PATH_URL", JPATH_BASE);
@@ -94,7 +94,10 @@ class RsformViewSubmissions extends JViewLegacy
          * Create the pdf document
          */
 
-        jimport('tcpdf.tcpdf');
+		if (!class_exists('TCPDF'))
+		{
+			require_once JPATH_ADMINISTRATOR . '/components/com_rsform/helpers/tcpdf/tcpdf.php';
+		}
 
         $pdf = new TCPDF();
         $pdf->SetMargins(15, 27, 15);

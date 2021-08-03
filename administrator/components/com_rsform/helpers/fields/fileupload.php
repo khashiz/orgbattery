@@ -281,8 +281,6 @@ class RSFormProFieldFileUpload extends RSFormProField
 				$file = $realpath . $prefix . $actualFile['name'];
 			}
 
-			jimport('joomla.filesystem.file');
-
 			// Upload File
 			if (JFile::upload($actualFile['tmp_name'], $file, false, (bool) RSFormProHelper::getConfig('allow_unsafe')))
 			{
@@ -290,11 +288,12 @@ class RSFormProFieldFileUpload extends RSFormProField
 				{
 					$newWidth  = (int) $this->getProperty('THUMBSIZE', 220);
 					$quality   = (int) $this->getProperty('THUMBQUALITY', 75);
+					$extension = $this->getProperty('THUMBEXTENSION', 'jpg');
 					$image     = @imagecreatefromstring(file_get_contents($file));
 
-					if (is_resource($image) && $newWidth > 0)
+					if ($image !== false && $newWidth > 0)
 					{
-						// Try to rotate it
+						// Try to rotate it, JPEG only
 						$this->tryToRotate($image, $file);
 
 						// If we're downsizing, IMG_BICUBIC produces better results
@@ -307,14 +306,23 @@ class RSFormProFieldFileUpload extends RSFormProField
 							$image = imagescale($image, $newWidth);
 						}
 
-						if (is_resource($image))
+						if ($image !== false)
 						{
-							$thumbFile = JFile::stripExt($file) . '.jpg';
+							$thumbFile = JFile::stripExt($file) . '.' . $extension;
 
 							// Delete old file, we no longer need it
 							JFile::delete($file);
 
-							imagejpeg($image, $thumbFile, $quality);
+							if ($extension === 'png')
+							{
+								imagealphablending($image, false);
+								imagesavealpha($image, true);
+								imagepng($image, $thumbFile);
+							}
+							else
+							{
+								imagejpeg($image, $thumbFile, $quality);
+							}
 
 							$file = $thumbFile;
 
@@ -324,7 +332,7 @@ class RSFormProFieldFileUpload extends RSFormProField
 				}
 
 				// Trigger Event - onBeforeStoreSubmissions
-				JFactory::getApplication()->triggerEvent('rsfp_f_onAfterFileUpload', array(array('formId' => $this->formId, 'fieldname' => $this->name, 'file' => $file, 'name' => $prefix . $actualFile['name'])));
+				JFactory::getApplication()->triggerEvent('onRsformFrontendAfterFileUpload', array(array('formId' => $this->formId, 'submissionId' => $submissionId, 'fieldname' => $this->name, 'file' => $file, 'name' => $prefix . $actualFile['name'], 'addToDb' => $addToDb)));
 
 				$allFiles[] = $file;
 			}

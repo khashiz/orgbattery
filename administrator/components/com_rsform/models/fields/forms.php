@@ -68,6 +68,11 @@ class JFormFieldForms extends JFormFieldList
 	{
 		$html = parent::getInput();
 
+		if (!empty($this->element['nobutton']))
+		{
+			return $html;
+		}
+
 		if ($this->value)
 		{
 			$url = JRoute::_('index.php?option=com_rsform&view=forms&layout=edit&formId=' . $this->value);

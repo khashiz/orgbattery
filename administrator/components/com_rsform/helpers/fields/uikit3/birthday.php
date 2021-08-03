@@ -18,7 +18,7 @@ class RSFormProFieldUikit3BirthDay extends RSFormProFieldBirthDay
         if (strlen($attr['class'])) {
             $attr['class'] .= ' ';
         }
-        $attr['class'] .= 'uk-select';
+        $attr['class'] .= 'uk-select uk-width-small';
 		
 		return $attr;
 	}

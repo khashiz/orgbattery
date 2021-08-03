@@ -18,7 +18,7 @@ class RSFormProFieldUikit3SubmitButton extends RSFormProFieldSubmitButton
 			$attr['class'] .= ' ';
 		}
 		if ($type == 'button') {
-			$attr['class'] .= ' uk-button uk-button-success uk-height-1-1';
+			$attr['class'] .= ' uk-button uk-button-primary';
 		} elseif ($type == 'reset') {
 			$attr['class'] .= ' uk-button uk-button-danger';
 		} elseif ($type == 'previous') {
