@@ -60,7 +60,10 @@ $total = count($socialsicons['icon']);
                             </div>
                         </div>
                         <div class="uk-width-1-2 uk-width-auto@m uk-flex uk-flex-middle uk-flex-center uk-flex-right@m logo">
-                            <a href="<?php echo JURI::base(); ?>" title="<?php echo $sitename; ?>" class="uk-display-inline-block" target="_self"><img src="<?php echo $params->get('logo'); ?>" width="100" height="38" alt="<?php echo $sitename; ?>"></a>
+                            <a href="<?php echo JURI::base(); ?>" title="<?php echo $sitename; ?>" class="uk-display-inline-block uk-text-primary" target="_self">
+                                <img src="<?php echo JUri::base().'images/globe.svg' ?>" width="41" height="40" alt="<?php echo $sitename; ?>" class="uk-margin-small-left">
+                                <img src="<?php echo JUri::base().'images/sprite.svg#narin' ?>" width="75" height="40" alt="<?php echo $sitename; ?>" data-uk-svg>
+                            </a>
                         </div>
                         <div class="uk-width-1-4 uk-width-auto@m uk-hidden@m callIcon">
                             <div class="uk-flex uk-flex-left">
@@ -401,7 +404,8 @@ $total = count($socialsicons['icon']);
             <div class="uk-width-expand">
                 <div class="offcanvasTop uk-box-shadow-small uk-position-relative uk-flex-stretch">
                     <div class="uk-grid-collapse uk-height-1-1" data-uk-grid>
-                        <div class="uk-flex uk-width-1-3 uk-flex uk-flex-center uk-flex-middle"><a onclick="UIkit.offcanvas('#hamMenu').hide();" class="uk-flex uk-flex-center uk-flex-middle uk-height-1-1 uk-width-1-1 uk-margin-remove"><img src="<?php echo JURI::base().'images/sprite.svg#chevron-right'; ?>" width="24" height="24" data-uk-svg></a></div>
+                        <div class="uk-flex uk-width-1-4 uk-flex uk-flex-center uk-flex-middle"><a onclick="UIkit.offcanvas('#hamMenu').hide();" class="uk-flex uk-flex-center uk-flex-middle uk-height-1-1 uk-width-1-1 uk-margin-remove"><img src="<?php echo JURI::base().'images/sprite.svg#chevron-right'; ?>" width="24" height="24" data-uk-svg></a></div>
+                        <div class="uk-flex uk-width-expand uk-flex uk-flex-right uk-flex-middle uk-text-white"><img src="<?php echo JUri::base().'images/sprite.svg#narin' ?>" width="75" height="40" alt="<?php echo $sitename; ?>" data-uk-svg></div>
                     </div>
                 </div>
                 <div class="uk-padding-small"><jdoc:include type="modules" name="offcanvas" style="xhtml" /></div>
@@ -415,7 +419,8 @@ $total = count($socialsicons['icon']);
             <div class="uk-width-expand">
                 <div class="offcanvasTop uk-box-shadow-small uk-position-relative uk-flex-stretch">
                     <div class="uk-grid-collapse uk-height-1-1" data-uk-grid>
-                        <div class="uk-flex uk-width-1-3 uk-flex uk-flex-center uk-flex-middle"><a onclick="UIkit.offcanvas('#hamMenu').hide();" class="uk-flex uk-flex-center uk-flex-middle uk-height-1-1 uk-width-1-1 uk-margin-remove"><img src="<?php echo JURI::base().'images/sprite.svg#chevron-right'; ?>" width="24" height="24" data-uk-svg></a></div>
+                        <div class="uk-flex uk-width-1-4 uk-flex uk-flex-center uk-flex-middle"><a onclick="UIkit.offcanvas('#userMenu').hide();" class="uk-flex uk-flex-center uk-flex-middle uk-height-1-1 uk-width-1-1 uk-margin-remove"><img src="<?php echo JURI::base().'images/sprite.svg#chevron-right'; ?>" width="24" height="24" data-uk-svg></a></div>
+                        <div class="uk-flex uk-width-expand uk-flex uk-flex-right uk-flex-middle uk-text-white"><img src="<?php echo JUri::base().'images/sprite.svg#narin' ?>" width="75" height="40" alt="<?php echo $sitename; ?>" data-uk-svg></div>
                     </div>
                 </div>
                 <div class="uk-padding-small"><jdoc:include type="modules" name="offcanvasuser" style="xhtml" /></div>
