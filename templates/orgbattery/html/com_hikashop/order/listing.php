@@ -67,20 +67,20 @@ defined('_JEXEC') or die('Restricted access');
                                         <div class="uk-position-relative">
                                             <div class="uk-text-zero">
                                                 <div>
-                                                    <span class="uk-display-block uk-text-tiny uk-text-muted uk-margin-small-bottom font"><?php echo JText::sprintf('ORDERNUMBERX', $row->order_number); ?></span>
+                                                    <span class="uk-display-block uk-text-small uk-text-muted uk-margin-small-bottom font f600"><?php echo JText::sprintf('ORDERNUMBERX', $row->order_number); ?></span>
                                                     <div>
                                                         <div class="uk-grid-small" data-uk-grid>
                                                             <div class="uk-width-auto uk-flex uk-flex-middle">
                                                                 <div>
                                                                     <div class="uk-grid-small uk-child-width-auto uk-grid-divider uk-text-small" data-uk-grid>
                                                                         <div>
-                                                                            <span class="uk-text-<?php echo $row->order_status; ?> font myOrderMetaItem status"><?php echo hikashop_orderStatus($row->order_status); ?></span>
+                                                                            <time class="uk-text-dark f600 font myOrderMetaItem" datetime="<?php echo hikashop_getDate((int)$row->order_created, '%d %B %Y %H:%M'); ?>"><?php echo hikashop_getDate((int)$row->order_created, 'D ، j M Y'); ?></time>
                                                                         </div>
                                                                         <div>
-                                                                            <time class="uk-text-secondary font myOrderMetaItem" datetime="<?php echo hikashop_getDate((int)$row->order_created, '%d %B %Y %H:%M'); ?>"><?php echo hikashop_getDate((int)$row->order_created, 'D ، j M Y'); ?></time>
+                                                                            <span class="uk-text-dark f600 font myOrderMetaItem"><?php echo $this->currencyClass->format($row->order_full_price, $row->order_currency_id); ?></span>
                                                                         </div>
                                                                         <div>
-                                                                            <span class="uk-text-secondary font myOrderMetaItem"><?php echo $this->currencyClass->format($row->order_full_price, $row->order_currency_id); ?></span>
+                                                                            <span class="uk-text-<?php echo $row->order_status; ?> font myOrderMetaItem font f600 status"><?php echo hikashop_orderStatus($row->order_status); ?></span>
                                                                         </div>
                                                                     </div>
                                                                 </div>
@@ -90,7 +90,7 @@ defined('_JEXEC') or die('Restricted access');
                                                 </div>
                                             </div>
                                             <div class="uk-position-top-left">
-                                                <div class="uk-grid-small uk-child-width-auto" data-uk-grid>
+                                                <div class="uk-grid-small uk-child-width-auto uk-text-zero" data-uk-grid>
                                                     <div>
                                                         <div class="uk-text-secondary cursorPointer"><img src="<?php echo JURI::base().'images/sprite.svg#ellipsis-v'; ?>" width="20" height="20" alt="" data-uk-svg></div>
                                                         <div data-uk-drop="pos: right-top" class="ellipsisDrop">

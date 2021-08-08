@@ -43,70 +43,56 @@ $total = count($socialsicons['icon']);
 <!DOCTYPE html>
 <html lang="<?php echo JFactory::getLanguage()->getTag(); ?>" dir="<?php echo JFactory::getLanguage()->isRtl() ? 'rtl' : 'ltr'; ?>">
 <head>
-    <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <meta name="theme-color" content="<?php echo $params->get('presetcolor'); ?>">
     <jdoc:include type="head" />
 </head>
 <body class="uk-background-muted <?php echo $view.' '.$layout.' '.$task; ?>">
 <?php if ($pageclass != 'checkout') { ?>
-<header class="uk-position-relative<?php // if ($pageclass == 'home') echo ' uk-position-z-index'; ?>" id="header">
-    <div class="uk-text-zero uk-visible@m topBar bgPrimary">
-        <div class="uk-container">
-            <div>
-                <div data-uk-grid>
-                    <div class="uk-width-expand"><jdoc:include type="modules" name="user" style="xhtml" /></div>
-                    <div class="uk-width-auto uk-flex uk-flex-middle">
-                        <div>
-                            <div class="uk-grid-small uk-grid-divider" data-uk-grid>
-                                <div class="uk-flex uk-flex-middle">
-                                    <ul class="uk-grid-small socials" data-uk-grid>
-                                        <?php for($i=0;$i<$total;$i++) { ?>
-                                            <?php if ($socialsicons['link'][$i] != '') { ?>
-                                                <li>
-                                                    <a href="<?php echo $socialsicons['link'][$i]; ?>" class="uk-text-white hoverWhite" target="_blank" title="<?php echo $socialsicons['title'][$i]; ?>"><img src="<?php echo JURI::base().'images/sprite.svg#'.$socialsicons['icon'][$i] ?>" width="18" height="18" data-uk-svg></a>
-                                                </li>
-                                            <?php } ?>
+    <header class="uk-card uk-card-default uk-box-shadow-small" id="header">
+        <div class="uk-text-zero uk-padding-small uk-padding-remove-horizontal uk-padding-remove-bottom">
+            <div class="uk-container">
+                <div>
+                    <div class="uk-grid-small uk-grid-collapse" data-uk-grid>
+                        <div class="uk-width-1-4 uk-width-auto@m uk-hidden@m hamIcon">
+                            <div class="uk-flex uk-flex-right">
+                                <a href="#hamMenu" data-uk-toggle class="uk-border-rounded uk-text-primary uk-background-muted uk-text-zero uk-lineheight-zero uk-padding-tiny"><img src="<?php echo JURI::base().'images/sprite.svg#bars'; ?>" width="24" height="24" alt="<?php echo $sitename; ?>" data-uk-svg></a>
+                            </div>
+                        </div>
+                        <div class="uk-width-1-2 uk-width-auto@m uk-flex uk-flex-middle uk-flex-center uk-flex-right@m logo">
+                            <a href="<?php echo JURI::base(); ?>" title="<?php echo $sitename; ?>" class="uk-display-inline-block" target="_self"><img src="<?php echo $params->get('logo'); ?>" width="100" height="38" alt="<?php echo $sitename; ?>"></a>
+                        </div>
+                        <div class="uk-width-1-4 uk-width-auto@m uk-hidden@m callIcon">
+                            <div class="uk-flex uk-flex-left">
+                                <a href="#userMenu" data-uk-toggle class="uk-border-rounded uk-background-muted uk-text-zero uk-lineheight-zero uk-padding-tiny">
+                                    <div class="uk-position-relative uk-text-<?php echo $user->id ? 'primary' : 'muted'; ?>">
+                                        <img src="<?php echo JURI::base().'images/sprite.svg#user'; ?>" width="24" height="24" alt="<?php echo $sitename; ?>" data-uk-svg>
+                                        <?php if($user->id) { ?>
+                                            <span class="userIndicator uk-flex uk-flex-center uk-flex-middle"></span>
                                         <?php } ?>
-                                    </ul>
-                                </div>
-                                <jdoc:include type="modules" name="lang" style="xhtml" />
+                                    </div>
+                                </a>
                             </div>
                         </div>
-                    </div>
-                </div>
-            </div>
-        </div>
-    </div>
-    <div class="uk-text-zero uk-box-shadow-small bgWhite stickyHeader" data-uk-sticky="top: 120; animation: uk-animation-slide-top;">
-        <div class="uk-container">
-            <div class="stickyEffect">
-                <div class="uk-padding-small uk-padding-remove-horizontal">
-                    <div class="uk-grid-small uk-flex-middle" data-uk-grid>
-                        <div class="uk-width-auto uk-hidden@m">
-                            <div>
-                                <a href="#hamMenu" data-uk-toggle class="uk-text-muted uk-border-rounded uk-button uk-button-default uk-button-small uk-display-block uk-text-muted uk-text-zero hamMenuToggler"><img src="<?php echo JURI::base().'images/sprite.svg#bars'; ?>" width="20" height="20" alt="<?php echo $sitename; ?>" data-uk-svg></a>
-                            </div>
-                        </div>
-                        <div class="uk-width-auto">
-                            <div>
-                                <div class="uk-grid-small logoContainer" data-uk-grid>
-                                    <div class="uk-width-auto uk-flex uk-flex-middle">
-                                        <a href="<?php echo JURI::base(); ?>" title="<?php echo $sitename; ?>" class="uk-display-inline-block uk-text-accent hoverAccent" target="_self"><img src="<?php echo $params->get('logo'); ?>" width="100" height="38" alt="<?php echo $sitename; ?>"></a>
+                        <div class="uk-width-1-1 uk-hidden@m mobileSpacer"></div>
+                        <div class="uk-width-expand search"><jdoc:include type="modules" name="search" style="xhtml" /></div>
+                        <div class="uk-width-auto uk-visible@m"><jdoc:include type="modules" name="usermenu" style="xhtml" /></div>
+                        <div class="uk-width-1-1 uk-visible@m"></div>
+                        <div class="uk-width-auto uk-width-1-1@m uk-flex uk-flex-column uk-flex-center uk-flex-left@m uk-visibl">
+                            <div class="stickyHeader" data-uk-sticky="top: 120; animation: uk-animation-slide-top; show-on-up: false; media:@m;">
+                                <div class="uk-container">
+                                    <div class="uk-grid-small" data-uk-grid>
+                                        <div class="uk-width-expand menu"><jdoc:include type="modules" name="menu" style="xhtml" /></div>
+                                        <div class="uk-width-auto cart"><jdoc:include type="modules" name="cart" style="xhtml" /></div>
                                     </div>
                                 </div>
                             </div>
                         </div>
-                        <div class="uk-width-expand uk-flex uk-flex-middle uk-flex-left">
-                            <div>
-                                <div class="uk-grid-divider uk-grid-small" data-uk-grid><jdoc:include type="modules" name="header" style="xhtml" /></div>
-                            </div>
-                        </div>
                     </div>
                 </div>
             </div>
         </div>
-    </div>
-</header>
+    </header>
 <?php } ?>
 <?php if ($pageclass == 'checkout') { ?>
     <header class="uk-position-relative">
@@ -123,13 +109,13 @@ $total = count($socialsicons['icon']);
                             <div class="uk-width-auto">
                                 <div>
                                     <div class="uk-grid-small logoContainer" data-uk-grid>
-                                        <div class="uk-width-auto uk-flex uk-flex-middle uk-visible@m">
+                                        <div class="uk-width-auto uk-flex uk-flex-middle">
                                             <a href="<?php echo JURI::base(); ?>" title="<?php echo $sitename; ?>" class="uk-display-inline-block uk-text-accent hoverAccent" target="_self"><img src="<?php echo $params->get('logo'); ?>" width="100" height="38" alt="<?php echo $sitename; ?>"></a>
                                         </div>
                                     </div>
                                 </div>
                             </div>
-                            <div class="uk-width-expand uk-flex uk-flex-middle uk-flex-left uk-hidden">
+                            <div class="uk-width-expand uk-flex uk-flex-middle uk-flex-left uk-hidde">
                                 <a href="<?php echo JURI::base(); ?>" title="" class="uk-text-tiny uk-text-bold uk-text-muted font">
                                     <span><?php echo JText::sprintf('BACK'); ?></span>
                                     <span class="uk-visible@m"><?php echo JText::sprintf('TOSHOP'); ?></span>
@@ -165,7 +151,7 @@ $total = count($socialsicons['icon']);
                 <div class="hikashop_cpanel_main_interface">
                     <div class="hikashop_dashboard" id="hikashop_dashboard" data-uk-grid>
                         <?php if ($this->countModules( 'sidestart' )) { ?>
-                            <div class="uk-width-1-1 uk-width-1-4@m">
+                            <div class="uk-width-1-1 uk-width-1-4@m uk-visible@m">
                                 <aside data-uk-sticky="offset: 110; bottom: true;">
                                     <div>
                                         <div class="uk-child-width-1-1 uk-grid-small" data-uk-grid><jdoc:include type="modules" name="sidestart" style="xhtml" /></div>
@@ -200,7 +186,7 @@ $total = count($socialsicons['icon']);
             <div>
                 <div data-uk-grid>
                     <div class="uk-width-1-1 uk-width-1-3@m uk-flex-last uk-flex-first@m">
-                        <div class="uk-padding-small bgAccent footerSocials">
+                        <div class="uk-padding-small bgPrimary footerSocials">
                             <div class="uk-grid-small uk-child-width-auto uk-flex-center" data-uk-grid>
                                 <div class="uk-flex uk-flex-middle"><span class="uk-text-white uk-text-small font"><?php echo JTEXT::_('FOLLOWUS'); ?></span></div>
                                 <div>
@@ -245,7 +231,7 @@ $total = count($socialsicons['icon']);
                                                         <div>
                                                             <div>
                                                                 <div class="uk-grid-small contactFields" data-uk-grid>
-                                                                    <div class="uk-width-auto uk-text-accent"><img src="<?php echo JURI::base().'images/sprite.svg#map' ?>" width="20" height="20" alt="" data-uk-svg></div>
+                                                                    <div class="uk-width-auto uk-text-secondary"><img src="<?php echo JURI::base().'images/sprite.svg#map' ?>" width="20" height="20" alt="" data-uk-svg></div>
                                                                     <div class="uk-width-expand"><span class="uk-text-small uk-text-dark value font"><?php echo $params->get('address'); ?></span></div>
                                                                 </div>
                                                             </div>
@@ -259,7 +245,7 @@ $total = count($socialsicons['icon']);
                                                                         <div>
                                                                             <div>
                                                                                 <div class="uk-grid-small contactFields" data-uk-grid>
-                                                                                    <div class="uk-width-auto uk-text-accent"><img src="<?php echo JURI::base().'images/sprite.svg#phone' ?>" width="20" height="20" alt="" data-uk-svg></div>
+                                                                                    <div class="uk-width-auto uk-text-secondary"><img src="<?php echo JURI::base().'images/sprite.svg#phone' ?>" width="20" height="20" alt="" data-uk-svg></div>
                                                                                     <div class="uk-width-expand"><span class="uk-text-small uk-text-dark value font"><?php echo nl2br($params->get('phone')); ?></span></div>
                                                                                 </div>
                                                                             </div>
@@ -272,7 +258,7 @@ $total = count($socialsicons['icon']);
                                                                                     <?php if (!empty($params->get('fax'))) { ?>
                                                                                         <div>
                                                                                             <div class="uk-grid-small contactFields" data-uk-grid>
-                                                                                                <div class="uk-width-auto uk-text-accent"><img src="<?php echo JURI::base().'images/sprite.svg#fax' ?>" width="20" height="20" alt="" data-uk-svg></div>
+                                                                                                <div class="uk-width-auto uk-text-secondary"><img src="<?php echo JURI::base().'images/sprite.svg#fax' ?>" width="20" height="20" alt="" data-uk-svg></div>
                                                                                                 <div class="uk-width-expand uk-flex uk-flex-middle"><span class="uk-text-small uk-text-dark value font"><?php echo $params->get('fax'); ?></span></div>
                                                                                             </div>
                                                                                         </div>
@@ -280,7 +266,7 @@ $total = count($socialsicons['icon']);
                                                                                     <?php if (!empty($params->get('cellphone'))) { ?>
                                                                                         <div>
                                                                                             <div class="uk-grid-small contactFields" data-uk-grid>
-                                                                                                <div class="uk-width-auto uk-text-accent"><img src="<?php echo JURI::base().'images/sprite.svg#mobile' ?>" width="20" height="20" alt="" data-uk-svg></div>
+                                                                                                <div class="uk-width-auto uk-text-secondary"><img src="<?php echo JURI::base().'images/sprite.svg#mobile' ?>" width="20" height="20" alt="" data-uk-svg></div>
                                                                                                 <div class="uk-width-expand uk-flex uk-flex-middle"><span class="uk-text-small uk-text-dark value font"><?php echo $params->get('cellphone'); ?></span></div>
                                                                                             </div>
                                                                                         </div>
@@ -297,7 +283,7 @@ $total = count($socialsicons['icon']);
                                                         <div>
                                                             <div>
                                                                 <div class="uk-grid-small contactFields" data-uk-grid>
-                                                                    <div class="uk-width-auto uk-text-accent"><img src="<?php echo JURI::base().'images/sprite.svg#envelope' ?>" width="20" height="20" alt="" data-uk-svg></div>
+                                                                    <div class="uk-width-auto uk-text-secondary"><img src="<?php echo JURI::base().'images/sprite.svg#envelope' ?>" width="20" height="20" alt="" data-uk-svg></div>
                                                                     <div class="uk-width-expand uk-flex uk-flex-middle"><span class="uk-text-small uk-text-dark value font"><?php echo $params->get('email'); ?></span></div>
                                                                 </div>
                                                             </div>
@@ -341,9 +327,9 @@ $total = count($socialsicons['icon']);
             </div>
         </div>
     </div>
-    <div class="copyright bgPrimary">
+    <div class="copyright bgDark">
         <div class="uk-container">
-            <div class="uk-padding-small uk-padding-remove-horizontal">
+            <div class="uk-padding-small uk-padding-remove-horizontal uk-padding-remove-top">
                 <div class="uk-grid-small uk-text-white uk-text-center uk-text-<?php echo JFactory::getLanguage()->isRtl() ? 'right' : 'left' ?>@m font" data-uk-grid>
                     <div class="uk-width-1-1 uk-width-expand@m">
                         <p class="uk-text-small f500"><?php echo JTEXT::sprintf('COPYRIGHT', $sitename); ?></p>
@@ -414,10 +400,8 @@ $total = count($socialsicons['icon']);
         <div class="uk-flex uk-flex-column uk-height-1-1">
             <div class="uk-width-expand">
                 <div class="offcanvasTop uk-box-shadow-small uk-position-relative uk-flex-stretch">
-                    <div class="uk-grid-collapse uk-height-1-1 uk-grid uk-grid-stack" data-uk-grid="">
+                    <div class="uk-grid-collapse uk-height-1-1" data-uk-grid>
                         <div class="uk-flex uk-width-1-3 uk-flex uk-flex-center uk-flex-middle"><a onclick="UIkit.offcanvas('#hamMenu').hide();" class="uk-flex uk-flex-center uk-flex-middle uk-height-1-1 uk-width-1-1 uk-margin-remove"><img src="<?php echo JURI::base().'images/sprite.svg#chevron-right'; ?>" width="24" height="24" data-uk-svg></a></div>
-                        <div class="uk-flex uk-width-1-3 uk-flex uk-flex-center uk-flex-middle"><a href="<?php echo JRoute::_("index.php?Itemid=167"); ?>" class="uk-flex uk-flex-center uk-flex-middle uk-height-1-1 uk-width-1-1 uk-margin-remove"><img src="<?php echo JURI::base().'images/sprite.svg#shopping-cart'; ?>" width="24" height="24" data-uk-svg></a></div>
-                        <div class="uk-flex uk-width-1-3 uk-flex uk-flex-center uk-flex-middle"><a href="tel:02134568972" class="uk-flex uk-flex-center uk-flex-middle uk-height-1-1 uk-width-1-1 uk-margin-remove"><img src="<?php echo JURI::base().'images/sprite.svg#phone'; ?>" width="24" height="24" data-uk-svg></a></div>
                     </div>
                 </div>
                 <div class="uk-padding-small"><jdoc:include type="modules" name="offcanvas" style="xhtml" /></div>
@@ -425,15 +409,36 @@ $total = count($socialsicons['icon']);
         </div>
     </div>
 </div>
-<div class="uk-position-fixed uk-position-top-left uk-width-1-1 uk-height-1-1 pageCover" id="pageCover" data-uk-toggle="animation: uk-animation-fade" hidden></div>
+<div id="userMenu" data-uk-offcanvas="overlay: true">
+    <div class="uk-offcanvas-bar uk-card uk-card-default uk-padding-remove bgWhite">
+        <div class="uk-flex uk-flex-column uk-height-1-1">
+            <div class="uk-width-expand">
+                <div class="offcanvasTop uk-box-shadow-small uk-position-relative uk-flex-stretch">
+                    <div class="uk-grid-collapse uk-height-1-1" data-uk-grid>
+                        <div class="uk-flex uk-width-1-3 uk-flex uk-flex-center uk-flex-middle"><a onclick="UIkit.offcanvas('#hamMenu').hide();" class="uk-flex uk-flex-center uk-flex-middle uk-height-1-1 uk-width-1-1 uk-margin-remove"><img src="<?php echo JURI::base().'images/sprite.svg#chevron-right'; ?>" width="24" height="24" data-uk-svg></a></div>
+                    </div>
+                </div>
+                <div class="uk-padding-small"><jdoc:include type="modules" name="offcanvasuser" style="xhtml" /></div>
+            </div>
+        </div>
+    </div>
+</div>
+<div id="bankAccountsModal" data-uk-modal>
+    <div class="uk-modal-dialog uk-modal-body uk-padding uk-border-rounded uk-box-shadow-medium uk-width-1-1 uk-width-1-2@m">
+        <div>
+            <div class="uk-child-width-1-1 uk-grid-medium" data-uk-grid><?php echo JHtml::_('content.prepare', '{loadposition bankinfo}'); ?></div>
+        </div>
+    </div>
+</div>
+<div class="uk-position-fixed uk-position-top-left uk-width-1-1 uk-height-1-1 uk-visible@m pageCover" id="pageCover"></div>
 
 <script type="text/javascript">
     jQuery(document).ready(function () {
         UIkit.util.on('.headerDrop', 'show', function () {
-            UIkit.toggle('#pageCover').toggle();
+            jQuery('#pageCover').fadeIn(250);
         });
         UIkit.util.on('.headerDrop', 'hidden', function () {
-            UIkit.toggle('#pageCover').toggle();
+            jQuery('#pageCover').fadeOut(250);
         });
     });
 </script>

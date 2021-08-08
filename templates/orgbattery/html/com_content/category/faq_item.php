@@ -24,7 +24,7 @@ $isUnpublished = ($this->item->state == 0 || $this->item->publish_up > $currentD
 ?>
 <?php if ($isUnpublished) : ?><div class="system-unpublished"><?php endif; ?>
     <?php echo JLayoutHelper::render('joomla.content.sa_faq_item_title', $this->item); ?>
-<div class="uk-accordion-content uk-text-justify uk-text-small uk-padding-small uk-padding-remove-vertical font">
+<div class="uk-accordion-content uk-text-justify uk-padding-small uk-padding-remove-vertical font f500">
     <?php if ($canEdit || $params->get('show_print_icon') || $params->get('show_email_icon')) : ?>
         <?php echo JLayoutHelper::render('joomla.content.icons', array('params' => $params, 'item' => $this->item, 'print' => false)); ?>
     <?php endif; ?>

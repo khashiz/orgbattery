@@ -12,9 +12,10 @@ $cards = json_decode( $params->get('cards'),true);
 $total = count($cards['title']);
 ?>
 <div class="uk-container">
+    <hr class="uk-divider-icon uk-margin-large-bottom uk-margin-bottom uk-hidden">
     <div class="uk-slider-container-offset" data-uk-slider="autoplay: true; autoplay-interval: 1500;">
         <div class="uk-position-relative">
-            <ul class="uk-slider-items uk-child-width-1-1 uk-child-width-1-3@m" data-uk-grid data-uk-scrollspy="cls: uk-animation-slide-bottom-small; target: > div; delay: 200;">
+            <ul class="uk-slider-items uk-child-width-1-1 uk-child-width-1-3@m" data-uk-grid data-uk-scrollspy="cls: uk-animation-slide-bottom-small; target: > li; delay: 200; offset-top: -100">
                 <?php for($i=0;$i<$total;$i++) { ?>
                     <?php if ($cards['title'][$i] != '') { ?>
                         <li>
@@ -30,5 +31,4 @@ $total = count($cards['title']);
         </div>
         <ul class="uk-slider-nav uk-dotnav uk-flex-center uk-margin"></ul>
     </div>
-    <hr class="uk-divider-icon uk-margin-large-top uk-margin-bottom">
 </div>

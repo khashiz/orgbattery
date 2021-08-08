@@ -42,9 +42,9 @@ defined('_JEXEC') or die;
 				// Render all but last item - along with separator ?>
 				<li itemprop="itemListElement" itemscope itemtype="https://schema.org/ListItem">
 					<?php if (!empty($item->link)) : ?>
-						<a itemprop="item" href="<?php echo $item->link; ?>" class="pathway"><span itemprop="name" class="uk-text-tiny f500 uk-text-secondary font hoverAccent"><?php echo $item->name; ?></span></a>
+						<a itemprop="item" href="<?php echo $item->link; ?>" class="pathway"><span itemprop="name" class="uk-text-tiny f500 uk-text-dark font hoverAccent"><?php echo $item->name; ?></span></a>
 					<?php else : ?>
-						<span itemprop="name" class="uk-text-tiny f500 uk-text-secondary font"><?php echo $item->name; ?></span>
+						<span itemprop="name" class="uk-text-tiny f500 uk-text-dark font"><?php echo $item->name; ?></span>
 					<?php endif; ?>
 
 					<?php if (($key !== $penult_item_key) || $show_last) : ?>
@@ -55,7 +55,7 @@ defined('_JEXEC') or die;
 			<?php elseif ($show_last) :
 				// Render last item if reqd. ?>
 				<li itemprop="itemListElement" itemscope itemtype="https://schema.org/ListItem" class="active">
-					<span itemprop="name" class="uk-text-tiny f500 uk-text-secondary font"><?php echo $item->name; ?></span>
+					<span itemprop="name" class="uk-text-tiny f500 uk-text-dark font"><?php echo $item->name; ?></span>
 					<meta itemprop="position" content="<?php echo $key + 1; ?>">
 				</li>
 			<?php endif;

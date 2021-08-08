@@ -32,37 +32,42 @@ if($weight && $this->config->get('show_invoice_weight',0))
                     <?php if ($this->invoice_type == 'order' || empty($this->element->order_invoice_number)) { ?>
                         <div>
                             <span class="uk-display-block uk-margin-bottom uk-text-<?php echo $this->element->order_status; ?>"><img src="<?php echo JURI::base().'images/sprite.svg#status-'.$this->element->order_status; ?>" width="48" height="48" data-uk-svg></span>
-                            <span class="uk-display-block uk-text-muted uk-text-tiny uk-margin-small-bottom font"><?php echo JText::sprintf('HIKASHOP_ORDER_STATUS'); ?></span>
+                            <span class="uk-display-block uk-text-muted uk-text-tiny uk-margin-small-bottom font f500"><?php echo JText::sprintf('HIKASHOP_ORDER_STATUS'); ?></span>
                             <p class="hikashop_order_payment_method uk-margin-remove uk-text-<?php echo $this->element->order_status; ?> uk-text-small uk-text-bold font"><?php echo JText::sprintf('ORDER_STATUS_'.$this->element->order_status); ?></p>
                         </div>
                     <?php } else {?>
                         <div>
+                            <span class="uk-display-block uk-margin-bottom uk-text-<?php echo $this->element->order_status; ?>"><img src="<?php echo JURI::base().'images/sprite.svg#status-'.$this->element->order_status; ?>" width="48" height="48" data-uk-svg></span>
+                            <span class="uk-display-block uk-text-muted uk-text-tiny uk-margin-small-bottom font f500"><?php echo JText::sprintf('HIKASHOP_ORDER_STATUS'); ?></span>
+                            <p class="hikashop_order_payment_method uk-margin-remove uk-text-<?php echo $this->element->order_status; ?> uk-text-small uk-text-bold font"><?php echo JText::sprintf('ORDER_STATUS_'.$this->element->order_status); ?></p>
+                        </div>
+                        <div class="uk-hidden">
                             <span class="uk-display-block uk-margin-bottom"><img src="<?php echo JURI::base().'images/sprite.svg#home'; ?>" width="48" height="48" data-uk-svg></span>
-                            <span class="uk-display-block uk-text-muted uk-text-tiny uk-margin-small-bottom font"><?php echo JText::_(strtoupper($this->invoice_type)); ?></span>
-                            <p class="hikashop_order_payment_method uk-margin-remove uk-text-secondary uk-text-small uk-text-bold font"><?php echo @$this->element->order_invoice_number; ?></p>
+                            <span class="uk-display-block uk-text-muted uk-text-tiny uk-margin-small-bottom font f500"><?php echo JText::_(strtoupper($this->invoice_type)); ?></span>
+                            <p class="hikashop_order_payment_method uk-margin-remove uk-text-secondary uk-text-small uk-text-bold font"><?php echo @$this->element->order_invoice_number; ?>fffffff</p>
                         </div>
                     <?php } ?>
 
                     <?php if ($this->invoice_type == 'order' || empty($this->element->order_invoice_created)) { ?>
                         <div>
-                            <span class="uk-display-block uk-margin-bottom uk-text-secondary"><img src="<?php echo JURI::base().'images/sprite.svg#calendar-alt'; ?>" width="48" height="48" data-uk-svg></span>
-                            <span class="uk-display-block uk-text-muted uk-text-tiny uk-margin-small-bottom font"><?php echo JText::sprintf('ORDER_DATE'); ?></span>
-                            <p class="hikashop_order_payment_method uk-margin-remove uk-text-secondary uk-text-small uk-text-bold font"><?php echo hikashop_getDate($this->element->order_created, 'D ، j M Y'); ?></p>
+                            <span class="uk-display-block uk-margin-bottom uk-text-primary"><img src="<?php echo JURI::base().'images/sprite.svg#calendar-alt'; ?>" width="48" height="48" data-uk-svg></span>
+                            <span class="uk-display-block uk-text-muted uk-text-tiny uk-margin-small-bottom font f500"><?php echo JText::sprintf('ORDER_DATE'); ?></span>
+                            <p class="hikashop_order_payment_method uk-margin-remove uk-text-dark uk-text-small font f600"><?php echo hikashop_getDate($this->element->order_created, 'D ، j M Y'); ?></p>
                         </div>
                     <?php } else {?>
                         <div>
-                            <span class="uk-display-block uk-margin-bottom uk-text-secondary"><img src="<?php echo JURI::base().'images/sprite.svg#calendar'; ?>" width="48" height="48" data-uk-svg></span>
-                            <span class="uk-display-block uk-text-muted uk-text-tiny uk-margin-small-bottom font"><?php echo JText::sprintf('ORDER_DATE'); ?></span>
-                            <p class="hikashop_order_payment_method uk-margin-remove uk-text-secondary uk-text-small uk-text-bold font"><?php echo hikashop_getDate($this->element->order_invoice_created, 'D ، j M Y'); ?></p>
+                            <span class="uk-display-block uk-margin-bottom uk-text-primary"><img src="<?php echo JURI::base().'images/sprite.svg#calendar'; ?>" width="48" height="48" data-uk-svg></span>
+                            <span class="uk-display-block uk-text-muted uk-text-tiny uk-margin-small-bottom font f500"><?php echo JText::sprintf('ORDER_DATE'); ?></span>
+                            <p class="hikashop_order_payment_method uk-margin-remove uk-text-dark uk-text-small font f600"><?php echo hikashop_getDate($this->element->order_invoice_created, 'D ، j M Y'); ?></p>
                         </div>
                     <?php } ?>
 
 
                     <?php if(!empty($this->shipping)) { ?>
                         <div>
-                            <span class="uk-display-block uk-margin-bottom uk-text-secondary"><img src="<?php echo JURI::base().'images/sprite.svg#shipping-'.$this->order->order_shipping_id; ?>" width="48" height="48" data-uk-svg></span>
-                            <span class="uk-display-block uk-text-muted uk-text-tiny uk-margin-small-bottom font"><?php echo JText::sprintf('HIKASHOP_SHIPPING_METHOD'); ?></span>
-                            <p class="hikashop_order_payment_method uk-margin-remove uk-text-secondary uk-text-small uk-text-bold font">
+                            <span class="uk-display-block uk-margin-bottom uk-text-primary"><img src="<?php echo JURI::base().'images/sprite.svg#shipping-'.$this->order->order_shipping_id; ?>" width="48" height="48" data-uk-svg></span>
+                            <span class="uk-display-block uk-text-muted uk-text-tiny uk-margin-small-bottom font f500"><?php echo JText::sprintf('HIKASHOP_SHIPPING_METHOD'); ?></span>
+                            <p class="hikashop_order_payment_method uk-margin-remove uk-text-dark uk-text-small font f600">
                                 <?php if(is_string($this->order->order_shipping_method)) { ?>
                                     <?php if(strpos($this->order->order_shipping_id, '-') !== false) { ?>
                                         <?php echo $this->shippingClass->getShippingName($this->order->order_shipping_method, $this->order->order_shipping_id); ?>
@@ -77,9 +82,9 @@ if($weight && $this->config->get('show_invoice_weight',0))
                     <?php } ?>
                     <?php if(!empty($this->payment)) { ?>
                         <div>
-                            <span class="uk-display-block uk-margin-bottom uk-text-secondary"><img src="<?php echo JURI::base().'images/sprite.svg#shippingmethod'.$this->order->order_payment_method; ?>" width="48" height="48" data-uk-svg></span>
-                            <span class="uk-display-block uk-text-muted uk-text-tiny uk-margin-small-bottom font"><?php echo JText::sprintf('HIKASHOP_PAYMENT_METHOD'); ?></span>
-                            <p class="hikashop_order_payment_method uk-margin-remove uk-text-secondary uk-text-small uk-text-bold font"><?php echo $this->payment->getName($this->order->order_payment_method, $this->order->order_payment_id); ?></p>
+                            <span class="uk-display-block uk-margin-bottom uk-text-primary"><img src="<?php echo JURI::base().'images/sprite.svg#shippingmethod'.$this->order->order_payment_method; ?>" width="48" height="48" data-uk-svg></span>
+                            <span class="uk-display-block uk-text-muted uk-text-tiny uk-margin-small-bottom font f500"><?php echo JText::sprintf('HIKASHOP_PAYMENT_METHOD'); ?></span>
+                            <p class="hikashop_order_payment_method uk-margin-remove uk-text-dark uk-text-small font f600"><?php echo $this->payment->getName($this->order->order_payment_method, $this->order->order_payment_id); ?></p>
                         </div>
                     <?php } ?>
                     <?php
@@ -354,9 +359,9 @@ if($weight && $this->config->get('show_invoice_weight',0))
                                 <?php $k = 1 - $k; } ?>
                             </div>
                             <div class="uk-grid-small" data-uk-grid>
-                                <div class="uk-width-expand uk-text-tiny font hikashop_cart_total_title" data-uk-leader><?php echo JText::_( 'SUBTOTAL' ); ?></div>
+                                <div class="uk-width-expand uk-text-small f500 font hikashop_cart_total_title" data-uk-leader><?php echo JText::_( 'SUBTOTAL' ); ?></div>
                                 <div class="uk-text-small uk-text-bold uk-text-secondary font hikashop_cart_total_value">
-                                    <span class="uk-text-accent">
+                                    <span class="uk-text-dark">
                                     <?php
                                     if($this->config->get('price_with_tax')) {
                                         echo $this->currencyHelper->format($this->order->order_subtotal,$this->order->order_currency_id);
@@ -369,7 +374,7 @@ if($weight && $this->config->get('show_invoice_weight',0))
                             </div>
                             <?php $taxes = $this->currencyHelper->round($this->order->order_subtotal - $this->order->order_subtotal_no_vat + $this->order->order_shipping_tax + $this->order->order_payment_tax - $this->order->order_discount_tax, $this->currencyHelper->getRounding($this->order->order_currency_id, true)); if(!empty($this->order->order_discount_code)) { ?>
                                 <div class="uk-grid-small" data-uk-grid>
-                                    <div class="uk-width-expand uk-text-tiny font hikashop_cart_total_title" data-uk-leader><?php echo JText::_( 'HIKASHOP_COUPON' ); ?></div>
+                                    <div class="uk-width-expand uk-text-small f500 font hikashop_cart_total_title" data-uk-leader><?php echo JText::_( 'HIKASHOP_COUPON' ); ?></div>
                                     <div class="uk-text-small uk-text-bold uk-text-secondary font hikashop_cart_total_value">
                                         <span class="uk-text-success">
                                         <?php
@@ -385,9 +390,9 @@ if($weight && $this->config->get('show_invoice_weight',0))
                             <?php } ?>
                             <?php if(!empty($this->order->order_shipping_method)) { ?>
                                 <div class="uk-grid-small" data-uk-grid>
-                                    <div class="uk-width-expand uk-text-tiny font hikashop_cart_total_title" data-uk-leader><?php echo JText::_( 'SHIPPING' ); ?></div>
+                                    <div class="uk-width-expand uk-text-small f500 font hikashop_cart_total_title" data-uk-leader><?php echo JText::_( 'SHIPPING' ); ?></div>
                                     <div class="uk-text-small uk-text-bold uk-text-secondary font hikashop_cart_total_value">
-                                        <span class="uk-text-accent">
+                                        <span class="uk-text-dark">
                                             <?php if($this->config->get('price_with_tax')) { ?>
                                                 <?php echo $this->currencyHelper->format($this->order->order_shipping_price,$this->order->order_currency_id); ?>
                                             <?php } else { ?>
@@ -404,9 +409,9 @@ if($weight && $this->config->get('show_invoice_weight',0))
                                         continue;
                                     ?>
                                     <div class="uk-grid-small" data-uk-grid>
-                                        <div class="uk-width-expand uk-text-tiny font hikashop_cart_total_title" data-uk-leader><?php echo JText::_($additional->order_product_name); ?></div>
+                                        <div class="uk-width-expand uk-text-small f500 font hikashop_cart_total_title" data-uk-leader><?php echo JText::_($additional->order_product_name); ?></div>
                                         <div class="uk-text-small uk-text-bold uk-text-secondary font hikashop_cart_total_value">
-                                            <span class="uk-text-accent">
+                                            <span class="uk-text-dark">
                                             <?php
                                             if(!empty($additional->order_product_price)) {
                                                 $additional->order_product_price = (float)$additional->order_product_price;
@@ -428,9 +433,9 @@ if($weight && $this->config->get('show_invoice_weight',0))
                             <?php } ?>
                             <?php if(!empty($this->order->order_payment_method) && $this->order->order_payment_price != 0) { ?>
                                 <div class="uk-grid-small" data-uk-grid>
-                                    <div class="uk-width-expand uk-text-tiny font hikashop_cart_total_title" data-uk-leader><?php echo JText::_( 'HIKASHOP_PAYMENT' ); ?></div>
+                                    <div class="uk-width-expand uk-text-small f500 font hikashop_cart_total_title" data-uk-leader><?php echo JText::_( 'HIKASHOP_PAYMENT' ); ?></div>
                                     <div class="uk-text-small uk-text-bold uk-text-secondary font hikashop_cart_total_value">
-                                        <span class="uk-text-accent">
+                                        <span class="uk-text-dark">
                                         <?php
                                         if($this->config->get('price_with_tax')) {
                                             echo $this->currencyHelper->format($this->order->order_payment_price, $this->order->order_currency_id);
@@ -446,25 +451,25 @@ if($weight && $this->config->get('show_invoice_weight',0))
                                 <?php if($this->config->get('detailed_tax_display') && !empty($this->order->order_tax_info)) { ?>
                                     <?php foreach($this->order->order_tax_info as $tax) { ?>
                                         <div class="uk-grid-small" data-uk-grid>
-                                            <div class="uk-width-expand uk-text-tiny font hikashop_cart_total_title" data-uk-leader><?php echo hikashop_translate($tax->tax_namekey); ?></div>
+                                            <div class="uk-width-expand uk-text-small f500 font hikashop_cart_total_title" data-uk-leader><?php echo hikashop_translate($tax->tax_namekey); ?></div>
                                             <div class="uk-text-small uk-text-bold uk-text-secondary font hikashop_cart_total_value">
-                                                <span class="uk-text-accent"><?php echo $this->currencyHelper->format($tax->tax_amount, $this->order->order_currency_id); ?></span>
+                                                <span class="uk-text-dark"><?php echo $this->currencyHelper->format($tax->tax_amount, $this->order->order_currency_id); ?></span>
                                             </div>
                                         </div>
                                     <?php } ?>
                                 <?php } else { ?>
                                     <div class="uk-grid-small" data-uk-grid>
-                                        <div class="uk-width-expand uk-text-tiny font hikashop_cart_total_title" data-uk-leader><?php echo JText::_( 'VAT' ); ?></div>
+                                        <div class="uk-width-expand uk-text-small f500 font hikashop_cart_total_title" data-uk-leader><?php echo JText::_( 'VAT' ); ?></div>
                                         <div class="uk-text-small uk-text-bold uk-text-secondary font hikashop_cart_total_value">
-                                            <span class="uk-text-accent"><?php echo $this->currencyHelper->format($taxes,$this->order->order_currency_id); ?></span>
+                                            <span class="uk-text-dark"><?php echo $this->currencyHelper->format($taxes,$this->order->order_currency_id); ?></span>
                                         </div>
                                     </div>
                                 <?php } ?>
                             <?php } ?>
                             <div class="uk-grid-small" data-uk-grid>
-                                <div class="uk-width-expand uk-text-tiny font hikashop_cart_total_title" data-uk-leader><?php echo JText::_( 'HIKASHOP_TOTAL' ); ?></div>
+                                <div class="uk-width-expand uk-text-small f500 font hikashop_cart_total_title" data-uk-leader><?php echo JText::_( 'HIKASHOP_TOTAL' ); ?></div>
                                 <div class="uk-text-small uk-text-bold uk-text-secondary font hikashop_cart_total_value">
-                                    <span class="uk-text-accent"><?php echo $this->currencyHelper->format($this->order->order_full_price, $this->order->order_currency_id); ?></span>
+                                    <span class="uk-text-secondary"><?php echo $this->currencyHelper->format($this->order->order_full_price, $this->order->order_currency_id); ?></span>
                                 </div>
                             </div>
                         </div>

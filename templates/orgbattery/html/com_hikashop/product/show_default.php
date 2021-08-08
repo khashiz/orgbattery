@@ -88,8 +88,8 @@ defined('_JEXEC') or die('Restricted access');
                 </div>
             </div>
             <div id="hikashop_product_right_part">
-                <div data-uk-grid>
-                    <div class="uk-width-expand">
+                <div class="uk-grid-medium" data-uk-grid>
+                    <div class="uk-width-1-1 uk-width-expand@m">
                         <?php if(!empty($this->element->extraData->rightBegin)) { echo implode("\r\n",$this->element->extraData->rightBegin); } ?>
                         <div class="productPrice uk-margin-bottom">
                             <?php $itemprop_offer = ''; if (!empty($this->element->prices)) $itemprop_offer = 'itemprop="offers" itemscope itemtype="https://schema.org/Offer"'; ?>
@@ -191,10 +191,10 @@ defined('_JEXEC') or die('Restricted access');
                             <?php if(!empty($this->element->extraData->rightEnd)) { echo implode("\r\n",$this->element->extraData->rightEnd); } ?>
                         </div>
                     </div>
-                    <div class="uk-width-auto uk-flex uk-flex-bottom">
-                        <div>
+                    <div class="uk-width-1-1 uk-width-auto@m uk-flex uk-flex-bottom uk-flex-center uk-flex-wrap">
+                        <div class="uk-visible@m">
                             <div class="uk-grid-small" data-uk-grid>
-                                <div class="uk-text-primary"><img src="<?php echo JUri::base().'images/sprite.svg#shipping-fast' ?>" width="64" height="64" data-uk-svg></div>
+                                <div class="uk-text-dark"><img src="<?php echo JUri::base().'images/sprite.svg#shipping-fast' ?>" width="64" height="64" data-uk-svg></div>
                                 <div class="uk-flex uk-flex-middle">
                                     <div>
                                         <span class="uk-display-block uk-text-large uk-text-accent font f700"><?php echo JText::sprintf('FREESHIPPING'); ?></span>
@@ -202,6 +202,30 @@ defined('_JEXEC') or die('Restricted access');
                                     </div>
                                 </div>
                             </div>
+                        </div>
+                        <div class="uk-hidden@m uk-width-1-1 uk-card uk-card-default uk-border-rounded uk-box-shadow-small uk-padding-small uk-flex uk-flex-center uk-margin-small-bottom">
+                            <div class="uk-grid-small" data-uk-grid>
+                                <div class="uk-text-dark"><img src="<?php echo JUri::base().'images/sprite.svg#shipping-fast' ?>" width="64" height="64" data-uk-svg></div>
+                                <div class="uk-flex uk-flex-middle">
+                                    <div>
+                                        <span class="uk-display-block uk-text-large uk-text-accent font f700"><?php echo JText::sprintf('FREESHIPPING'); ?></span>
+                                        <span class="uk-display-block uk-text-tiny uk-text-muted font f500"><?php echo JText::sprintf('SHIPPINGTERMS'); ?></span>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="uk-hidden@m uk-width-1-1 uk-card uk-card-default uk-border-rounded uk-box-shadow-small uk-padding-small uk-flex uk-flex-center">
+                            <a href="tel:2222" class="uk-display-block">
+                                <div class="uk-grid-small" data-uk-grid>
+                                    <div class="uk-text-dark"><img src="<?php echo JUri::base().'images/sprite.svg#question' ?>" width="64" height="64" data-uk-svg></div>
+                                    <div class="uk-flex uk-flex-middle">
+                                        <div>
+                                            <span class="uk-display-block uk-text-large uk-text-accent font f700"><?php echo JText::sprintf('HAVEQUESTION'); ?></span>
+                                            <span class="uk-display-block uk-text-tiny uk-text-muted font f500"><?php echo JText::sprintf('CALLBEFOREBUY'); ?></span>
+                                        </div>
+                                    </div>
+                                </div>
+                            </a>
                         </div>
                     </div>
                 </div>

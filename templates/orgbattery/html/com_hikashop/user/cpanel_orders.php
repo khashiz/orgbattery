@@ -34,20 +34,20 @@ $print_invoice = false;
                                 <?php /* if(!empty($order->order_invoice_number)) { ?>
                                 <div><?php echo JText::_('INVOICE_NUMBER'); ?> : <?php echo $order->order_invoice_number; ?></div>
                             <?php } */ ?>
-                                <span class="uk-display-block uk-text-tiny uk-text-muted uk-margin-small-bottom font"><?php echo JText::sprintf('ORDERNUMBERX', $order->order_number); ?></span>
+                                <span class="uk-display-block uk-text-small uk-text-muted uk-margin-small-bottom font f600"><?php echo JText::sprintf('ORDERNUMBERX', $order->order_number); ?></span>
                                 <div class="uk-text-zero">
                                     <div class="uk-grid-small" data-uk-grid>
                                         <div class="uk-width-auto uk-flex uk-flex-middle">
                                             <div class="uk-text-small">
                                                 <div class="uk-grid-small uk-child-width-auto uk-grid-divider" data-uk-grid>
                                                     <div>
-                                                        <time class="uk-text-secondary font myOrderMetaItem" datetime="<?php echo hikashop_getDate((int)$order->order_created, '%d %B %Y %H:%M'); ?>"><?php echo hikashop_getDate((int)$order->order_created, 'D ، d M Y'); ?></time>
+                                                        <time class="uk-text-dark f600 font myOrderMetaItem" datetime="<?php echo hikashop_getDate((int)$order->order_created, '%d %B %Y %H:%M'); ?>"><?php echo hikashop_getDate((int)$order->order_created, 'D ، d M Y'); ?></time>
                                                     </div>
                                                     <div>
-                                                        <span class="uk-text-secondary font myOrderMetaItem"><?php echo $this->currencyClass->format($order->order_full_price, $order->order_currency_id); ?></span>
+                                                        <span class="uk-text-dark f600 font myOrderMetaItem"><?php echo $this->currencyClass->format($order->order_full_price, $order->order_currency_id); ?></span>
                                                     </div>
                                                     <div>
-                                                        <span class="uk-text-<?php echo $order->order_status; ?> font myOrderMetaItem status"><?php echo hikashop_orderStatus($order->order_status); ?></span>
+                                                        <span class="uk-text-<?php echo $order->order_status; ?> f600 font myOrderMetaItem status"><?php echo hikashop_orderStatus($order->order_status); ?></span>
                                                     </div>
                                                 </div>
                                             </div>

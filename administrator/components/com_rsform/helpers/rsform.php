@@ -308,7 +308,7 @@ class RSFormProHelper
 			// Must show small message
 			if ($formparams->showSystemMessage)
 			{
-				$mainframe->enqueueMessage(JText::_('RSFP_THANKYOU_SMALL'));
+				$mainframe->enqueueMessage(JText::_('RSFP_THANKYOU_SMALL'), 'success');
 			}
 
 			if ($form->ScrollToThankYou)

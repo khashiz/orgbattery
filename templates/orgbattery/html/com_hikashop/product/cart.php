@@ -41,7 +41,7 @@ if(empty($this->rows)) {
 	$hidecart = (int)$this->params->get('hide_cart', 0);
 	$desc = trim($this->params->get('msg'));
 	if((empty($desc) && $desc != '0') || $hidecart == 0)
-		$desc = ($this->cart_type == 'cart') ? '<a class="uk-text-gray hoverAccent" href="'.JURI::base().'cart" title="'.JTEXT::_('CART_EMPTY').'" data-uk-tooltip="offset: 19; animation: uk-animation-slide-bottom-small;"><img width="18" height="18" data-uk-svg src="'.JURI::base().'images/sprite.svg#shopping-cart"></a>' : JText::_('WISHLIST_EMPTY');
+		$desc = ($this->cart_type == 'cart') ? '<div class="uk-height-1-1 uk-flex uk-flex-middle hikashop_small_cart_checkout_link"><div><a class="uk-border-rounded uk-text-muted uk-background-muted uk-text-zero uk-lineheight-zero uk-padding-tiny uk-display-inline-block uk-hidden@m" href="'.JURI::base().'cart" title="'.JTEXT::_('CART_EMPTY').'"><img width="24" height="24" data-uk-svg src="'.JURI::base().'images/sprite.svg#shopping-cart"></a><a class="uk-text-muted uk-height-1-1 uk-visible@m" href="'.JURI::base().'cart" title="'.JTEXT::_('CART_EMPTY').'" data-uk-tooltip="offset: 19; animation: uk-animation-slide-left-small; pos: right;"><img width="22" height="22" data-uk-svg src="'.JURI::base().'images/sprite.svg#shopping-cart"></a></div></div>' : JText::_('WISHLIST_EMPTY');
 	if($hidecart == 2)
 		$desc = '';
 
@@ -56,7 +56,7 @@ if(empty($this->rows)) {
 
 	if(!in_array($tmpl, array('component', 'ajax', 'raw'))) {
 ?>
-<div data-uk-kh id="hikashop_cart_<?php echo $module_id; ?>" class="hikashop_cart">
+<div data-uk-kh id="hikashop_cart_<?php echo $module_id; ?>" class="hikashop_cart uk-height-1-1">
 <?php
 	}
 ?>
@@ -91,12 +91,12 @@ $this->params->set('show_quantity_field', 0);
 
 if(!in_array($tmpl, array('component', 'ajax', 'raw'))) {
 ?>
-<div id="hikashop_cart_<?php echo $module_id; ?>" class="hikashop_cart miniCartModule">
+<div id="hikashop_cart_<?php echo $module_id; ?>" class="hikashop_cart miniCartModule uk-height-1-1">
 <?php
 }
 ?>
-	<div class="hikashop_checkout_loading_elem"></div>
-	<div class="hikashop_checkout_loading_spinner <?php echo $spinner_css ?>"></div>
+    <div class="hikashop_checkout_loading_elem"></div>
+    <div class="hikashop_checkout_loading_spinner <?php echo $spinner_css ?>"></div>
 <?php
 
 echo $this->notice_html;
@@ -174,9 +174,18 @@ if(!empty($small_cart)) {
 		$extra_data .= ' ontouchend="window.hikashop.toggleOverlayBlock(\'hikashop_cart_dropdown_'.$module_id.'\', \'hover\'); return false;" onmouseover="window.hikashop.toggleOverlayBlock(\'hikashop_cart_dropdown_'.$module_id.'\', \'hover\'); return false;"';
 	}
 ?>
-	<a class="hikashop_small_cart_checkout_link uk-position-relative uk-display-inline-block hoverAccent" href="<?php echo $link; ?>"<?php echo $extra_data; ?>>
-        <img src="<?php echo JURI::base().'images/sprite.svg#shopping-cart' ?>" width="18" height="18" data-uk-svg>
-        <span class="cartIndicator"></span>
+    <div class="uk-position-relative uk-height-1-1">
+        <a class="uk-hidden@m uk-position-relative uk-flex uk-flex-middle uk-height-1-1 uk-border-rounded uk-text-primary uk-background-muted uk-text-zero uk-lineheight-zero uk-padding-tiny" href="<?php echo JUri::base().'/cart'; ?>">
+            <div class="uk-position-relative">
+                <img src="<?php echo JURI::base().'images/sprite.svg#shopping-cart' ?>" width="24" height="24" data-uk-svg>
+                <span class="cartIndicator"></span>
+            </div>
+        </a>
+	<a class="uk-visible@m hikashop_small_cart_checkout_link uk-position-relative uk-flex uk-flex-middle uk-height-1-1" href="<?php echo $link; ?>"<?php echo $extra_data; ?>>
+        <div class="uk-position-relative">
+            <img src="<?php echo JURI::base().'images/sprite.svg#shopping-cart' ?>" width="24" height="24" data-uk-svg>
+            <span class="cartIndicator"></span>
+        </div>
 	</a>
 <?php
 	if($this->element->cart_type == 'cart' && $small_cart == 1 && $this->params->get('print_cart', 0)) {
@@ -216,8 +225,8 @@ if(!empty($small_cart)) {
 	$v = (int)$this->params->get('dropdown_right', 0);
 	if($v != 0) $alignment .= 'right:'.(-$v).'px;';
 ?>
-	<div class="hikashop_cart_dropdown_container cartDrop headerDrop" data-uk-drop="offset: 25; animation: uk-animation-slide-bottom-small; pos: bottom-left">
-	<div class="hikashop_cart_dropdown_content uk-card uk-card-default uk-box-shadow-small uk-border-rounde" id="hikashop_cart_dropdown_<?php echo $module_id; ?>">
+	<div class="hikashop_cart_dropdown_container cartDrop headerDrop" data-uk-drop="offset: 0; animation: uk-animation-slide-bottom-small; pos: bottom-left;">
+	<div class="hikashop_cart_dropdown_content uk-card uk-card-default uk-box-shadow-small uk-display-block" id="hikashop_cart_dropdown_<?php echo $module_id; ?>">
 <?php
 }
 $shows = array(
@@ -430,7 +439,7 @@ foreach($columns as $c) {
                                                             ?>
                                                             <div class="hikashop_cart_module_product_delete_value hikashop_cart_value uk-width-auto uk-flex uk-flex-bottom">
                                                                 <div>
-                                                                    <a href="<?php echo $delete_url; ?>" data-cart-id="<?php echo (int)$this->element->cart_id; ?>" data-cart-type="<?php echo $this->escape($this->element->cart_type); ?>" data-cart-product-id="<?php echo (int)$product->cart_product_id; ?>" onclick="if(window.hikashop) { return window.hikashop.deleteFromCart(this, null, 'hikashop_cart_<?php echo $module_id; ?>'); }" title="<?php echo JText::_('HIKA_DELETE'); ?>" class="uk-text-danger" data-uk-tooltip="offset: 5;">
+                                                                    <a href="<?php echo $delete_url; ?>" data-cart-id="<?php echo (int)$this->element->cart_id; ?>" data-cart-type="<?php echo $this->escape($this->element->cart_type); ?>" data-cart-product-id="<?php echo (int)$product->cart_product_id; ?>" onclick="if(window.hikashop) { return window.hikashop.deleteFromCart(this, null, 'hikashop_cart_<?php echo $module_id; ?>'); }" title="<?php echo JText::_('HIKA_DELETE'); ?>" class="uk-text-danger" data-uk-tooltip="offset: 5; pos: right;">
                                                                         <img src="<?php echo JURI::base().'images/sprite.svg#trash'; ?>" width="16" height="16" data-uk-svg>
                                                                     </a>
                                                                 </div>
@@ -564,6 +573,7 @@ if(in_array($small_cart, array(2, 3))) {
 ?>
 	</div>
 	</div>
+</div>
 <?php
 }
 

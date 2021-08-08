@@ -2439,7 +2439,7 @@ document.getElementById('slider_".$filter->filter_namekey.'_'.$divName."_end').a
 			$value = 'values[handle]';
 			if(isset($currencies[$currency_id])) {
 				if($currencies[$currency_id]->currency_locale['p_cs_precedes']){
-					$before_input = '<span class="hikashop_filter_cursor_currency uk-text-tiny uk-text-secondary font" >'.$currency.'</span>';
+					$before_input = '<span class="hikashop_filter_cursor_currency uk-text-tiny uk-text-dark f55 font" >'.$currency.'</span>';
 					$done = true;
 				}
 				$value = 'parseFloat(values[handle]).toFixed('.(int)$currencies[$currency_id]->currency_locale['int_frac_digits'].')';
@@ -2452,7 +2452,7 @@ else
 			";
 
 			if(!$done) {
-				$after_input = '<span class="hikashop_filter_cursor_currency uk-text-tiny uk-text-secondary font" >'.$currency.'</span>';
+				$after_input = '<span class="hikashop_filter_cursor_currency uk-text-tiny uk-text-dark f500 font" >'.$currency.'</span>';
 			}
 		} else {
 
@@ -2545,11 +2545,11 @@ window.hikashop.ready(function(){
 		if(!empty($filter->filter_options['input'])) {
 			$html = '<div class="uk-margin-bottom uk-text-zero uk-flex">
 <span class="slider_input_start_group uk-display-block uk-flex uk-flex-center">
-	<span class="slider_input_text slider_input_start_text uk-text-secondary uk-text-tiny font">'.JText::_('CURSOR_FILTER_FROM').'</span>'.
+	<span class="slider_input_text slider_input_start_text uk-text-dark f500 uk-text-tiny font">'.JText::_('CURSOR_FILTER_FROM').'</span>'.
 	$before_input.
 	'<input class="font uk-text-center ltr slider_input slider_input_start" id="slider_'.$filter->filter_namekey.'_'.$divName.'_start" value="'.$minVal.'"/></span>
 <span class="slider_input_end_group uk-display-block uk-flex uk-flex-center">
-	<span class="slider_input_text slider_input_end_text uk-text-secondary uk-text-tiny font">'. JText::_('CURSOR_FILTER_TO').'</span>'.
+	<span class="slider_input_text slider_input_end_text uk-text-dark f500 uk-text-tiny font">'. JText::_('CURSOR_FILTER_TO').'</span>'.
 	$before_input.'<input class="font uk-text-center ltr slider_input slider_input_end" id="slider_'.$filter->filter_namekey.'_'.$divName.'_end" value="'.$maxVal.'"/>'.$after_input.'</span></div>'.$html;
 		}
 
@@ -2661,7 +2661,7 @@ class hikashopInStockCheckboxClass extends hikashopFilterTypeClass{
 		}
 		$onClick = 'onchange="var hiddenInput = document.getElementById(\'filter_'.$filter->filter_namekey.$tab.'_hidden\');if(this.checked){ hiddenInput.value=\'in_stock\'; }else{ hiddenInput.value=\'\'; } '.$onClick.'"';
 
-		$html.= '<label class="uk-flex uk-flex-middle uk-text-zero uk-text-secondary hoverBlack cursorPointer" for="filter_'.$filter->filter_namekey.$tab.'_checkbox"><span class="hikashop_filter_checkbox"><input data-container-div="hikashop_filter_form_'.$divName.'"'.$onClick.' '.$checked.' type="checkbox" id="filter_'.$filter->filter_namekey.$tab.'_checkbox" name="filter_'.$filter->filter_namekey.$tab.'_checkbox" value="in_stock" class="uk-checkbox"><input id="filter_'.$filter->filter_namekey.$tab.'_hidden" type="hidden" name="filter_'.$filter->filter_namekey.$tab.'" value="'.$value.'"></span>';
+		$html.= '<label class="uk-flex uk-flex-middle uk-text-zero uk-text-dark f500 hoverBlack cursorPointer" for="filter_'.$filter->filter_namekey.$tab.'_checkbox"><span class="hikashop_filter_checkbox"><input data-container-div="hikashop_filter_form_'.$divName.'"'.$onClick.' '.$checked.' type="checkbox" id="filter_'.$filter->filter_namekey.$tab.'_checkbox" name="filter_'.$filter->filter_namekey.$tab.'_checkbox" value="in_stock" class="uk-checkbox"><input id="filter_'.$filter->filter_namekey.$tab.'_hidden" type="hidden" name="filter_'.$filter->filter_namekey.$tab.'" value="'.$value.'"></span>';
 		$html.= '<span class="uk-text-small uk-margin-small-right font">'.$filter->filter_name.'</span></label>';
 		return $html;
 	}

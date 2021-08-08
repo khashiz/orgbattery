@@ -1,5 +1,10 @@
+/*
 @primary: #006978;
 @secondary: #0097a7;
+@accent: #ffa000;
+*/
+@primary: #161F6D;
+@secondary: #00ABE1;
 @accent: #ffa000;
 @dark: rgb(40, 40, 40);
 @gray: rgb(153, 153, 153);
@@ -74,7 +79,16 @@
   font-weight: 800;
   src: url("../../font/yekanBakh/YekanBakh08Fat.woff") format("woff");
 }
-
+html{
+  &.uk-modal-page{
+    direction: ltr;
+    body{
+      > * {
+        direction: rtl;
+      }
+    }
+  }
+}
 .f500{font-weight: 500;}
 .f600{font-weight: 600;}
 .f700{font-weight: 700;}
@@ -118,18 +132,20 @@ header{
   z-index: 9998;
   nav{
     > ul{
+      list-style: none;
       >li{
         >a{
           font-size: 16px;
           font-weight: 500;
-          margin: 0 25px 0 0;
           color: @dark;
           position: relative;
+          display: inline-block;
+          padding: 23px 0 20px 20px;
           .font;
           .transition;
           &[aria-expanded="true"],
           &:hover{
-            color: @accent;
+            color: @secondary;
           }
           + div{
             &.uk-drop{
@@ -167,75 +183,136 @@ header{
         }
         &.active{
           >a{
-            color: @accent;
+            font-weight: 600;
+            color: @secondary;
           }
         }
       }
     }
   }
   div{
-    &.topBar{
-      .uk-grid-divider{
-        *{
-          &:before{
-            border-color: rgba(255, 255, 255, .3);
+    &.search{
+      form{
+        &.ajaxSearchForm{
+          margin-right: 30px;
+          position: relative;
+          input{
+            padding: 0 40px;
+            @media (max-width:959px){
+              height: 44px;
+            }
+            &:not(:focus){
+              border-color: transparent;
+            }
+          }
+          @media (max-width:959px){
+            margin: 0;
+            position: initial;
           }
         }
       }
-      ul{
-        &.userMenu{
-          padding: 10px 0;
-          >li{
-            >a{
-              font-size: 13px;
-              font-weight: 500;
-              .font;
-            }
-            &.current{
-              >a{
-                color: white;
-              }
-            }
-          }
+      div{
+        &.result_wrap{
+          max-height: 400px;
         }
-        &.socials{
-          li{
-            a{
-              display: inline-block;
-            }
-          }
+      }
+    }
+    &.mobileSpacer{
+      @media (max-width:959px){
+        margin-bottom: 15px;
+      }
+    }
+    &.hikashop_checkout_loading{
+      position: relative;
+      div{
+        &.hikashop_checkout_loading_spinner{
+          background-size: 100%;
+          background-color: #fff;
+          background-position: center center;
         }
-        li{
-          a{
-            color: #ccc;
-            .transition;
-            &:hover{
-              color: white;
-            }
-          }
-        }
+      }
+      .cartIndicator{
+        display: none;
       }
     }
     &.stickyHeader{
-      z-index: 981;
-    }
-    &.stickyEffect{
-      @media (max-width:959px){
-        padding: 0;
-      }
-    }
-  }
-  [data-uk-sticky]{
-    &.uk-sticky-fixed{
-      div{
-        &.stickyEffect{
-          padding: 0;
+      &.uk-active{
+        background-color: #fff;
+        left: 0;
+        right: 0;
+        z-index: 981;
+        width: 100% !important;
+        .box-shadow(0 2px 8px rgba(0, 0, 0, 0.08));
+        nav{
+          > ul{
+            list-style: none;
+            >li{
+              >a{}
+            }
+          }
         }
       }
     }
   }
+  ul{
+    &.userMenu{
+      li{
+        a{
+          font-size: 13px;
+          .f500;
+          .font;
+          .transition;
+          &:hover{
+            color: @secondary;
+          }
+        }
+        &.active{
+          a{
+            font-weight: 600;
+            color: @secondary;
+          }
+        }
+        &.item-205{
+          display: none;
+        }
+        &.item-180{
+          a{
+            &:hover{
+              color: @danger;
+            }
+          }
+        }
+      }
+    }
+  }
+  &.searchActive{
+    z-index: initial;
+    form{
+      &.ajaxSearchForm{
+        z-index: 9999;
+      }
+    }
+  }
+  @media (max-width:959px){
+    padding-bottom: 15px;
+  }
 }
 section{
+  &.slideshow{
+    .uk-dotnav{
+      li{
+        a{
+          background-color: #ddd;
+          .box-shadow(0 1px 4px 0 rgba(0, 0, 0, .1));
+        }
+        &.uk-active{
+          a{
+            background-color: #fff;
+          }
+        }
+      }
+    }
+  }
   &.pageHeading{
     h1,h2{
       font-size: 32px;
@@ -261,6 +338,52 @@ section{
       font-weight: 700;
     }
   }
+  &.homeDiscounts{
+    background: linear-gradient(180deg, @secondary, transparent);
+    h3{
+      &.moduleTitle{
+        left: 50%;
+        top: -30px;
+        font-size: 2rem;
+        white-space: nowrap;
+        .transform(translateX(-50%));
+        .box-shadow(0 4px 5px 0 rgba(0, 0, 0, .1));
+        span{
+          padding: 10px 30px;
+          display: block;
+          position: relative;
+          z-index: 2;
+          background-color: @primary;
+          .border-radius(0 0 5px 5px);
+        }
+        &:before,
+        &:after{
+          content: '';
+          position: absolute;
+          width: 30px;
+          height: 30px;
+          top: 0;
+          background-color: darken(@primary, 10%);
+          transform-origin: bottom;
+          z-index: 1;
+        }
+        &:before{
+          left: 0;
+          .transform(skewX(-30deg) translateX(-18px));
+        }
+        &:after{
+          right: 0;
+          .transform(skewX(30deg) translateX(18px));
+        }
+        @media (max-width:959px){
+          font-size: 1rem;
+          span{
+            padding: 12px 30px;
+          }
+        }
+      }
+    }
+  }
 }
 footer{
   div{
@@ -270,9 +393,6 @@ footer{
       }
     }
     &.footerMenu{
-      h3{
-        font-variation-settings: "wght" 600, "wdth" 100, "slnt" 0, "DOTR" 1, "DOTS" 0, "KASH" 0;
-      }
       ul{
         list-style: none;
         padding: 0;
@@ -283,7 +403,6 @@ footer{
             display: block;
             color: #ccc;
             padding: 5px 15px 5px 0;
-            font-variation-settings: "wght" 400, "wdth" 100, "slnt" 0, "DOTR" 1, "DOTS" 0, "KASH" 0;
             position: relative;
             .font;
             .transition;
@@ -413,12 +532,9 @@ div{
         font-size: 64px;
         font-weight: 800;
         color: @success;
-        margin-bottom: 10px;
       }
-      &:nth-child(2),
-      &:nth-child(3){
+      &:not(:first-of-type){
         color: @dark;
-        margin: 0;
         font-weight: 500;
         @media (max-width:959px){
           font-size: 14px;
@@ -716,6 +832,7 @@ div{
     z-index: 981;
   }
   &.pageCover{
+    display: none;
     background-color: rgba(0, 0, 0, .3);
     z-index: 9997;
   }
@@ -738,18 +855,12 @@ div{
       }
     }
   }
-  &.miniCartModule{
-    &.hikashop_checkout_loading{
-      position: relative;
-      div{
-        &.hikashop_checkout_loading_spinner{
-          background-size: 100%;
-          background-color: #fff;
-        }
-      }
-      .cartIndicator{
-        display: none;
-      }
+  &.uk-notification{
+    z-index: 9999;
+  }
+  &[data-uk-modal]{
+    &.uk-open{
+      z-index: 9999;
     }
   }
   //TGJU Table
@@ -797,6 +908,35 @@ div{
       }
     }
   }
+  &#is_ajaxsearch_result{
+    @media (max-width:959px){
+      right: 0;
+      left: 0;
+      .transform(translateY(5px));
+      > div{
+        border-top: 4px solid @accent;
+        .border-radius(0);
+      }
+    }
+  }
+}
+[uk-form-custom]{
+  width: 100%;
+  display: flex;
+  flex-wrap: nowrap;
+  *{
+    .font;
+  }
+  input{
+    &[type="text"]{
+      width: 100%;
+      .border-radius(0 4px 4px 0);
+    }
+  }
+  button{
+    .f500;
+    .border-radius(4px 0 0 4px);
+  }
 }
 form{
   &.regForm{
@@ -817,11 +957,7 @@ input{
         color: @gray;
         .transition;
         &.boxInputTitle{
-          font-variation-settings: "wght" 700, "wdth" 100, "slnt" 0, "DOTR" 1, "DOTS" 0, "KASH" 0;
           margin: 10px 0 4px;
-        }
-        &.boxInputDesc{
-          font-variation-settings: "wght" 500, "wdth" 100, "slnt" 0, "DOTR" 1, "DOTS" 0, "KASH" 0;
         }
       }
       &:hover{
@@ -879,27 +1015,18 @@ span{
     padding: 2px 10px;
     .border-radius(3px);
   }
-  &.myOrderMetaItem{
-    &.status{
-      font-variation-settings: "wght" 600, "wdth" 100, "slnt" 0, "DOTR" 1, "DOTS" 0, "KASH" 0;
-    }
-  }
-  &.stockAvailability{
-    font-variation-settings: "wght" 600, "wdth" 100, "slnt" 0, "DOTR" 1, "DOTS" 0, "KASH" 0;
-  }
-  &.commentMeta{
-    font-variation-settings: "wght" 500, "wdth" 100, "slnt" 0, "DOTR" 1, "DOTS" 0, "KASH" 0;
-  }
-  &.cartIndicator {
-    background: @accent;
+  &.cartIndicator,
+  &.userIndicator{
+    background: @secondary;
     width: 6px;
     height: 6px;
     position: absolute;
     border-radius: 10px;
-    top: 0px;
     right: -4px;
-    box-shadow: 0 0 0 2px #fff;
+    box-shadow: 0 0 0 2px #f8f8f8;
   }
+  &.cartIndicator{top: 0;}
+  &.userIndicator{bottom: 0;}
 }
 .cursorPointer{
   cursor: pointer;
@@ -936,12 +1063,7 @@ span{
 }
 .hikashop_small_cart_checkout_link{
   &[aria-expanded="true"]{
-    color: @accent;
-  }
-}
-.searchToggler{
-  &[aria-expanded="true"]{
-    color: @accent;
+    color: @primary;
   }
 }
 .dashboardMenu{
@@ -1014,7 +1136,6 @@ span{
     .transform(translateY(-50%));
   }
   a{
-    font-variation-settings: "wght" 500, "wdth" 100, "slnt" 0, "DOTR" 1, "DOTS" 0, "KASH" 0;
     .transition(.2s);
   }
   &[aria-expanded="true"]{
@@ -1152,7 +1273,6 @@ span{
     &[disabled]{
       opacity: .5;
       filter: grayscale(1);
-      .transition;
     }
   }
   &.uk-button-danger{
@@ -1168,12 +1288,11 @@ span{
     }
   }
   &.uk-button-instagram{
-    background-color: #e1306c;
-    border: 1px solid darken(#e1306c, 5%);
+    background-image: -webkit-linear-gradient(160deg,#a81ba6,#e1306c);
+    background-image: linear-gradient(160deg,#a81ba6,#e1306c);
+    //border: 1px solid darken(#e1306c, 5%);
     color: #fff;
-    &:hover{
-      background-color: darken(#e1306c, 5%);
-    }
+    &:hover{}
   }
   &.uk-button-facebook{
     background-color: #3b5998;
@@ -1209,6 +1328,18 @@ span{
   }
   &.uk-button-small{
     font-weight: 500;
+  }
+  &.hikabtn_checkout_next{
+    &.next_button_disabled{
+      font-size: 0;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      line-height: 0;
+      &.uk-button-large{
+        height: 53px;
+      }
+    }
   }
 }
 .uk-form-label{
@@ -1272,6 +1403,7 @@ span{
   color: inherit !important;
   .transition(.2s);
 }
+.uk-background-transparent{background-color: transparent}
 .uk-background-primary{background-color: @primary}
 .uk-background-secondary{background-color: @secondary}
 .uk-background-accent{background-color: @accent}
@@ -1301,8 +1433,11 @@ span{
     &:hover{color: #000;}
   }
 }
-
-.uk-text-pending{
+.uk-padding-tiny{
+  padding: 10px;
+}
+.uk-text-pending,
+.uk-text-processing{
   color: @warning;
 }
 .uk-text-cancelled,
@@ -1333,7 +1468,7 @@ div{
         }
         div{
           &.offcanvasTop{
-            background-color: @accent;
+            background-color: @secondary;
             height: 70px;
             a{
               color: #fff;

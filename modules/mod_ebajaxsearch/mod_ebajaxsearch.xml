@@ -1,0 +1,254 @@
+<?xml version="1.0" encoding="utf-8"?>
+<extension type = "module" version = "1.0" client = "site" method="upgrade">
+    <name>EB Ajax Search</name>
+    <author>ExtnBakers</author>
+    <version>1.5</version>
+    <creationDate>Jan 20 2020</creationDate>
+    <copyright>Copyright (C) 2020 extnbakers.com. All rights reserved.</copyright>
+    <authorEmail>hello@extnbakers.com</authorEmail>
+    <authorUrl>https://www.extnbakers.com</authorUrl>
+    <license>http://www.gnu.org/licenses/gpl-3.0.html</license>
+    <description>This module displays Ajax powered search bar with auto suggestions.</description>
+    <namespace>Joomla\Module\debug</namespace>
+	  <updateservers>
+    <server type="extension" priority="1" name="EB Ajax Search">https://www.extnbakers.com/Joomla-Ext-Updates/updates.php?token=e4da3b7fbbce2345d7772b0674a318d5</server>
+  </updateservers>
+    <files>
+        <filename>mod_ebajaxsearch.xml</filename>
+        <filename module="mod_ebajaxsearch">mod_ebajaxsearch.php</filename>
+        <filename>index.html</filename>
+        <filename>helper.php</filename>
+        <filename>tmpl/default.php</filename>
+        <filename>tmpl/index.html</filename>
+        <filename>assets/index.html</filename>
+        <filename>assets/css/index.html</filename>
+        <filename>assets/js/index.html</filename>
+        <folder>assets</folder>
+        <folder>language</folder>
+        <folder>tmpl</folder>
+        <folder>elements</folder>
+        <filename>LICENSE.txt</filename>
+    </files>
+    <languages />
+    <config>
+      <fields name="params" addfieldpath="/modules/mod_ebajaxsearch/elements/">
+         <fieldset name="basic">
+           <field
+               name="search_in_article"
+               type="radio"
+               default="1"
+               class="btn-group btn-group-yesno"
+               label="MOD_SEARCHIN_ARTICLE"
+               description="MOD_SEARCHIN_ARTICLE_INFO">               
+               <option value="1">JYES</option>
+               <option value="0">JNO</option>               
+            </field>
+            <field
+               name="catid"
+               type="category"
+               label="MOD_SEARCHAJAX_FIELD_CATEGORY"
+               description="MOD_SEARCHAJAX_FIELD_CATEGORY_DESC"
+               extension="com_content"
+               multiple="true"
+               filter="int_array"
+               class="multipleCategories"
+               showon="search_in_article:1"
+            />
+            <field
+               name="search_in_k2"
+               type="radio"
+               default="0"
+               class="btn-group btn-group-yesno"
+               label="MOD_SEARCHIN_K2"
+               description="MOD_SEARCHIN_K2_INFO">               
+               <option value="1">JYES</option>
+               <option value="0">JNO</option>               
+            </field>
+            
+            <field name="k2catid" type="k2categories" label="MOD_SEARCHAJAX_FIELD_CATEGORY_K2" description="MOD_SEARCHAJAX_FIELD_CATEGORY_DESC" showon="search_in_k2:1" />
+
+            <field
+               name="search_in_hikashop"
+               type="radio"
+               default="0"
+               class="btn-group btn-group-yesno"
+               label="MOD_SEARCHIN_HIKASHOP"
+               description="MOD_SEARCHIN_HIKASHOP_INFO">               
+               <option value="1">JYES</option>
+               <option value="0">JNO</option>               
+            </field>
+
+            <field name="hikashopcatid" type="hikashopcategories" label="MOD_SEARCHAJAX_FIELD_CATEGORY_HIKASHOP" description="MOD_SEARCHAJAX_FIELD_CATEGORY_DESC" showon="search_in_hikashop:1" />
+
+            <field
+               name="search_in_sppage"
+               type="radio"
+               default="0"
+               class="btn-group btn-group-yesno"
+               label="MOD_SEARCHIN_SPPAGE_ARTICLE"
+               description="MOD_SEARCHIN_SPPAGE_ARTICLE_INFO">               
+               <option value="1">JYES</option>
+               <option value="0">JNO</option>               
+            </field>
+            <field
+               name="spcatid"
+               type="spcategories"
+               label="MOD_SEARCHAJAX_SPPAGE_FIELD_CATEGORY"
+               description="MOD_SEARCHAJAX_FIELD_CATEGORY_DESC"
+               extension="com_sppagebuilder"
+               multiple="true"
+               filter="int_array"
+               class="multipleCategories"
+               showon="search_in_sppage:1"
+            />
+        
+            <field
+               name="label"
+               type="label"
+               label="MOD_SEARCH_FIELD_LABEL_TEXT_LABEL" />
+            <field
+               name="width"
+               type="text"
+               label="MOD_SEARCHAJAX_FIELD_BOXWIDTH_LABEL"
+               description="MOD_SEARCHAJAX_FIELD_BOXWIDTH_DESC" />
+            <field
+               name="text"
+               type="text"
+               label="MOD_SEARCHAJAX_FIELD_TEXT_LABEL" />
+            <field
+               name="button"
+               type="radio"
+               default="0"
+               class="btn-group btn-group-yesno"
+               label="MOD_SEARCHAJAX_FIELD_BUTTON_LABEL"
+               description="MOD_SEARCHAJAX_FIELD_BUTTON_DESC">
+               <option value="1">JYES</option>
+               <option value="0">JNO</option>
+            </field>
+			
+			<field
+               name="button_background_color"
+               type="color"
+               label="MOD_SEARCHAJAX_FIELD_BUTTON_BG_COLOR"
+			   showon="button:1" />
+			
+            <field
+               name="button_text_color"
+               type="color"
+               label="MOD_SEARCHAJAX_FIELD_BUTTON_TEXT_COLOR" 
+			   showon="button:1" />
+			
+			
+            <field
+               name="button_text"
+               type="text"
+               label="MOD_SEARCHAJAX_FIELD_BUTTONTEXT_LABEL"
+               description="MOD_SEARCHAJAX_FIELD_BUTTONTEXT_DESC"
+               showon="button:1" />           
+            <field
+               name="by_ordering"
+               type="radio"
+               default="0"
+               class="btn-group btn-group-yesno"
+               label="MOD_SEARCHAJAX_FIELD_BUTTON_LABEL"
+               description="MOD_SEARCHAJAX_FIELD_BUTTON_DESC">
+               <option value="1">JYES</option>
+               <option value="0">JNO</option>
+            </field>
+
+            <field name="by_ordering" type="list" label="MOD_SEARCHAJAX_ORDERING" >
+                <option value="newest">MOD_SEARCHAJAX_NF</option>
+                <option value="oldest">MOD_SEARCHAJAX_OF</option>
+                <option value="popular">MOD_SEARCHAJAX_MP</option>
+                <option value="alpha">MOD_SEARCHAJAX_PLPHA</option>
+            </field>
+
+            <field
+               name="show_title"
+               type="radio"
+               default="1"
+               class="btn-group btn-group-yesno"
+               label="MOD_SEARCHAJAX_FIELD_SHOW_TITLE"
+               description="MOD_SEARCHAJAX_FIELD_SHOW_TITLE_DESC">
+               <option value="1">JYES</option>
+               <option value="0">JNO</option>
+            </field>
+            <field
+               name="show_description"
+               type="radio"
+               default="1"
+               class="btn-group btn-group-yesno"
+               label="MOD_SEARCHAJAX_FIELD_SHOW_DESCRIPTION"
+               description="MOD_SEARCHAJAX_FIELD_SHOW_DESCRIPTION_DESC">
+               <option value="1">JYES</option>
+               <option value="0">JNO</option>
+            </field>
+            <field
+               name="show_image"
+               type="radio"
+               default="1"
+               class="btn-group btn-group-yesno"
+               label="MOD_SEARCHAJAX_FIELD_SHOW_IMAGE"
+               description="MOD_SEARCHAJAX_FIELD_SHOW_IMAGE_DESC">
+               <option value="1">JYES</option>
+               <option value="0">JNO</option>
+            </field>
+			
+			<field name="style_effect" type="list" label="MOD_SEARCHAJAX_STYLE_EFFECT" >
+                <option value="flat">MOD_SEARCHAJAX_STYLE_FLAT</option>
+                <option value="shadow">MOD_SEARCHAJAX_STYLE_SHADOW</option>
+            </field>
+			
+			<field
+               name="background_color"
+               type="color"
+               label="MOD_SEARCHAJAX_FIELD_BG_COLOR" />
+			
+            <field
+               name="text_color"
+               type="color"
+               label="MOD_SEARCHAJAX_FIELD_TEXT_COLOR" />
+			   
+           
+			
+         </fieldset>
+         <fieldset name="eb_ajaxsearch_tab" label="MOD_SEARCHAJAX_PIRCHASE_KEY"> 
+                <field name="eb_ajaxsearch_purchase_key" type="secretkey" label="MOD_SEARCHAJAX_PIRCHASE_KEY" description="MOD_SEARCHAJAX_PIRCHASE_KEY_DESC" />      
+            </fieldset>
+          <fieldset name="advanced">
+        <field
+          name="layout"
+          type="modulelayout"
+          label="JFIELD_ALT_LAYOUT_LABEL"
+          description="JFIELD_ALT_MODULE_LAYOUT_DESC"
+        />
+        <field
+          name="moduleclass_sfx"
+          type="textarea"
+          label="COM_MODULES_FIELD_MODULECLASS_SFX_LABEL"
+          description="COM_MODULES_FIELD_MODULECLASS_SFX_DESC"
+          rows="3"
+        />
+        <field
+          name="owncache"
+          type="list"
+          label="COM_MODULES_FIELD_CACHING_LABEL"
+          description="COM_MODULES_FIELD_CACHING_DESC"
+          default="1"
+          filter="integer"
+          >
+          <option value="1">JGLOBAL_USE_GLOBAL</option>
+          <option value="0">COM_MODULES_FIELD_VALUE_NOCACHING</option>
+        </field>
+        <field
+          name="cache_time"
+          type="number"
+          label="COM_MODULES_FIELD_CACHE_TIME_LABEL"
+          description="COM_MODULES_FIELD_CACHE_TIME_DESC"
+          default="900"
+          filter="integer"
+        />
+      </fieldset>
+      </fields>
+   </config>
+</extension>

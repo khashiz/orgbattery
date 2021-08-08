@@ -265,6 +265,7 @@ defined('_JEXEC') or die('Restricted access');
 	echo $this->loadTemplate();
 			?></td>
 			<td class="uk-text-zero" data-title="<?php echo JText::_('PRODUCT_QUANTITY'); ?>">
+                <div class="uk-width-1-1 uk-flex uk-flex-center">
                 <div class="uk-grid-small uk-grid-divider uk-grid-collapse" data-uk-grid>
 <?php
 	if(!empty($this->manage)) {
@@ -324,6 +325,7 @@ defined('_JEXEC') or die('Restricted access');
 	}
 ?>
                 </div>
+                </div>
 			</td>
 			<td class="uk-text-secondary uk-text-small uk-text-center uk-text-bold font" data-title="<?php echo JText::_('CART_PRODUCT_TOTAL_PRICE'); ?>">
                 <?php
@@ -372,11 +374,11 @@ defined('_JEXEC') or die('Restricted access');
                                         <div class="uk-text-zero">
                                             <div class="uk-grid-small" data-uk-grid>
                                                 <div class="uk-width-expand uk-text-tiny font" data-uk-leader><?php echo JText::_('HIKASHOP_TOTAL_PRODUCTS'); ?></div>
-                                                <div class="uk-text-small uk-text-bold uk-text-secondary font"><?php echo (int)@$this->cart->package['total_items']; ?></div>
+                                                <div class="uk-text-small uk-text-bold uk-text-dark font"><?php echo (int)@$this->cart->package['total_items']; ?></div>
                                             </div>
                                             <div class="uk-grid-small" data-uk-grid>
                                                 <div class="uk-width-expand uk-text-tiny font" data-uk-leader><?php echo JText::_('HIKASHOP_TOTAL_AMOUNT'); ?></div>
-                                                <div class="uk-text-small uk-text-bold uk-text-secondary font">
+                                                <div class="uk-text-small uk-text-bold uk-text-dark font">
                                                     <?php if(!empty($this->cart->total->prices)) {
                                                         if($this->config->get('price_with_tax')) {
                                                             echo $this->currencyClass->format($this->cart->total->prices[0]->price_value_with_tax, $this->cart->total->prices[0]->price_currency_id);
@@ -404,6 +406,11 @@ defined('_JEXEC') or die('Restricted access');
                             </div>
                         </div>
                     </div>
+                    <?php /* if ($this->cart->total->prices[0]->price_value <= 999999) { ?>
+                        <div>miad</div>
+                    <?php } else { ?>
+                        <div>nemiad</div>
+                    <?php } */ ?>
                 </div>
             </div>
         </div>

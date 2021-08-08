@@ -51,7 +51,7 @@ JHtml::_('behavior.formvalidator');
                     </form>
                 </div>
                 <div>
-                    <ul class="uk-grid-medium uk-grid-divider uk-flex-center uk-text-zero" data-uk-grid>
+                    <ul class="uk-grid-small uk-child-width-auto uk-grid-divider uk-flex-center uk-text-zero" data-uk-grid>
                         <li>
                             <a class="uk-flex uk-flex-middle uk-text-gray hoverAccent" href="<?php echo JRoute::_('index.php?option=com_users&view=reset'); ?>">
                                 <span class="uk-margin-small-left"><img src="<?php echo JURI::base().'images/sprite.svg#lock' ?>" width="16" height="16" data-uk-svg></span>

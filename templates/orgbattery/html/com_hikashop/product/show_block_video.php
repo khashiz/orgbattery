@@ -37,10 +37,8 @@ ob_start();
 <?php $specifFields = ob_get_clean(); ?>
 
 <?php if($displayTitle) { ?>
-<div class="uk-border-rounded uk-overflow-hidden uk-box-shadow-small"><?php echo $specifFields; ?></div>
-<?php } else { ?>
-    <div class="uk-text-center">
-        <div class="uk-margin-bottom"><img src="<?php echo JURI::base().'images/sprite.svg#video'; ?>" width="128" height="128" alt="<?php echo $sitename; ?>" data-uk-svg></div>
-        <p class="uk-margin-remove uk-text-danger font f500"><?php echo JTEXT::_('HIKASHOP_NO_VIDEO_YET'); ?></p>
+    <hr class="uk-divider-icon uk-margin-medium-top uk-margin-medium-bottom">
+    <div id="productVideo">
+        <div class="uk-border-rounded uk-overflow-hidden uk-box-shadow-small"><?php echo $specifFields; ?></div>
     </div>
 <?php } ?>

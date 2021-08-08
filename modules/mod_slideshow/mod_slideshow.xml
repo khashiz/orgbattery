@@ -8,7 +8,6 @@
 	<authorEmail>admin@joomla.org</authorEmail>
 	<authorUrl>www.joomla.org</authorUrl>
 	<version>3.0.0</version>
-	<description>SLIDESHOWDESC</description>
 
 	<files>
 		<filename module="mod_slideshow">mod_slideshow.php</filename>
@@ -19,27 +18,11 @@
 	<config>
 		<fields name="params">
 			<fieldset name="basic">
-				<field name="slides" type="repeatable" icon="list" label="SA_SLIDES">
+				<field name="slides" type="repeatable" icon="list" label="ORGB_SLIDES">
 					<fieldset hidden="true" name="slides" repeat="true">
-						<field name="media" type="media" label="SA_MEDIA" />
-						<field name="video" type="text" label="SA_VIDEO" class="width-70" />
-						<field name="title" type="textarea" label="SA_TITLE" />
-						<field name="text" type="textarea" label="SA_TEXT" />
-						<field name="btnlabel" type="text" label="SA_BTNLABEL" class="width-70" />
-						<field name="link" type="text" label="SA_URL" class="width-100" />
-						<field name="align" type="list" label="SA_ALIGN" default="left" class="width-70">
-							<option value="-left">LEFT</option>
-							<option value=" center">CENTER</option>
-							<option value="-right">RIGHT</option>
-						</field>
-						<field name="target" type="list" label="SA_TARGET" default="self" class="width-70">
-							<option value="self">SELF</option>
-							<option value="blank">BLANK</option>
-						</field>
-						<field name="cover" type="list" label="SA_COVER" default="1" class="width-70">
-							<option value="1">JYES</option>
-							<option value="0">JNO</option>
-						</field>
+						<field name="media" type="media" label="ORGB_MEDIA" />
+						<field name="title" type="textarea" label="ORGB_TITLE" />
+						<field name="link" type="text" label="ORGB_URL" />
 					</fieldset>
 				</field>
 			</fieldset>
