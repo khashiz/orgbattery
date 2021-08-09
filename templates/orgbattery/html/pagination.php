@@ -53,21 +53,21 @@ defined('_JEXEC') or die('Restricted access');
 
 function pagination_list_footer($list)
 {
-	$html = "<del class=\"container\"><div class=\"pagination\">\n";
+	$html = "<div class='container'><div class='pagination uk-grid-small uk-flex-center' data-uk-grid>";
 
-	$html .= "\n<div class=\"limit\">".JText::_('Display Num').$list['limitfield']."</div>";
+	$html .= "<div class='limit uk-width-expand'>".$list['limitfield']."</div>";
 	$html .= $list['pageslinks'];
-	$html .= "\n<div class=\"limit\">".$list['pagescounter']."</div>";
+	$html .= "<div class='uk-hidden limit'>".$list['pagescounter']."</div>";
 
-	$html .= "\n<input type=\"hidden\" name=\"limitstart\" value=\"".$list['limitstart']."\" />";
-	$html .= "\n</div></del>";
+	$html .= "<input class='uk-hidden' type='hidden' name='limitstart' value='".$list['limitstart']."' />";
+	$html .= "</div></div>";
 
 	return $html;
 }
 
 function pagination_list_render($list)
 {
-	$html = '<hr class="uk-divider-icon uk-margin-medium-bottom uk-margin-medium-top"><ul class="uk-padding-remove uk-grid-small uk-flex-center fnum font" data-uk-grid>';
+	$html = '<div class="uk-width-auto"><ul class="uk-padding-remove uk-grid-small uk-flex-center fnum font" data-uk-grid>';
 
 	/*
 	if ($list['start']['active'])
@@ -95,7 +95,7 @@ function pagination_list_render($list)
 		$html .= '<li class="pag_button pag_end poff">'.$list['end']['data'].'</li>';
 	*/
 
-	$html .= '</ul>';
+	$html .= '</ul></div>';
 
 	return $html;
 }

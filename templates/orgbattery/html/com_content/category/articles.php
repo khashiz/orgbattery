@@ -96,6 +96,7 @@ $pageclass = $pageparams->get( 'pageclass_sfx' );
 
                 <?php if (($this->params->def('show_pagination', 1) == 1 || ($this->params->get('show_pagination') == 2)) && ($this->pagination->get('pages.total') > 1)) : ?>
                     <div class="pagination">
+                        <hr class="uk-divider-icon uk-margin-medium-top uk-margin-medium-bottom">
                         <?php if ($this->params->def('show_pagination_results', 1)) : ?>
                             <p class="counter pull-right"> <?php echo $this->pagination->getPagesCounter(); ?></p>
                         <?php endif; ?>

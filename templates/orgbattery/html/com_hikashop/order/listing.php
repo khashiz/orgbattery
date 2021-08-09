@@ -42,7 +42,7 @@ defined('_JEXEC') or die('Restricted access');
                                         <?php if(is_string($filterObj)) { ?>
                                             <?php echo $filterObj; ?>
                                         <?php } else { ?>
-                                            <?php echo $filterObj->displayFilter($name, $this->pageInfo->filter); ?>
+                                            <?php echo $filterObj->displayFilter($name, $this->pageInfo->filter, 'class="uk-width-1-1 uk-width-small@m uk-border-rounded font uk-select uk-select"'); ?>
                                         <?php } ?>
                                     <?php } ?>
                                 </div>
@@ -92,7 +92,7 @@ defined('_JEXEC') or die('Restricted access');
                                             <div class="uk-position-top-left">
                                                 <div class="uk-grid-small uk-child-width-auto uk-text-zero" data-uk-grid>
                                                     <div>
-                                                        <div class="uk-text-secondary cursorPointer"><img src="<?php echo JURI::base().'images/sprite.svg#ellipsis-v'; ?>" width="20" height="20" alt="" data-uk-svg></div>
+                                                        <div class="uk-text-dark cursorPointer"><img src="<?php echo JURI::base().'images/sprite.svg#ellipsis-v'; ?>" width="20" height="20" alt="" data-uk-svg></div>
                                                         <div data-uk-drop="pos: right-top" class="ellipsisDrop">
                                                             <?php /* if(!empty($row->extraData->topLeft)) { echo implode("\r\n", $row->extraData->topLeft); } */ ?>
                                                             <?php /* if(!empty($row->extraData->bottomLeft)) { echo implode("\r\n", $row->extraData->bottomLeft); } */ ?>
@@ -179,9 +179,9 @@ defined('_JEXEC') or die('Restricted access');
                                                     </div>
                                                     <div>
                                                         <?php if($row->order_id == $this->row->order_id) { ?>
-                                                            <a data-uk-tooltip="<?php echo $this->escape(JText::_('HIDE_PRODUCTS')); ?>" class="uk-text-secondary font myOrderMetaItem" href="#" onclick="return window.localPage.handleDetails(this, <?php echo (int)$row->order_id; ?>);"><img src="<?php echo JURI::base()."images/sprite.svg#chevron-circle-up"; ?>" width="20" height="20" alt="" data-uk-svg></a>
+                                                            <a data-uk-tooltip="title: <?php echo $this->escape(JText::_('HIDE_PRODUCTS')); ?>; offset: 20;" class="uk-text-dark font myOrderMetaItem" href="#" onclick="return window.localPage.handleDetails(this, <?php echo (int)$row->order_id; ?>);"><img src="<?php echo JURI::base()."images/sprite.svg#chevron-circle-up"; ?>" width="20" height="20" alt="" data-uk-svg></a>
                                                         <?php } else { ?>
-                                                            <a data-uk-tooltip="<?php echo $this->escape(JText::_('DISPLAY_PRODUCTS')); ?>" class="uk-text-accent hoverAccent cursorPointer font myOrderMetaItem" href="#" onclick="return window.localPage.handleDetails(this, <?php echo (int)$row->order_id; ?>);"><img src="<?php echo JURI::base().'images/sprite.svg#chevron-circle-down'; ?>" width="20" height="20" alt="" data-uk-svg></a>
+                                                            <a data-uk-tooltip="title: <?php echo $this->escape(JText::_('DISPLAY_PRODUCTS')); ?>; offset: 20;" class="uk-text-dark hoverAccent cursorPointer font myOrderMetaItem" href="#" onclick="return window.localPage.handleDetails(this, <?php echo (int)$row->order_id; ?>);"><img src="<?php echo JURI::base().'images/sprite.svg#chevron-circle-down'; ?>" width="20" height="20" alt="" data-uk-svg></a>
                                                         <?php } ?>
                                                     </div>
                                                 </div>
@@ -202,12 +202,9 @@ defined('_JEXEC') or die('Restricted access');
                                 }
                                 unset($row);
                                 ?>
-                                <div class="hikashop_orders_footer">
-                                    <div class="pagination">
-                                        <?php $this->pagination->form = '_bottom'; echo $this->pagination->getListFooter(); ?>
-                                        <?php echo $this->pagination->getResultsCounter(); ?>
-                                    </div>
-                                </div>
+                                <?php $this->pagination->form = '_bottom'; echo $this->pagination->getListFooter(); ?>
+                                <?php /* echo $this->pagination->getResultsCounter(); */ ?>
+
                             </div>
 
                             <input type="hidden" name="Itemid" value="<?php echo $this->Itemid; ?>"/>
@@ -228,11 +225,11 @@ defined('_JEXEC') or die('Restricted access');
                                 if(details.style.display) {
                                     btn.innerHTML = '<img src="<?php echo JURI::base()."images/sprite.svg#chevron-circle-down"; ?>" width="20" height="20" alt="" data-uk-svg>';
                                     btn.setAttribute('data-uk-tooltip','<?php echo $this->escape(JText::_('DISPLAY_PRODUCTS')); ?>');
-                                    btn.className = 'uk-text-accent hoverAccent font myOrderMetaItem';
+                                    btn.className = 'uk-text-dark hoverAccent font myOrderMetaItem';
                                 } else{
                                     btn.innerHTML = '<img src="<?php echo JURI::base()."images/sprite.svg#chevron-circle-up"; ?>" width="20" height="20" alt="" data-uk-svg>';
                                     btn.setAttribute('data-uk-tooltip','<?php echo $this->escape(JText::_('HIDE_PRODUCTS')); ?>');
-                                    btn.className = 'uk-text-secondary font myOrderMetaItem';
+                                    btn.className = 'uk-text-accent hoverAccent font myOrderMetaItem';
                                 }
                                 return false;
                             }
@@ -259,7 +256,7 @@ defined('_JEXEC') or die('Restricted access');
                                 el.appendChild(c.querySelector('#hika_order_'+id+'_details'));
                                 btn.innerHTML = '<img src="<?php echo JURI::base()."images/sprite.svg#chevron-circle-up"; ?>" width="20" height="20" alt="" data-uk-svg>';
                                 btn.setAttribute('data-uk-tooltip','<?php echo $this->escape(JText::_('HIDE_PRODUCTS')); ?>');
-                                btn.className = 'uk-text-secondary font myOrderMetaItem';
+                                btn.className = 'uk-text-accent hoverAccent font myOrderMetaItem';
                             });
                             return false;
                         };

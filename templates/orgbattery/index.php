@@ -106,14 +106,17 @@ $total = count($socialsicons['icon']);
                         <div class="uk-grid-small uk-flex-middle uk-flex-center" data-uk-grid>
                             <div class="uk-width-auto uk-hidden@m">
                                 <div>
-                                    <a href="#hamMenu" data-uk-toggle class="uk-text-muted uk-border-rounded uk-button uk-button-default uk-button-small uk-display-block uk-text-muted uk-text-zero hamMenuToggler"><img src="<?php echo JURI::base().'images/sprite.svg#bars'; ?>" width="20" height="20" alt="<?php echo $sitename; ?>" data-uk-svg></a>
+                                    <a href="#hamMenu" data-uk-toggle class="uk-border-rounded uk-text-primary uk-background-muted uk-text-zero uk-lineheight-zero uk-padding-tiny"><img src="<?php echo JURI::base().'images/sprite.svg#bars'; ?>" width="24" height="24" alt="<?php echo $sitename; ?>" data-uk-svg></a>
                                 </div>
                             </div>
                             <div class="uk-width-auto">
                                 <div>
                                     <div class="uk-grid-small logoContainer" data-uk-grid>
                                         <div class="uk-width-auto uk-flex uk-flex-middle">
-                                            <a href="<?php echo JURI::base(); ?>" title="<?php echo $sitename; ?>" class="uk-display-inline-block uk-text-accent hoverAccent" target="_self"><img src="<?php echo $params->get('logo'); ?>" width="100" height="38" alt="<?php echo $sitename; ?>"></a>
+                                            <a href="<?php echo JURI::base(); ?>" title="<?php echo $sitename; ?>" class="uk-display-inline-block uk-text-primary" target="_self">
+                                                <img src="<?php echo JUri::base().'images/globe.svg' ?>" width="41" height="40" alt="<?php echo $sitename; ?>" class="uk-margin-small-left">
+                                                <img src="<?php echo JUri::base().'images/sprite.svg#narin' ?>" width="75" height="40" alt="<?php echo $sitename; ?>" data-uk-svg>
+                                            </a>
                                         </div>
                                     </div>
                                 </div>

@@ -243,7 +243,7 @@ class hikashopBridgePaginationHelper extends JPagination {
 			$viewall = @$this->viewall;
 		}
 
-		return JHTML::_('select.genericlist',  $limits, 'limit'.$this->hikaSuffix, 'class="chzn-done inputbox" size="1" style="width:70px" onchange="this.form.submit()"', 'value', 'text', $viewall ? 0 : $this->limit);
+		return JHTML::_('select.genericlist',  $limits, 'limit'.$this->hikaSuffix, 'class="uk-width-1-1 uk-width-small@m uk-border-rounded font uk-select uk-select" onchange="this.form.submit()"', 'value', 'text', $viewall ? 0 : $this->limit);
 	}
 
 	function HK_item_active($item) {

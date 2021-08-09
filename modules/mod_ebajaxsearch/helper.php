@@ -128,9 +128,9 @@ class modEbajaxsearchHelper
                       ->innerJoin($db2->quoteName('#__hikashop_product_category').'AS hkc ON hkc.product_id = hk.product_id')
                       ->leftJoin($db2->quoteName('#__hikashop_file').'AS hkf ON hkf.file_ref_id = hk.product_id AND hkf.file_ordering = 0')
                       ->leftJoin($db2->quoteName('#__hikashop_category').'AS hkcm ON hkcm.category_id = hkc.category_id')
-//                        ->where( '( hk.product_name LIKE "%' . $searchword . '%" OR hk.product_description LIKE "%'. $searchword . '%" )  '.$hika_query.' AND hk.product_published = 1 ')
+                        ->where( '( hk.product_name LIKE "%' . $searchword . '%" OR hk.product_description LIKE "%'. $searchword . '%" )  '.$hika_query.' AND hk.product_published = 1 ')
 //                        ->where( '( hk.product_name LIKE  "%' . $searchword . '%" ) AND hk.product_published = 1 ')
-                        ->where( '( REPLACE(REPLACE(REPLACE(REPLACE(product_name, ")",""), "(",""), " ",""), "-","") LIKE  "%' . $searchword . '%" ) AND hk.product_published = 1 ')
+//                        ->where( '( REPLACE(REPLACE(REPLACE(REPLACE(product_name, ")",""), "(",""), " ",""), "-","") LIKE  "%' . $searchword . '%" ) AND hk.product_published = 1 ')
                       ->group('hk.product_id')
                       ->order('ordering ASC');
 
