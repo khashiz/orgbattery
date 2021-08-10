@@ -21,6 +21,7 @@
 				<field name="slides" type="repeatable" icon="list" label="ORGB_SLIDES">
 					<fieldset hidden="true" name="slides" repeat="true">
 						<field name="media" type="media" label="ORGB_MEDIA" />
+						<field name="mobilemedia" type="media" label="ORGB_MEDIA" />
 						<field name="title" type="textarea" label="ORGB_TITLE" />
 						<field name="link" type="text" label="ORGB_URL" />
 					</fieldset>

@@ -150,7 +150,7 @@ $total = count($socialsicons['icon']);
 <jdoc:include type="modules" name="pagetop" style="xhtml" />
 <jdoc:include type="message" />
 <main class="uk-overflow-hidden">
-    <div class="uk-padding uk-padding-remove-horizontal">
+    <div class="<?php echo $pageclass != 'home' ? 'uk-padding uk-padding-remove-horizontal' : ''; ?>">
         <jdoc:include type="modules" name="bodytop" style="xhtml" />
         <div>
             <div class="<?php echo $pageparams->get('gridsize', 'uk-container'); if ($pageclass == 'checkout') { echo ' uk-container-xsmall';} ?> ">
@@ -448,6 +448,7 @@ $total = count($socialsicons['icon']);
         UIkit.util.on('.headerDrop', 'hidden', function () {
             jQuery('#pageCover').fadeOut(250);
         });
+        jQuery('section.homeDiscounts div.uk-slider-items').removeClass('uk-child-width-1-4@m').addClass('uk-child-width-1-3@m');
     });
 </script>
 </body>

@@ -170,10 +170,10 @@ window.localPage.setCookie = function (name,value,delay) {
         $slider = '';
 
         if ($pageType == 'com_content')
-            echo "<div data-uk-slider='autoplay: true; autoplay-interval: 3000; sets: true;'>";
+            echo "<div data-uk-slider='autoplay: false; autoplay-interval: 3000; sets: true;'>";
 
 		if($row_fluid == 12)
-			echo '<div class="'.($pageType == 'com_content' ? "uk-slider-items " : "").'uk-grid-collapse uk-child-width-1-1 uk-child-width-1-'.($pageType == 'com_content' ? 4 : 3).'@m productGridWrapper" data-uk-grid'.($pageType != 'com_content' ? " data-uk-scrollspy='cls: uk-animation-fade; target: .hikashop_subcontainer; delay: 200;'" : "").$slider.'>';
+			echo '<div class="'.($pageType == 'com_content' ? "uk-slider-items " : "").'uk-grid-collapse uk-child-width-1-1 uk-child-width-'.($pageType == 'com_content' ? "1-4" : "1-3").'@m productGridWrapper" data-uk-grid'.($pageType != 'com_content' ? " data-uk-scrollspy='cls: uk-animation-fade; target: .hikashop_subcontainer; delay: 200;'" : "").$slider.'>';
 		else
 			echo '<div class>';
 

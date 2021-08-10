@@ -71,12 +71,12 @@ function modChrome_framedxhtml($module, &$params, &$attribs)
 
     if (!empty ($module->content)) : ?>
         <<?php echo $moduleTag; ?> class="moduletable<?php echo htmlspecialchars($params->get('moduleclass_sfx'), ENT_COMPAT, 'UTF-8') . $moduleClass; ?>">
-        <div class="uk-container">
+        <?php echo '<div class="uk-container">'; ?>
         <?php if ((bool) $module->showtitle) : ?>
             <<?php echo $headerTag . $headerClass . '><span>' . $module->title; ?></span></<?php echo $headerTag; ?>>
         <?php endif; ?>
         <?php echo $module->content; ?>
-        </div>
+        <?php echo '</div>'; ?>
         </<?php echo $moduleTag; ?>>
     <?php endif;
 }

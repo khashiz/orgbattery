@@ -57,9 +57,9 @@ if(!empty($this->row->extraData->top)) { echo implode("\r\n",$this->row->extraDa
 <?php } ?>
 
     <!-- PRODUCT NAME -->
-    <span class="hikashop_product_name uk-display-block uk-margin-small-bottom">
+    <span class="hikashop_product_name uk-display-block">
 <?php if($haveLink) { ?>
-		<a class="uk-display-block uk-text-small uk-text-bold uk-text-dark uk-text-center hoverAccent font" href="<?php echo $link;?>">
+		<a class="uk-display-block uk-text-small uk-text-dark uk-text-right hoverAccent font f600" href="<?php echo $link;?>">
 <?php } ?>
 <?php echo $this->row->product_name; ?>
 <?php if($haveLink) { ?>
@@ -81,6 +81,7 @@ if(!empty($this->row->extraData->top)) { echo implode("\r\n",$this->row->extraDa
 	}
 ?>
 	<!-- EO PRODUCT PRICE -->
+
 
 	<!-- PRODUCT CODE -->
 		<span class='hikashop_product_code_list'>

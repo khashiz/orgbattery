@@ -32,7 +32,7 @@ if(isset($this->row->product_msrp) && $this->row->product_msrp > 0.0 && hikaInpu
 
 if(!empty($show_msrp)) {
 ?>
-	<span class="hikashop_product_msrp_price hikashop_product_price_full ggrgrgrg">
+	<span class="hikashop_product_msrp_price hikashop_product_price_full">
 		<span class="hikashop_product_msrp_price_title"><?php
 			echo JText::_('PRODUCT_MSRP_BEFORE');
 		?></span>
@@ -52,180 +52,205 @@ if(!empty($show_msrp)) {
 <?php
 }
 ?>
-	<span class="uk-text-center hikashop_product_price_full uk-text-secondary uk-display-block font f600 <?php echo $class; ?>">
+<?php
+if(!empty($this->row->discount)) {
+    if (in_array($this->params->get('show_discount'), array(1, 4))) {
+        echo '<div class="uk-position-top-left uk-padding-small"><span class="hikashop_product_discount uk-label uk-label-success uk-text-tiny uk-text-bold uk-border-rounded uk-box-shadow-small ">' . JText::_('PRICE_DISCOUNT_START');
+        if (bccomp($this->row->discount->discount_flat_amount, 0, 5) !== 0) {
+            echo $this->currencyHelper->format(-1 * $this->row->discount->discount_flat_amount, $price->price_currency_id);
+        } elseif (bccomp($this->row->discount->discount_percent_amount, 0, 5) !== 0) {
+            echo -1 * $this->row->discount->discount_percent_amount . '%';
+        }
+        echo JText::_('PRICE_DISCOUNT_END') . '</span></div>';
+    }
+}
+?>
+<span class="uk-margin-small-left uk-padding-small uk-padding-remove-bottom uk-padding-remove-horizontal hikashop_product_price_full uk-display-block uk-position-relative <?php echo $class; ?>">
+    <?php if ($this->row->discount->discount_end) { ?>
+        <div class="uk-position-absolute uk-position-bottom-right uk-text-zero discountCountdown">
+            <div class="font">
+                <div class="uk-grid-collapse uk-child-width-auto uk-flex-center" data-uk-grid data-uk-countdown="date: <?php $date = new DateTime(); $date->setTimestamp($this->row->discount->discount_end); echo $date->format('Y-m-d H:i:s'); ?>">
+                    <div class="uk-text-success"><img src="<?php echo JUri::base().'images/sprite.svg#clock'; ?>" width="16" height="16" class="uk-margin-small-left" data-uk-svg></div>
+                    <div>
+                        <div class="uk-text-bold uk-text-success uk-text-small uk-countdown-seconds"></div>
+                    </div>
+                    <div class="uk-text-small">&thinsp;:&thinsp;</div>
+                    <div>
+                        <div class="uk-text-bold uk-text-success uk-text-small uk-countdown-minutes"></div>
+                    </div>
+                    <div class="uk-text-small">&thinsp;:&thinsp;</div>
+                    <div>
+                        <div class="uk-text-bold uk-text-success uk-text-small uk-countdown-hours"></div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    <?php } ?>
         <?php
 
-	if(empty($this->row->prices)) {
-		echo JText::_('FREE_PRICE');
-	} else {
-		$first = true;
-		echo JText::_('PRICE_BEGINNING');
-		$i = 0;
+        if(empty($this->row->prices)) {
+            echo JText::_('FREE_PRICE');
+        } else {
+            $first = true;
+            echo JText::_('PRICE_BEGINNING');
+            $i = 0;
 
-		if(!empty($show_msrp)) {
-			echo '<span class="hikashop_product_our_price_title">'.JText::_('PRODUCT_MSRP_AFTER').'</span> ';
-		}
+            if(!empty($show_msrp)) {
+                echo '<span class="hikashop_product_our_price_title">'.JText::_('PRODUCT_MSRP_AFTER').'</span> ';
+            }
 
-		if($this->params->get('price_with_tax', 3) == 3) {
-			$this->params->set('price_with_tax', (int)$config->get('price_with_tax'));
-		}
+            if($this->params->get('price_with_tax', 3) == 3) {
+                $this->params->set('price_with_tax', (int)$config->get('price_with_tax'));
+            }
 
-		$microDataForCurrentProduct = false;
+            $microDataForCurrentProduct = false;
 
-		foreach($this->row->prices as $k => $price) {
-			if($first)$first=false;
-			else echo JText::_('PRICE_SEPARATOR');
-			if(!empty($this->unit) && isset($price->unit_price)) {
-				$price =& $price->unit_price;
-			}
-			if(empty($price->price_currency_id))
-				continue;
-			$start = JText::_('PRICE_BEGINNING_'.$i);
-			if($start != 'PRICE_BEGINNING_'.$i) {
-				echo $start;
-			}
-			if(isset($price->price_min_quantity) && empty($this->cart_product_price) && $price->price_min_quantity > 1) {
-				echo '<span class="hikashop_product_price_with_min_qty hikashop_product_price_for_at_least_'.$price->price_min_quantity.'">';
-			}
+            foreach($this->row->prices as $k => $price) {
+                if($first)$first=false;
+                else echo JText::_('PRICE_SEPARATOR');
+                if(!empty($this->unit) && isset($price->unit_price)) {
+                    $price =& $price->unit_price;
+                }
+                if(empty($price->price_currency_id))
+                    continue;
+                $start = JText::_('PRICE_BEGINNING_'.$i);
+                if($start != 'PRICE_BEGINNING_'.$i) {
+                    echo $start;
+                }
+                if(isset($price->price_min_quantity) && empty($this->cart_product_price) && $price->price_min_quantity > 1) {
+                    echo '<span class="hikashop_product_price_with_min_qty hikashop_product_price_for_at_least_'.$price->price_min_quantity.'">';
+                }
 
-			$classes = array('hikashop_product_price hikashop_product_price_'.$i);
-			if(!empty($this->row->discount)) {
-				$classes[]='hikashop_product_price_with_discount uk-text-secondary uk-text-bold uk-margin-small-right';
-			}
+                $classes = array('hikashop_product_price font uk-text-bold uk-text-primary uk-h4 hikashop_product_price_'.$i);
+                if(!empty($this->row->discount)) {
+                    $classes[]='hikashop_product_price_with_discount';
+                }
 
-			if(!empty($this->row->discount)) {
-				if(in_array($this->params->get('show_discount'), array(1, 4))) {
-					echo '<div class="uk-position-top-left"><span class="hikashop_product_discount uk-label uk-label-success uk-text-tiny uk-text-bold ">'.JText::_('PRICE_DISCOUNT_START');
-					if(bccomp($this->row->discount->discount_flat_amount, 0, 5) !== 0) {
-						echo $this->currencyHelper->format( -1 * $this->row->discount->discount_flat_amount, $price->price_currency_id);
-					} elseif(bccomp($this->row->discount->discount_percent_amount, 0, 5) !== 0) {
-						echo -1*$this->row->discount->discount_percent_amount.'%';
-					}
-					echo JText::_('PRICE_DISCOUNT_END').'</span></div>';
-				}
-				if(in_array($this->params->get('show_discount'), array(2, 4))) {
-					echo '<span class="hikashop_product_price_before_discount uk-text-linethrough uk-text-muted">'.JText::_('PRICE_DISCOUNT_START');
-					if($this->params->get('price_with_tax')){
-						echo $this->currencyHelper->format($price->price_value_without_discount_with_tax, $price->price_currency_id);
-					}
-					if($this->params->get('price_with_tax') == 2) {
-						echo JText::_('PRICE_BEFORE_TAX');
-					}
-					if($this->params->get('price_with_tax') == 2 || !$this->params->get('price_with_tax')) {
-						echo $this->currencyHelper->format($price->price_value_without_discount, $price->price_currency_id);
-					}
-					if($this->params->get('price_with_tax') == 2) {
-						echo JText::_('PRICE_AFTER_TAX');
-					}
-					if($this->params->get('show_original_price') && !empty($price->price_orig_value_without_discount_with_tax)) {
-						echo JText::_('PRICE_BEFORE_ORIG');
-						if($this->params->get('price_with_tax')) {
-							echo $this->currencyHelper->format($price->price_orig_value_without_discount_with_tax, $price->price_orig_currency_id);
-						}
-						if($this->params->get('price_with_tax') == 2) {
-							echo JText::_('PRICE_BEFORE_TAX');
-						}
-						if($this->params->get('price_with_tax') == 2 || !$this->params->get('price_with_tax') && !empty($price->price_orig_value_without_discount)) {
-							echo $this->currencyHelper->format($price->price_orig_value_without_discount, $price->price_orig_currency_id);
-						}
-						if($this->params->get('price_with_tax') == 2) {
-							echo JText::_('PRICE_AFTER_TAX');
-						}
-						echo JText::_('PRICE_AFTER_ORIG');
-					}
-					echo JText::_('PRICE_DISCOUNT_END').'</span>';
-				} elseif($this->params->get('show_discount') == 3) {
+                if(!empty($this->row->discount)) {
 
-				}
-			}
+                    if(in_array($this->params->get('show_discount'), array(2, 4))) {
+                        echo '<span class="uk-position-absolute uk-position-top-left hikashop_product_price_before_discount uk-text-linethrough uk-text-muted uk-display-block uk-text-left uk-text-small homeDiscounts f600 font">'.JText::_('PRICE_DISCOUNT_START');
+                        if($this->params->get('price_with_tax')){
+                            echo $this->currencyHelper->format($price->price_value_without_discount_with_tax, $price->price_currency_id);
+                        }
+                        if($this->params->get('price_with_tax') == 2) {
+                            echo JText::_('PRICE_BEFORE_TAX');
+                        }
+                        if($this->params->get('price_with_tax') == 2 || !$this->params->get('price_with_tax')) {
+                            echo $this->currencyHelper->format($price->price_value_without_discount, $price->price_currency_id);
+                        }
+                        if($this->params->get('price_with_tax') == 2) {
+                            echo JText::_('PRICE_AFTER_TAX');
+                        }
+                        if($this->params->get('show_original_price') && !empty($price->price_orig_value_without_discount_with_tax)) {
+                            echo JText::_('PRICE_BEFORE_ORIG');
+                            if($this->params->get('price_with_tax')) {
+                                echo $this->currencyHelper->format($price->price_orig_value_without_discount_with_tax, $price->price_orig_currency_id);
+                            }
+                            if($this->params->get('price_with_tax') == 2) {
+                                echo JText::_('PRICE_BEFORE_TAX');
+                            }
+                            if($this->params->get('price_with_tax') == 2 || !$this->params->get('price_with_tax') && !empty($price->price_orig_value_without_discount)) {
+                                echo $this->currencyHelper->format($price->price_orig_value_without_discount, $price->price_orig_currency_id);
+                            }
+                            if($this->params->get('price_with_tax') == 2) {
+                                echo JText::_('PRICE_AFTER_TAX');
+                            }
+                            echo JText::_('PRICE_AFTER_ORIG');
+                        }
+                        echo JText::_('PRICE_DISCOUNT_END').'</span>';
+                    } elseif($this->params->get('show_discount') == 3) {
 
-			$attributes = '';
-			if(!empty($this->element->product_id) && !$microDataForCurrentProduct) {
-				$round = $this->currencyHelper->getRounding($price->price_currency_id, true);
-				$prefix = 'data-';
-				$microDataForCurrentProduct = true;
-				if(empty($this->displayed_price_microdata)) {
-					$this->displayed_price_microdata = true;
-					$prefix = '';
-				}
-				if($this->params->get('price_with_tax')) {
-					$price_attributes = str_replace(',','.',$this->currencyHelper->round($price->price_value_with_tax, $round, 0, true));
-				} else {
-					$price_attributes = str_replace(',','.',$this->currencyHelper->round($price->price_value, $round, 0, true));
-				}
-				$this->itemprop_price = new stdClass();
-				$this->itemprop_price = $price_attributes .'"';
-			}
+                    }
+                }
+
+                $attributes = '';
+                if(!empty($this->element->product_id) && !$microDataForCurrentProduct) {
+                    $round = $this->currencyHelper->getRounding($price->price_currency_id, true);
+                    $prefix = 'data-';
+                    $microDataForCurrentProduct = true;
+                    if(empty($this->displayed_price_microdata)) {
+                        $this->displayed_price_microdata = true;
+                        $prefix = '';
+                    }
+                    if($this->params->get('price_with_tax')) {
+                        $price_attributes = str_replace(',','.',$this->currencyHelper->round($price->price_value_with_tax, $round, 0, true));
+                    } else {
+                        $price_attributes = str_replace(',','.',$this->currencyHelper->round($price->price_value, $round, 0, true));
+                    }
+                    $this->itemprop_price = new stdClass();
+                    $this->itemprop_price = $price_attributes .'"';
+                }
 
 
-			echo '<span class="'.implode(' ',$classes).'">';
+                echo '<div data-gggg><span class="'.implode(' ',$classes).'">';
 
-			if($this->params->get('price_with_tax')) {
-				echo $this->currencyHelper->format(@$price->price_value_with_tax, $price->price_currency_id);
-			}
-			if($this->params->get('price_with_tax') == 2) {
-				echo JText::_('PRICE_BEFORE_TAX');
-			}
-			if($this->params->get('price_with_tax') == 2 || !$this->params->get('price_with_tax')) {
-				echo $this->currencyHelper->format(@$price->price_value, $price->price_currency_id);
-			}
-			if($this->params->get('price_with_tax') == 2) {
-				echo JText::_('PRICE_AFTER_TAX');
-			}
-			if($this->params->get('show_original_price') && !empty($price->price_orig_value)) {
-				echo JText::_('PRICE_BEFORE_ORIG');
-				if($this->params->get('price_with_tax')) {
-					echo $this->currencyHelper->format($price->price_orig_value_with_tax, $price->price_orig_currency_id);
-				}
-				if($this->params->get('price_with_tax') == 2) {
-					echo JText::_('PRICE_BEFORE_TAX');
-				}
-				if($this->params->get('price_with_tax') == 2 || !$this->params->get('price_with_tax')){
-					echo $this->currencyHelper->format($price->price_orig_value, $price->price_orig_currency_id);
-				}
-				if($this->params->get('price_with_tax') == 2) {
-					echo JText::_('PRICE_AFTER_TAX');
-				}
-				echo JText::_('PRICE_AFTER_ORIG');
-			}
-			echo '</span> ';
-			if(isset($price->price_min_quantity) && empty($this->cart_product_price) && $this->params->get('per_unit', 1)) {
-				if($price->price_min_quantity > 1) {
+                if($this->params->get('price_with_tax')) {
+                    echo $this->currencyHelper->format(@$price->price_value_with_tax, $price->price_currency_id);
+                }
+                if($this->params->get('price_with_tax') == 2) {
+                    echo JText::_('PRICE_BEFORE_TAX');
+                }
+                if($this->params->get('price_with_tax') == 2 || !$this->params->get('price_with_tax')) {
+                    echo $this->currencyHelper->format(@$price->price_value, $price->price_currency_id);
+                }
+                if($this->params->get('price_with_tax') == 2) {
+                    echo JText::_('PRICE_AFTER_TAX');
+                }
+                if($this->params->get('show_original_price') && !empty($price->price_orig_value)) {
+                    echo JText::_('PRICE_BEFORE_ORIG');
+                    if($this->params->get('price_with_tax')) {
+                        echo $this->currencyHelper->format($price->price_orig_value_with_tax, $price->price_orig_currency_id);
+                    }
+                    if($this->params->get('price_with_tax') == 2) {
+                        echo JText::_('PRICE_BEFORE_TAX');
+                    }
+                    if($this->params->get('price_with_tax') == 2 || !$this->params->get('price_with_tax')){
+                        echo $this->currencyHelper->format($price->price_orig_value, $price->price_orig_currency_id);
+                    }
+                    if($this->params->get('price_with_tax') == 2) {
+                        echo JText::_('PRICE_AFTER_TAX');
+                    }
+                    echo JText::_('PRICE_AFTER_ORIG');
+                }
+                echo '</span></div>';
+                if(isset($price->price_min_quantity) && empty($this->cart_product_price) && $this->params->get('per_unit', 1)) {
+                    if($price->price_min_quantity > 1) {
 //					echo '<span class="hikashop_product_price_per_unit_x">'.JText::sprintf('PER_UNIT_AT_LEAST_X_BOUGHT',$price->price_min_quantity).'</span>';
-				} else {
+                    } else {
 //					echo '<span class="hikashop_product_price_per_unit">'.JText::_('PER_UNIT').'</span>';
-				}
-			}
-			if($this->params->get('show_price_weight')){
-				if(!empty($this->element->product_id) && isset($this->row->product_weight) && bccomp($this->row->product_weight, 0, 3)) {
+                    }
+                }
+                if($this->params->get('show_price_weight')){
+                    if(!empty($this->element->product_id) && isset($this->row->product_weight) && bccomp($this->row->product_weight, 0, 3)) {
 
-					echo JText::_('PRICE_SEPARATOR').'<span class="hikashop_product_price_per_weight_unit">';
-					if($this->params->get('price_with_tax')){
-						$weight_price = $price->price_value_with_tax / $this->row->product_weight;
-						echo $this->currencyHelper->format($weight_price, $price->price_currency_id).' / '.JText::_($this->row->product_weight_unit);
-					}
-					if($this->params->get('price_with_tax') == 2) {
-						echo JText::_('PRICE_BEFORE_TAX');
-					}
-					if($this->params->get('price_with_tax') == 2 || !$this->params->get('price_with_tax')) {
-						$weight_price = $price->price_value / $this->row->product_weight;
-						echo $this->currencyHelper->format($weight_price, $price->price_currency_id).' / '.JText::_($this->row->product_weight_unit);
-					}
-					if($this->params->get('price_with_tax') == 2) {
-						echo JText::_('PRICE_AFTER_TAX');
-					}
-					echo '</span>';
-				}
-			}
-			if(isset($price->price_min_quantity) && empty($this->cart_product_price) && $price->price_min_quantity > 1) {
-				echo '</span>';
-			}
-			$end = JText::_('PRICE_ENDING_'.$i);
-			if($end != 'PRICE_ENDING_'.$i) {
-				echo $end;
-			}
-			$i++;
-		}
-		echo JText::_('PRICE_END');
-	}
-	?></span>
+                        echo JText::_('PRICE_SEPARATOR').'<span class="hikashop_product_price_per_weight_unit">';
+                        if($this->params->get('price_with_tax')){
+                            $weight_price = $price->price_value_with_tax / $this->row->product_weight;
+                            echo $this->currencyHelper->format($weight_price, $price->price_currency_id).' / '.JText::_($this->row->product_weight_unit);
+                        }
+                        if($this->params->get('price_with_tax') == 2) {
+                            echo JText::_('PRICE_BEFORE_TAX');
+                        }
+                        if($this->params->get('price_with_tax') == 2 || !$this->params->get('price_with_tax')) {
+                            $weight_price = $price->price_value / $this->row->product_weight;
+                            echo $this->currencyHelper->format($weight_price, $price->price_currency_id).' / '.JText::_($this->row->product_weight_unit);
+                        }
+                        if($this->params->get('price_with_tax') == 2) {
+                            echo JText::_('PRICE_AFTER_TAX');
+                        }
+                        echo '</span>';
+                    }
+                }
+                if(isset($price->price_min_quantity) && empty($this->cart_product_price) && $price->price_min_quantity > 1) {
+                    echo '</span>';
+                }
+                $end = JText::_('PRICE_ENDING_'.$i);
+                if($end != 'PRICE_ENDING_'.$i) {
+                    echo $end;
+                }
+                $i++;
+            }
+            echo JText::_('PRICE_END');
+        }
+        ?></span>
